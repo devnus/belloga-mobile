@@ -1,73 +1,17 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * Generated with the TypeScript template
- * https://github.com/react-native-community/react-native-template-typescript
- *
- * @format
- */
+import * as React from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {Provider} from 'react-redux';
+import store from './src/store';
+import AppInner from './AppInner';
 
-import React from 'react';
-import {NavigationContainer, ParamListBase} from '@react-navigation/native';
-import {
-  createNativeStackNavigator,
-  NativeStackScreenProps,
-} from '@react-navigation/native-stack';
-import {Text, TouchableHighlight, View} from 'react-native';
-import {useCallback} from 'react';
-
-type RootStackParamList = {
-  Home: undefined;
-  Details: undefined;
-};
-type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Home'>;
-type DetailsScreenProps = NativeStackScreenProps<ParamListBase, 'Details'>;
-
-function HomeScreen({navigation}: HomeScreenProps) {
-  const onClick = useCallback(() => {
-    navigation.navigate('Details');
-  }, [navigation]);
-
+function App() {
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <TouchableHighlight onPress={onClick}>
-        <Text>Home Screen</Text>
-      </TouchableHighlight>
-    </View>
+    <Provider store={store}>
+      <NavigationContainer>
+        <AppInner />
+      </NavigationContainer>
+    </Provider>
   );
 }
-
-function DetailsScreen({navigation}: DetailsScreenProps) {
-  const onClick = useCallback(() => {
-    navigation.navigate('Home');
-  }, [navigation]);
-
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <TouchableHighlight onPress={onClick}>
-        <Text>Details Screen</Text>
-      </TouchableHighlight>
-    </View>
-  );
-}
-
-const Stack = createNativeStackNavigator();
-const App = () => {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{title: 'Overview'}}
-        />
-        <Stack.Screen name="Details">
-          {props => <DetailsScreen {...props} />}
-        </Stack.Screen>
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
-};
 
 export default App;
