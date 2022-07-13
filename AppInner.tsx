@@ -24,7 +24,7 @@ function AppInner() {
       <Tab.Screen
         name="Orders"
         component={Alarms}
-        options={{title: '오더 목록'}}
+        options={{headerShown: false}}
       />
       <Tab.Screen
         name="Delivery"
