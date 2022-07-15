@@ -96,9 +96,6 @@ export async function getAlarm(uid) {
 
 export async function getAlarmState() {
   try {
-    const name = AlarmService.getName();
-    console.log('hi');
-
     return AlarmService.getState();
   } catch (e) {
     console.log(e);

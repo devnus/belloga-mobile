@@ -13,8 +13,8 @@ function AlarmList({navigation}: any) {
         {
           uid: 123,
           title: 'test alarm',
-          hour: 5,
-          minutes: 52,
+          hour: 10,
+          minutes: 6,
           days: 7,
           active: true,
         },

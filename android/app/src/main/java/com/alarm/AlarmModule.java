@@ -11,14 +11,15 @@ import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeArray;
 import com.facebook.react.bridge.WritableNativeMap;
+import android.util.Log;
 
 import java.util.ArrayList;
 
-public class Module extends ReactContextBaseJavaModule {
+public class AlarmModule extends ReactContextBaseJavaModule {
 
     private final ReactApplicationContext reactContext;
 
-    public Module(ReactApplicationContext reactContext) {
+    public AlarmModule(ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
         Helper.createNotificationChannel(reactContext);
