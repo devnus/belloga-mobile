@@ -1,18 +1,38 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import AlarmInfo from '../components/AlarmInfo';
+import {getAlarmState, getAllAlarms} from '../modules/alarms';
 
 function AlarmList({navigation}: any) {
-  const alarms: any = [
-    {
-      uid: 123,
-      title: 'test alarm',
-      hour: 8,
-      minutes: 20,
-      days: 1,
-      active: true,
-    },
-  ];
+  const [alarms, setAlarms] = useState([]);
+  const [scheduler, setScheduler] = useState(null);
+
+  useEffect(() => {
+    navigation.addListener('focus', async () => {
+      setAlarms([
+        {
+          uid: 123,
+          title: 'test alarm',
+          hour: 5,
+          minutes: 52,
+          days: 7,
+          active: true,
+        },
+      ]);
+      setScheduler(setInterval(fetchState, 10000)); //1초마다 fetchState 하도록 설정, 알람 새로 생겼는지 체크
+    });
+    navigation.addListener('blur', async () => {
+      clearInterval(scheduler);
+    });
+    fetchState();
+  }, []);
+
+  async function fetchState() {
+    const alarmUid = await getAlarmState(); //알람 state를 가져온다
+    if (alarmUid) {
+      navigation.navigate('Ring', {alarmUid});
+    }
+  }
   return (
     <View style={globalStyles.container}>
       <View style={globalStyles.innerContainer}>
