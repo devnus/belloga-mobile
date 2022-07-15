@@ -32,7 +32,14 @@ public class AlarmModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void getState (Promise promise) {
+        Log.d("AlarmModule", "get state");
         promise.resolve(Manager.getActiveAlarm());
+    }
+
+    @ReactMethod
+    public void testModule () {
+        Log.d("AlarmModule", "from android");
+        return ;
     }
 
     @ReactMethod

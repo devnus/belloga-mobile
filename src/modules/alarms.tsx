@@ -4,6 +4,7 @@ import 'react-native-get-random-values';
 import {v4 as uuidv4} from 'uuid';
 
 const AlarmService = NativeModules.AlarmModule;
+const {AlarmModule} = NativeModules;
 
 export async function scheduleAlarm(alarm) {
   if (!(alarm instanceof Alarm)) {
