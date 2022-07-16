@@ -4,14 +4,17 @@ import Button from '../components/Button';
 import {getAlarm, snoozeAlarm, stopAlarm} from '../modules/alarms';
 
 function AlarmRing({route, navigation}) {
-  const [alarm, setAlarm] = useState(null);
+  const [alarm, setAlarm] = useState({});
 
   useEffect(() => {
-    const alarmUid = route.params.alarmUid;
-    (async function () {
-      const alarmInfo = await getAlarm(alarmUid);
-      setAlarm(alarmInfo);
-    })();
+    setAlarm({
+      uid: 123,
+      title: 'test alarm',
+      hour: 16,
+      minutes: 8,
+      days: 7,
+      active: true,
+    });
   }, []);
 
   if (!alarm) {
@@ -22,9 +25,6 @@ function AlarmRing({route, navigation}) {
     <View style={globalStyles.container}>
       <View style={[globalStyles.innerContainer, styles.container]}>
         <View style={styles.textContainer}>
-          <Text style={styles.clockText}>
-            {alarm.getTimeString().hour} : {alarm.getTimeString().minutes}
-          </Text>
           <Text style={styles.title}>{alarm.title}</Text>
         </View>
         <View style={styles.buttonContainer}>

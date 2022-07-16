@@ -12,6 +12,7 @@ public class Manager {
     private static String activeAlarmUid;
 
     static String getActiveAlarm() {
+        Log.d(TAG, "getActiveAlarm " + activeAlarmUid);
         return activeAlarmUid;
     }
 

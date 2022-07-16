@@ -13,12 +13,13 @@ function AlarmList({navigation}: any) {
         {
           uid: 123,
           title: 'test alarm',
-          hour: 10,
-          minutes: 6,
+          hour: 16,
+          minutes: 8,
           days: 7,
           active: true,
         },
       ]);
+
       setScheduler(setInterval(fetchState, 10000)); //1초마다 fetchState 하도록 설정, 알람 새로 생겼는지 체크
     });
     navigation.addListener('blur', async () => {
@@ -29,6 +30,9 @@ function AlarmList({navigation}: any) {
 
   async function fetchState() {
     const alarmUid = await getAlarmState(); //알람 state를 가져온다
+    console.log('Uid : ', alarmUid);
+    navigation.navigate('Ring', '123');
+
     if (alarmUid) {
       navigation.navigate('Ring', {alarmUid});
     }
