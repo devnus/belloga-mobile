@@ -41,6 +41,7 @@ function AlarmSettings({route, navigation}) {
     if (mode === 'CREATE') {
       await scheduleAlarm(alarm);
     }
+    console.log('alarmSettings', 'setting Complete');
     navigation.goBack();
   }
 

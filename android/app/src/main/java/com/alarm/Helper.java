@@ -36,7 +36,7 @@ class Helper {
                 context,
                 notificationID,
                 intent,
-                PendingIntent.FLAG_UPDATE_CURRENT
+                PendingIntent.FLAG_IMMUTABLE
         );
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerAtMillis, pendingIntent);
@@ -57,7 +57,7 @@ class Helper {
                 context,
                 notificationID,
                 intent,
-                PendingIntent.FLAG_UPDATE_CURRENT
+                PendingIntent.FLAG_IMMUTABLE
         );
         alarmManager.cancel(pendingIntent);
         Log.d(TAG, "canceling alarm with notification id: " + notificationID);
@@ -148,14 +148,14 @@ class Helper {
                 context,
                 notificationID,
                 resultIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent.FLAG_IMMUTABLE);
     }
 
     private static PendingIntent createOnDismissedIntent(Context context, String alarmUid, int notificationId) {
         Intent intent = new Intent(context, DismissReceiver.class);
         intent.putExtra("NOTIFICATION_ID", notificationId);
         intent.putExtra("ALARM_UID", alarmUid);
-        return PendingIntent.getBroadcast(context.getApplicationContext(), notificationId, intent, 0);
+        return PendingIntent.getBroadcast(context.getApplicationContext(), notificationId, intent, PendingIntent.FLAG_IMMUTABLE);
     }
 
     static Calendar getDate(int day, int hour, int minute) {
