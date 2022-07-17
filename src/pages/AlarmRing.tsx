@@ -1,20 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import Button from '../components/Button';
 import {getAlarm, snoozeAlarm, stopAlarm} from '../modules/alarms';
 
 function AlarmRing({route, navigation}) {
-  const [alarm, setAlarm] = useState({});
+  const [alarm, setAlarm] = useState(null);
 
   useEffect(() => {
-    setAlarm({
-      uid: 123,
-      title: 'test alarm',
-      hour: 16,
-      minutes: 8,
-      days: 7,
-      active: true,
-    });
+    const alarmUid = route.params.alarmUid;
+    (async function () {
+      const alarmInfo = await getAlarm(alarmUid);
+      setAlarm(alarmInfo);
+    })();
   }, []);
 
   if (!alarm) {
@@ -25,6 +21,9 @@ function AlarmRing({route, navigation}) {
     <View style={globalStyles.container}>
       <View style={[globalStyles.innerContainer, styles.container]}>
         <View style={styles.textContainer}>
+          <Text style={styles.clockText}>
+            {alarm.getTimeString().hour} : {alarm.getTimeString().minutes}
+          </Text>
           <Text style={styles.title}>{alarm.title}</Text>
         </View>
         <View style={styles.buttonContainer}>
