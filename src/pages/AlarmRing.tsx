@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
+import Button from '../components/Button';
 import {getAlarm, snoozeAlarm, stopAlarm} from '../modules/alarms';
 
 function AlarmRing({route, navigation}) {

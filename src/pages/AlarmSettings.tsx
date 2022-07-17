@@ -41,6 +41,7 @@ function AlarmSettings({route, navigation}) {
     if (mode === 'CREATE') {
       await scheduleAlarm(alarm);
     }
+    console.log('alarmSettings', 'setting Complete');
     navigation.goBack();
   }
 
@@ -67,6 +68,19 @@ function AlarmSettings({route, navigation}) {
             minutes={alarm.minutes}
           />
         </View>
+
+        <TextInput
+          description={'Title'}
+          style={styles.textInput}
+          onChangeText={v => update([['title', v]])}
+          value={alarm.title}
+        />
+        <TextInput
+          description={'Description'}
+          style={styles.textInput}
+          onChangeText={v => update([['description', v]])}
+          value={alarm.description}
+        />
 
         <SwitcherInput
           description={'Repeat'}
