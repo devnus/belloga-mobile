@@ -68,6 +68,19 @@ function AlarmSettings({route, navigation}) {
           />
         </View>
 
+        <TextInput
+          description={'Title'}
+          style={styles.textInput}
+          onChangeText={v => update([['title', v]])}
+          value={alarm.title}
+        />
+        <TextInput
+          description={'Description'}
+          style={styles.textInput}
+          onChangeText={v => update([['description', v]])}
+          value={alarm.description}
+        />
+
         <SwitcherInput
           description={'Repeat'}
           value={alarm.repeating}
