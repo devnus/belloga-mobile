@@ -1,7 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import AlarmInfo from '../components/AlarmInfo';
-import {getAlarmState, getAllAlarms} from '../modules/alarms';
+import {
+  disableAlarm,
+  enableAlarm,
+  getAlarmState,
+  getAllAlarms,
+} from '../modules/alarms';
 
 function AlarmList({navigation}: any) {
   const [alarms, setAlarms] = useState([]);
@@ -34,6 +39,13 @@ function AlarmList({navigation}: any) {
               <AlarmInfo
                 key={a.uid}
                 uid={a.uid}
+                onChange={async active => {
+                  if (active) {
+                    await enableAlarm(a.uid);
+                  } else {
+                    await disableAlarm(a.uid);
+                  }
+                }}
                 onPress={() => navigation.navigate('Edit', {alarm: a})}
                 title={a.title}
                 hour={a.hour}

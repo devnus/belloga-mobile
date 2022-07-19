@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import Button from '../components/Button';
+import TextInput from '../components/TextInput';
 import {getAlarm, snoozeAlarm, stopAlarm} from '../modules/alarms';
 
 function AlarmRing({route, navigation}) {
   const [alarm, setAlarm] = useState(null);
+  const [answer, setAnswer] = useState('');
 
   useEffect(() => {
     const alarmUid = route.params.alarmUid;
@@ -26,6 +28,14 @@ function AlarmRing({route, navigation}) {
             {alarm.getTimeString().hour} : {alarm.getTimeString().minutes}
           </Text>
           <Text style={styles.title}>{alarm.title}</Text>
+        </View>
+        <View>
+          <TextInput
+            description={'answer'}
+            style={styles.textInput}
+            onChangeText={text => setAnswer(text)}
+            value={answer}
+          />
         </View>
         <View style={styles.buttonContainer}>
           <Button
