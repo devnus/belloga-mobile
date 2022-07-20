@@ -1,5 +1,15 @@
-import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
+import {
+  ActivityIndicator,
+  Alert,
+  Platform,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import DismissKeyboardView from '../components/DismissKeyboardView';
+import axios, {AxiosError} from 'axios';
 import Button from '../components/Button';
 import TextInput from '../components/TextInput';
 import {getAlarm, snoozeAlarm, stopAlarm} from '../modules/alarms';
@@ -15,6 +25,26 @@ function AlarmRing({route, navigation}) {
       setAlarm(alarmInfo);
     })();
   }, []);
+
+  // const onSubmit = useCallback(async () => {
+  //   if (!answer || !answer.trim()) {
+  //     return Alert.alert('알림', '정답을 입력해주세요.');
+  //   }
+
+  //   console.log(answer);
+  //   try {
+  //     const response = await axios.post(`${Config.API_URL}/user`, {});
+  //     console.log(response.data);
+  //     Alert.alert('알림', '기록 되었습니다.');
+  //     navigation.navigate('SignIn');
+  //   } catch (error) {
+  //     const errorResponse = (error as AxiosError).response;
+  //     console.error(errorResponse);
+  //     if (errorResponse) {
+  //       Alert.alert('알림', errorResponse.data.message);
+  //     }
+  //   }
+  // }, [answer]);
 
   if (!alarm) {
     return <View />;
@@ -38,17 +68,27 @@ function AlarmRing({route, navigation}) {
           />
         </View>
         <View style={styles.buttonContainer}>
+          <Pressable
+            style={
+              answer
+                ? StyleSheet.compose(
+                    styles.loginButton,
+                    styles.loginButtonActive,
+                  )
+                : styles.loginButton
+            }
+            disabled={!answer}
+            onPress={async () => {
+              await stopAlarm();
+              navigation.goBack();
+            }}>
+            <Text>Stop</Text>
+          </Pressable>
+
           <Button
             title={'Snooze'}
             onPress={async () => {
               await snoozeAlarm();
-              navigation.goBack();
-            }}
-          />
-          <Button
-            title={'Stop'}
-            onPress={async () => {
-              await stopAlarm();
               navigation.goBack();
             }}
           />
@@ -85,8 +125,17 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: '#d0d5dc',
   },
+  loginButton: {
+    backgroundColor: 'gray',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 5,
+    marginBottom: 10,
+  },
+  loginButtonActive: {
+    backgroundColor: 'blue',
+  },
 });
-
 const globalStyles = StyleSheet.create({
   container: {
     height: '100%',

@@ -1,0 +1,26 @@
+{
+  "OCR": {
+    "id": "d1d4b030-51ac-4ee8-bee9-36f61323169d",
+    "dateTime": "2022-07-15T11:14:11.580+00:00",
+    "success": true,
+    "response": {
+      "dataType": "OCR",
+      "ocrDataId": 2,
+      "imageUrl": "https://belloga-dev-s3-raw-data-bucket.s3.ap-northeast-2.amazonaws.com/ocr-data/5350037-2005-0001-1289.JPG",
+      "isLabeled": false,
+      "boundingBox": [
+        {
+          "boundingBoxId": 1,
+          "x": [10, 10, 10, 10],
+          "y": [10, 10, 10, 10]
+        },
+        {
+          "boundingBoxId": 2,
+          "x": [10, 10, 10, 10],
+          "y": [10, 10, 10, 10]
+        }
+      ]
+    },
+    "error": null
+  }
+}
