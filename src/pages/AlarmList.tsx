@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import AlarmInfo from '../components/AlarmInfo';
@@ -20,6 +21,7 @@ function AlarmList({navigation}: any) {
     navigation.addListener('blur', async () => {
       clearInterval(scheduler);
     });
+
     fetchState();
   }, []);
 

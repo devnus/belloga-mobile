@@ -2,6 +2,7 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   ActivityIndicator,
   Alert,
+  Image,
   Platform,
   Pressable,
   StyleSheet,
@@ -16,6 +17,7 @@ import {getAlarm, snoozeAlarm, stopAlarm} from '../modules/alarms';
 
 function AlarmRing({route, navigation}) {
   const [alarm, setAlarm] = useState(null);
+  const [imageUrl, setImageUrl] = useState('');
   const [answer, setAnswer] = useState('');
 
   useEffect(() => {
@@ -24,7 +26,18 @@ function AlarmRing({route, navigation}) {
       const alarmInfo = await getAlarm(alarmUid);
       setAlarm(alarmInfo);
     })();
+
+    getAlarmInfo();
   }, []);
+
+  const getAlarmInfo = async () => {
+    await axios
+      .get<{data: string}>(`http://10.0.2.2:4000/OCR`)
+      .then(res => {
+        setImageUrl(() => res.data.response.imageUrl);
+      })
+      .catch(error => console.log(error));
+  };
 
   // const onSubmit = useCallback(async () => {
   //   if (!answer || !answer.trim()) {
@@ -58,6 +71,14 @@ function AlarmRing({route, navigation}) {
             {alarm.getTimeString().hour} : {alarm.getTimeString().minutes}
           </Text>
           <Text style={styles.title}>{alarm.title}</Text>
+        </View>
+        <View>
+          <Image
+            source={{
+              uri: `${imageUrl}`,
+            }}
+            style={{height: 200, width: 200}}
+          />
         </View>
         <View>
           <TextInput
