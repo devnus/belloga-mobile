@@ -9,7 +9,6 @@ import {
   Text,
   View,
 } from 'react-native';
-import DismissKeyboardView from '../components/DismissKeyboardView';
 import axios, {AxiosError} from 'axios';
 import Button from '../components/Button';
 import TextInput from '../components/TextInput';
@@ -73,12 +72,16 @@ function AlarmRing({route, navigation}) {
           <Text style={styles.title}>{alarm.title}</Text>
         </View>
         <View>
-          <Image
-            source={{
-              uri: `${imageUrl}`,
-            }}
-            style={{height: 200, width: 200}}
-          />
+          {imageUrl ? (
+            <Image
+              source={{
+                uri: `${imageUrl}`,
+              }}
+              style={{height: 200, width: 200}}
+            />
+          ) : (
+            <Text>로딩중</Text>
+          )}
         </View>
         <View>
           <TextInput
