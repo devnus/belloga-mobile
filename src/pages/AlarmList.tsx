@@ -21,7 +21,6 @@ function AlarmList({navigation}: any) {
     navigation.addListener('blur', async () => {
       clearInterval(scheduler);
     });
-
     fetchState();
   }, []);
 

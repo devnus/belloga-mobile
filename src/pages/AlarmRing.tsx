@@ -14,10 +14,32 @@ import Button from '../components/Button';
 import TextInput from '../components/TextInput';
 import {getAlarm, snoozeAlarm, stopAlarm} from '../modules/alarms';
 
+const renderImage = (
+  topPosition,
+  bottomPosition,
+  leftPosition,
+  rightPosition,
+) => {
+  return (
+    <View
+      style={[
+        styles.rectangle,
+        {
+          top: topPosition,
+          bottom: bottomPosition,
+          left: leftPosition,
+          right: rightPosition,
+        },
+      ]}
+    />
+  );
+};
+
 function AlarmRing({route, navigation}) {
   const [alarm, setAlarm] = useState(null);
   const [imageUrl, setImageUrl] = useState('');
   const [answer, setAnswer] = useState('');
+  const [boundingBoxList, setboundingBoxList] = useState([]);
 
   useEffect(() => {
     const alarmUid = route.params.alarmUid;
@@ -31,8 +53,12 @@ function AlarmRing({route, navigation}) {
 
   const getAlarmInfo = async () => {
     await axios
-      .get<{data: string}>(`http://10.0.2.2:4000/OCR`)
+      .get<{data: string}>(
+        `http://a138b0b67de234557afc8eaf29aa97b6-1258302528.ap-northeast-2.elb.amazonaws.com/api/data/v1/target/OCR`,
+      )
       .then(res => {
+        console.log(res.data.response.boundingBox);
+        setboundingBoxList(() => res.data.response.boundingBox);
         setImageUrl(() => res.data.response.imageUrl);
       })
       .catch(error => console.log(error));
@@ -71,7 +97,7 @@ function AlarmRing({route, navigation}) {
           </Text>
           <Text style={styles.title}>{alarm.title}</Text>
         </View>
-        <View>
+        <View style={{height: 200, width: 200}}>
           {imageUrl ? (
             <Image
               source={{
@@ -82,6 +108,7 @@ function AlarmRing({route, navigation}) {
           ) : (
             <Text>로딩중</Text>
           )}
+          {renderImage(20, 20, 20, 30)}
         </View>
         <View>
           <TextInput
@@ -158,6 +185,11 @@ const styles = StyleSheet.create({
   },
   loginButtonActive: {
     backgroundColor: 'blue',
+  },
+  rectangle: {
+    borderWidth: 3,
+    borderColor: 'red',
+    position: 'absolute',
   },
 });
 const globalStyles = StyleSheet.create({
