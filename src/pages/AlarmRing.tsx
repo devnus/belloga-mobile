@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -35,17 +35,19 @@ const renderImage = (
   );
 };
 
-const showBoundingBox = ({boundingBoxInfo}) => {
-  const boundingboxId = boundingBoxInfo.boundingboxId;
+const showBoundingBox = (boundingBoxInfo, imageUrl, setBoundingBoxId) => {
+  if (boundingBoxInfo) {
+    const boundingboxId = boundingBoxInfo.boundingboxId;
 
-  const xArray = boundingBoxInfo.x;
-  const yArray = boundingBoxInfo.y;
+    const xArray = boundingBoxInfo.x;
+    const yArray = boundingBoxInfo.y;
 
-  //boundingboxId, 왼쪽 위, 윈쪽아래, 오른쪽위, 오른쪽아래
-  const topPosition = yArray[0];
-  const bottomPosition = yArray[2];
-  const leftPosition = xArray[0];
-  const rightPosition = xArray[2];
+    //boundingboxId, 왼쪽 위, 윈쪽아래, 오른쪽위, 오른쪽아래
+    const topPosition = yArray[0];
+    const bottomPosition = yArray[2];
+    const leftPosition = xArray[0];
+    const rightPosition = xArray[2];
+  }
 
   return (
     <>
@@ -60,15 +62,7 @@ const showBoundingBox = ({boundingBoxInfo}) => {
         ) : (
           <Text>로딩중</Text>
         )}
-        {renderImage(20, 20, 20, 30)}
-      </View>
-      <View>
-        <TextInput
-          description={'answer'}
-          style={styles.textInput}
-          onChangeText={text => setAnswer(text)}
-          value={answer}
-        />
+        {renderImage(40, 20, 20, 30)}
       </View>
     </>
   );
@@ -80,6 +74,7 @@ function AlarmRing({route, navigation}) {
   const [answer, setAnswer] = useState('');
   const [loading, setLoading] = useState(false);
   const [boundingBoxList, setboundingBoxList] = useState([]);
+  const [boundingBoxIndex, setBoundingBoxIndex] = useState(0);
 
   useEffect(() => {
     const alarmUid = route.params.alarmUid;
@@ -91,21 +86,26 @@ function AlarmRing({route, navigation}) {
     getAlarmInfo();
   }, []);
 
-  useEffect(() => {
-    console.log(boundingBoxList);
-  }, [boundingBoxList]);
+  const loadBoundingBox = useMemo(
+    () => showBoundingBox(boundingBoxList[0], imageUrl, setBoundingBoxIndex),
+    [boundingBoxList[0], imageUrl],
+  );
 
   const getAlarmInfo = async () => {
-    await axios
-      .get<{data: string}>(
-        `http://a138b0b67de234557afc8eaf29aa97b6-1258302528.ap-northeast-2.elb.amazonaws.com/api/data/v1/target/OCR`,
-      )
-      .then(res => {
-        setboundingBoxList(() => res.data.response.boundingBox);
-        setImageUrl(() => res.data.response.imageUrl);
-        setLoading(() => true);
-      })
-      .catch(error => console.log(error));
+    try {
+      await axios
+        .get<{data: string}>(
+          `http://a138b0b67de234557afc8eaf29aa97b6-1258302528.ap-northeast-2.elb.amazonaws.com/api/data/v1/target/OCR`,
+        )
+        .then(res => {
+          setboundingBoxList(() => res.data.response.boundingBox);
+          setImageUrl(() => res.data.response.imageUrl);
+        });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(() => true);
+    }
   };
 
   // const onSubmit = useCallback(async () => {
@@ -141,11 +141,15 @@ function AlarmRing({route, navigation}) {
           </Text>
           <Text style={styles.title}>{alarm.title}</Text>
         </View>
-        {loading ? (
-          <Text> {boundingBoxList[0].boundingBoxId}</Text>
-        ) : (
-          <Text> 123 </Text>
-        )}
+        {loading ? loadBoundingBox : <Text> Loading </Text>}
+        <View>
+          <TextInput
+            description={'answer'}
+            style={styles.textInput}
+            onChangeText={text => setAnswer(text)}
+            value={answer}
+          />
+        </View>
         <View style={styles.buttonContainer}>
           <Pressable
             style={
