@@ -35,7 +35,8 @@ const renderImage = (
   );
 };
 
-const showBoundingBox = (boundingBoxInfo, imageUrl, setBoundingBoxId) => {
+const showBoundingBox = (boundingBoxInfo, imageUrl) => {
+  console.log('showBoundingBox called');
   if (boundingBoxInfo) {
     const boundingboxId = boundingBoxInfo.boundingboxId;
 
@@ -86,9 +87,27 @@ function AlarmRing({route, navigation}) {
     getAlarmInfo();
   }, []);
 
+  const increaseBoundingBoxIndex = useCallback(() => {
+    const currentIndex = boundingBoxIndex;
+    const maxIndex = boundingBoxList.length - 1;
+
+    console.log(currentIndex, maxIndex, 'pressed!');
+
+    if (currentIndex < maxIndex) {
+      console.log('increas!');
+      setBoundingBoxIndex(() => boundingBoxIndex + 1);
+    } else {
+      async () => {
+        console.log('is async?');
+        await stopAlarm();
+        navigation.goBack();
+      };
+    }
+  }, [boundingBoxList, boundingBoxIndex, navigation]);
+
   const loadBoundingBox = useMemo(
-    () => showBoundingBox(boundingBoxList[0], imageUrl, setBoundingBoxIndex),
-    [boundingBoxList[0], imageUrl],
+    () => showBoundingBox(boundingBoxList[boundingBoxIndex], imageUrl),
+    [boundingBoxList, boundingBoxIndex, imageUrl],
   );
 
   const getAlarmInfo = async () => {
@@ -98,6 +117,7 @@ function AlarmRing({route, navigation}) {
           `http://a138b0b67de234557afc8eaf29aa97b6-1258302528.ap-northeast-2.elb.amazonaws.com/api/data/v1/target/OCR`,
         )
         .then(res => {
+          console.log(res.data.response.boundingBox);
           setboundingBoxList(() => res.data.response.boundingBox);
           setImageUrl(() => res.data.response.imageUrl);
         });
@@ -161,10 +181,7 @@ function AlarmRing({route, navigation}) {
                 : styles.loginButton
             }
             disabled={!answer}
-            onPress={async () => {
-              await stopAlarm();
-              navigation.goBack();
-            }}>
+            onPress={increaseBoundingBoxIndex}>
             <Text>Stop</Text>
           </Pressable>
 
