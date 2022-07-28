@@ -9,6 +9,7 @@ import {
   Text,
   View,
 } from 'react-native';
+
 import axios, {AxiosError} from 'axios';
 import Button from '../components/Button';
 import TextInput from '../components/TextInput';
@@ -36,34 +37,44 @@ const renderImage = (
 };
 
 const showBoundingBox = (boundingBoxInfo, imageUrl) => {
+  let topPosition;
+  let bottomPosition;
+  let leftPosition;
+  let rightPosition;
+
   console.log('showBoundingBox called');
   if (boundingBoxInfo) {
-    const boundingboxId = boundingBoxInfo.boundingboxId;
-
     const xArray = boundingBoxInfo.x;
     const yArray = boundingBoxInfo.y;
 
     //boundingboxId, 왼쪽 위, 윈쪽아래, 오른쪽위, 오른쪽아래
-    const topPosition = yArray[0];
-    const bottomPosition = yArray[2];
-    const leftPosition = xArray[0];
-    const rightPosition = xArray[2];
+    topPosition = yArray[0];
+    bottomPosition = yArray[2];
+    leftPosition = xArray[0];
+    rightPosition = xArray[2];
   }
 
   return (
     <>
       <View style={{height: 200, width: 200}}>
-        {imageUrl ? (
-          <Image
-            source={{
-              uri: `${imageUrl}`,
-            }}
-            style={{height: 200, width: 200}}
-          />
+        {imageUrl && boundingBoxInfo ? (
+          <>
+            <Image
+              source={{
+                uri: `${imageUrl}`,
+              }}
+              style={{height: 200, width: 200}}
+            />
+            {renderImage(
+              topPosition,
+              bottomPosition,
+              leftPosition,
+              rightPosition,
+            )}
+          </>
         ) : (
           <Text>로딩중</Text>
         )}
-        {renderImage(40, 20, 20, 30)}
       </View>
     </>
   );
@@ -87,28 +98,30 @@ function AlarmRing({route, navigation}) {
     getAlarmInfo();
   }, []);
 
-  const increaseBoundingBoxIndex = useCallback(() => {
+  const onPressSendButton = useCallback(() => {
     const currentIndex = boundingBoxIndex;
     const maxIndex = boundingBoxList.length - 1;
+    const boundingBoxId = boundingBoxList[boundingBoxIndex].boundingBoxId;
 
-    console.log(currentIndex, maxIndex, 'pressed!');
+    sendLabelingResult(boundingBoxId, answer);
 
     if (currentIndex < maxIndex) {
-      console.log('increas!');
       setBoundingBoxIndex(() => boundingBoxIndex + 1);
+      setAnswer(() => '');
     } else {
-      async () => {
-        console.log('is async?');
-        await stopAlarm();
-        navigation.goBack();
-      };
+      finishAlarm();
     }
-  }, [boundingBoxList, boundingBoxIndex, navigation]);
+  }, [boundingBoxList, boundingBoxIndex, answer]);
 
   const loadBoundingBox = useMemo(
     () => showBoundingBox(boundingBoxList[boundingBoxIndex], imageUrl),
     [boundingBoxList, boundingBoxIndex, imageUrl],
   );
+
+  const finishAlarm = async () => {
+    await stopAlarm();
+    navigation.goBack();
+  };
 
   const getAlarmInfo = async () => {
     try {
@@ -125,6 +138,32 @@ function AlarmRing({route, navigation}) {
       console.log(error);
     } finally {
       setLoading(() => true);
+    }
+  };
+
+  const sendLabelingResult = async (boundingBoxId, lebelText) => {
+    try {
+      await axios
+        .post(
+          `https://api.belloga.com/api/labeled-data/v1/ocr-data`,
+          {
+            boundingBoxId: boundingBoxId,
+            label: lebelText,
+          },
+          {
+            headers: {
+              Authorization:
+                'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyUm9sZSI6IkxBQkVMRVIiLCJ1c2VySWQiOiJZNTN4Q0pxSE96MGdXMUUybmVENm4zcTFmOUwrL0YzdHBJcXU5c0UrZG51a1NwNURqeVVYK0UyeVprY3FFdmpuIiwic3ViIjoiYWNjZXNzVG9rZW4iLCJleHAiOjE2OTQ5MDgxMjN9.TwMTd4lZubepa5m3dF3PsMKpjGokF_yDK7siV0BBDSU',
+            },
+          },
+        )
+        .then(res => {
+          console.log(res.data.success);
+        });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      // setLoading(() => true);
     }
   };
 
@@ -181,7 +220,7 @@ function AlarmRing({route, navigation}) {
                 : styles.loginButton
             }
             disabled={!answer}
-            onPress={increaseBoundingBoxIndex}>
+            onPress={onPressSendButton}>
             <Text>Stop</Text>
           </Pressable>
 
