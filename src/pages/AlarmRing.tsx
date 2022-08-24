@@ -15,12 +15,34 @@ import Button from '../components/Button';
 import TextInput from '../components/TextInput';
 import {getAlarm, snoozeAlarm, stopAlarm} from '../modules/alarms';
 
-const renderImage = (
-  topPosition,
-  bottomPosition,
-  leftPosition,
-  rightPosition,
-) => {
+function RenderImage({boundingBoxInfo, imageUrl}) {
+  const [topPosition, setTopPosition] = useState(0);
+  const [bottomPosition, setBottomPosition] = useState(0);
+  const [leftPosition, setLeftPosition] = useState(0);
+  const [rightPosition, setRightPosition] = useState(0);
+
+  useEffect(() => {
+    const xArray = boundingBoxInfo.x;
+    const yArray = boundingBoxInfo.y;
+    Image.getSize(imageUrl, (width, height) => {
+      const imageWidth = width;
+      const imageHeight = height;
+
+      const resizedHeight = (200 * imageHeight) / imageWidth;
+      // get the top left position of the image
+      //boundingboxId, 왼쪽 위, 윈쪽아래, 오른쪽위, 오른쪽아래
+      setTopPosition(
+        (200 - resizedHeight) / 2 + (yArray[0] / imageHeight) * resizedHeight,
+      );
+      setBottomPosition(
+        (200 - resizedHeight) / 2 +
+          (1 - yArray[2] / imageHeight) * resizedHeight,
+      );
+      setLeftPosition((xArray[0] / imageWidth) * 200);
+      setRightPosition((1 - xArray[2] / imageWidth) * 200);
+    });
+  }, []);
+
   return (
     <View
       style={[
@@ -34,52 +56,35 @@ const renderImage = (
       ]}
     />
   );
-};
+}
 
 const showBoundingBox = (boundingBoxInfo, imageUrl) => {
-  let topPosition;
-  let bottomPosition;
-  let leftPosition;
-  let rightPosition;
-
   console.log('showBoundingBox called');
-  if (boundingBoxInfo) {
-    const xArray = boundingBoxInfo.x;
-    const yArray = boundingBoxInfo.y;
 
-    //boundingboxId, 왼쪽 위, 윈쪽아래, 오른쪽위, 오른쪽아래
-    topPosition = (yArray[0] / 193) * 200;
-    bottomPosition = 193 - (yArray[2] / 193) * 200;
-    leftPosition = (xArray[0] / 293) * 200 - 30;
-    rightPosition = 200 - (xArray[2] / 293) * 200 - 30;
-
-    console.log(topPosition, bottomPosition, leftPosition, rightPosition);
+  if (boundingBoxInfo && imageUrl) {
+    return (
+      <>
+        <View style={{height: 200, width: 200}}>
+          {imageUrl && boundingBoxInfo ? (
+            <>
+              <Image
+                source={{
+                  uri: `${imageUrl}`,
+                }}
+                style={{height: 200, width: 200, resizeMode: 'contain'}}
+              />
+              <RenderImage
+                boundingBoxInfo={boundingBoxInfo}
+                imageUrl={imageUrl}
+              />
+            </>
+          ) : (
+            <Text>로딩중</Text>
+          )}
+        </View>
+      </>
+    );
   }
-
-  return (
-    <>
-      <View style={{height: 200, width: 200}}>
-        {imageUrl && boundingBoxInfo ? (
-          <>
-            <Image
-              source={{
-                uri: `${imageUrl}`,
-              }}
-              style={{height: 200, width: 200}}
-            />
-            {renderImage(
-              topPosition,
-              bottomPosition,
-              leftPosition,
-              rightPosition,
-            )}
-          </>
-        ) : (
-          <Text>로딩중</Text>
-        )}
-      </View>
-    </>
-  );
 };
 
 function AlarmRing({route, navigation}) {
