@@ -22,17 +22,12 @@ function AppInner() {
   return (
     <Tab.Navigator>
       <Tab.Screen
-        name="Orders"
+        name="알람"
         component={Alarms}
         options={{headerShown: false}}
       />
       <Tab.Screen
-        name="Delivery"
-        component={Ranking}
-        options={{title: '내 오더'}}
-      />
-      <Tab.Screen
-        name="Settings"
+        name="정보"
         component={Setting}
         options={{title: '내 정보'}}
       />

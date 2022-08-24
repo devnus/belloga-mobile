@@ -130,6 +130,7 @@ function AlarmRing({route, navigation}) {
           `http://a138b0b67de234557afc8eaf29aa97b6-1258302528.ap-northeast-2.elb.amazonaws.com/api/data/v1/target/OCR`,
         )
         .then(res => {
+          console.log('got response', res.data);
           const boundingBoxData = {
             boundingBoxId: res.data.response.boundingBoxId,
             x: res.data.response.x,
@@ -232,7 +233,7 @@ function AlarmRing({route, navigation}) {
             title={'Snooze'}
             onPress={async () => {
               await snoozeAlarm();
-              navigation.goBack();
+              navigation.navigate('AlarmSuccess');
             }}
           />
         </View>
@@ -269,14 +270,16 @@ const styles = StyleSheet.create({
     color: '#d0d5dc',
   },
   loginButton: {
-    backgroundColor: 'gray',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 5,
-    marginBottom: 10,
+    padding: 10,
+    margin: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
+    borderWidth: 2,
+    borderColor: '#1992fe',
+    borderRadius: 25,
   },
   loginButtonActive: {
-    backgroundColor: 'blue',
+    backgroundColor: 'whited',
   },
   rectangle: {
     borderWidth: 3,
