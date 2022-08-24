@@ -1,25 +1,15 @@
 {
-  "OCR": {
-    "id": "d1d4b030-51ac-4ee8-bee9-36f61323169d",
-    "dateTime": "2022-07-15T11:14:11.580+00:00",
+  "data": {
+    "id": "baddc4df-1885-46da-9881-6da89dbd39ba",
+    "dateTime": "2022-08-24T09:10:36.931+00:00",
     "success": true,
     "response": {
       "dataType": "OCR",
-      "ocrDataId": 2,
-      "imageUrl": "https://belloga-dev-s3-raw-data-bucket.s3.ap-northeast-2.amazonaws.com/ocr-data/5350037-2005-0001-1289.JPG",
-      "isLabeled": false,
-      "boundingBox": [
-        {
-          "boundingBoxId": 1,
-          "x": [10, 10, 10, 10],
-          "y": [10, 10, 10, 10]
-        },
-        {
-          "boundingBoxId": 2,
-          "x": [10, 10, 10, 10],
-          "y": [10, 10, 10, 10]
-        }
-      ]
+      "ocrDataId": 4,
+      "imageUrl": "https://belloga-dev-s3-raw-data-bucket.s3.ap-northeast-2.amazonaws.com/dev-data/00000001+-+%EB%B3%B5%EC%82%AC%EB%B3%B8.png",
+      "boundingBoxId": 4,
+      "x": [63, 233, 233, 63],
+      "y": [77, 77, 151, 151]
     },
     "error": null
   }

@@ -48,10 +48,12 @@ const showBoundingBox = (boundingBoxInfo, imageUrl) => {
     const yArray = boundingBoxInfo.y;
 
     //boundingboxId, 왼쪽 위, 윈쪽아래, 오른쪽위, 오른쪽아래
-    topPosition = yArray[0];
-    bottomPosition = yArray[2];
-    leftPosition = xArray[0];
-    rightPosition = xArray[2];
+    topPosition = (yArray[0] / 193) * 200;
+    bottomPosition = 193 - (yArray[2] / 193) * 200;
+    leftPosition = (xArray[0] / 293) * 200 - 30;
+    rightPosition = 200 - (xArray[2] / 293) * 200 - 30;
+
+    console.log(topPosition, bottomPosition, leftPosition, rightPosition);
   }
 
   return (
@@ -120,13 +122,13 @@ function AlarmRing({route, navigation}) {
 
   const finishAlarm = async () => {
     await stopAlarm();
-    navigation.goBack();
+    navigation.navigate('AlarmSuccess');
   };
 
   const getAlarmInfo = async () => {
     try {
       await axios
-        .get<{data: string}>(
+        .get(
           `http://a138b0b67de234557afc8eaf29aa97b6-1258302528.ap-northeast-2.elb.amazonaws.com/api/data/v1/target/OCR`,
         )
         .then(res => {
@@ -150,15 +152,14 @@ function AlarmRing({route, navigation}) {
     try {
       await axios
         .post(
-          `https://api.belloga.com/api/labeled-data/v1/ocr-data`,
+          `http://a138b0b67de234557afc8eaf29aa97b6-1258302528.ap-northeast-2.elb.amazonaws.com/api/labeled-data/v1/ocr-data`,
           {
             boundingBoxId: boundingBoxId,
             label: lebelText,
           },
           {
             headers: {
-              Authorization:
-                'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyUm9sZSI6IkxBQkVMRVIiLCJ1c2VySWQiOiJZNTN4Q0pxSE96MGdXMUUybmVENm4zcTFmOUwrL0YzdHBJcXU5c0UrZG51a1NwNURqeVVYK0UyeVprY3FFdmpuIiwic3ViIjoiYWNjZXNzVG9rZW4iLCJleHAiOjE2OTQ5MDgxMjN9.TwMTd4lZubepa5m3dF3PsMKpjGokF_yDK7siV0BBDSU',
+              'labeler-id': 'gildong',
             },
           },
         )
@@ -233,7 +234,7 @@ function AlarmRing({route, navigation}) {
             title={'Snooze'}
             onPress={async () => {
               await snoozeAlarm();
-              navigation.navigate('AlarmSuccess');
+              navigation.goBack();
             }}
           />
         </View>

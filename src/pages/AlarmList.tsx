@@ -24,6 +24,24 @@ function AlarmList({navigation}: any) {
     fetchState();
   }, []);
 
+  useEffect(() => {
+    console.log('hello?');
+
+    (async function () {
+      console.log('hi?');
+      await axios
+        .get(
+          `http://a138b0b67de234557afc8eaf29aa97b6-1258302528.ap-northeast-2.elb.amazonaws.com/api/data/v1/target/OCR`,
+        )
+        .then(res => {
+          console.log('got response', res.data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    })();
+  }, []);
+
   async function fetchState() {
     const alarmUid = await getAlarmState(); //알람 state를 가져온다
     if (alarmUid) {
