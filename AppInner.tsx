@@ -33,7 +33,7 @@ function AppInner() {
         name="정보"
         component={Setting}
         options={{
-          title: '내 정보',
+          headerShown: false,
           tabBarIcon: () => <Icon name="user" size={20} color="#000" />,
         }}
       />
