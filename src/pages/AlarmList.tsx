@@ -24,24 +24,6 @@ function AlarmList({navigation}: any) {
     fetchState();
   }, []);
 
-  useEffect(() => {
-    console.log('hello?');
-
-    (async function () {
-      console.log('hi?');
-      await axios
-        .get(
-          `http://a138b0b67de234557afc8eaf29aa97b6-1258302528.ap-northeast-2.elb.amazonaws.com/api/data/v1/target/OCR`,
-        )
-        .then(res => {
-          console.log('got response', res.data);
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    })();
-  }, []);
-
   async function fetchState() {
     const alarmUid = await getAlarmState(); //알람 state를 가져온다
     if (alarmUid) {
@@ -49,10 +31,20 @@ function AlarmList({navigation}: any) {
     }
   }
   return (
-    <View style={globalStyles.container}>
-      <View style={globalStyles.innerContainer}>
-        <ScrollView contentContainerStyle={globalStyles.scrollView}>
-          {alarms && alarms.length === 0 && <Text>No alarms</Text>}
+    <View style={styles.container}>
+      <View style={styles.earliestAlarmContainer}>
+        {alarms.length == 0 ? (
+          <Text> 알람이 없습니다 </Text>
+        ) : (
+          <View style={styles.earliestAlarmContainer}>
+            <Text>다음 알람까지</Text>
+            <Text>11 : 00 : 30 </Text>
+            <Text> 06월 29일 8:56 </Text>
+          </View>
+        )}
+      </View>
+      <View style={styles.innerContainer}>
+        <ScrollView contentContainerStyle={styles.scrollView}>
           {alarms &&
             alarms.map(a => (
               <AlarmInfo
@@ -81,7 +73,13 @@ function AlarmList({navigation}: any) {
 
 export default AlarmList;
 
-const globalStyles = StyleSheet.create({
+const styles = StyleSheet.create({
+  earliestAlarmContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+  },
   container: {
     height: '100%',
     width: '100%',

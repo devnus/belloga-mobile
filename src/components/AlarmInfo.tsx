@@ -36,7 +36,7 @@ function AlarmInfo({
 export default AlarmInfo;
 
 function getAlphabeticalDays(days: any) {
-  let weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  let weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sa t'];
   let activeDays = [];
   for (let i = 0; i < days.length; i++) {
     activeDays.push(weekdays[parseInt(days[i])] + ' ');

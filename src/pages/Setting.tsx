@@ -1,3 +1,4 @@
+import {NaverLogin} from '@react-native-seoul/naver-login';
 import * as React from 'react';
 import {
   View,
@@ -12,72 +13,12 @@ import {
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import colors from '../assets/colors';
+import NaverLoginBlock from '../components/NaverLoginBlock';
 
 Feather.loadFont();
 MaterialCommunityIcons.loadFont();
 
 function Setting() {
-  const popularData = [
-    {
-      id: '1',
-      image: require('../assets/coin.png'),
-      title: 'Primavera Pizza',
-      weight: '540 gr',
-      rating: '5.0',
-      price: 3.99,
-      sizeName: 'Medium',
-      sizeNumber: 14,
-      crust: 'Thin Crust',
-      deliveryTime: 30,
-      ingredients: [
-        {
-          id: '1',
-          name: 'ham',
-          image: require('../assets/coin.png'),
-        },
-      ],
-    },
-  ];
-
-  const categoriesData = [
-    {
-      id: '1',
-      image: require('../assets/coin.png'),
-      title: 'Pizza',
-      selected: true,
-    },
-  ];
-
-  const renderCategoryItem = ({item}) => {
-    return (
-      <View
-        style={[
-          styles.categoryItemWrapper,
-          {
-            backgroundColor: item.selected ? colors.primary : colors.white,
-            marginLeft: item.id == 1 ? 20 : 0,
-          },
-        ]}>
-        <Image source={item.image} style={styles.categoryItemImage} />
-        <Text style={styles.categoryItemTitle}>{item.title}</Text>
-        <View
-          style={[
-            styles.categorySelectWrapper,
-            {
-              backgroundColor: item.selected ? colors.white : colors.secondary,
-            },
-          ]}>
-          <Feather
-            name="chevron-right"
-            size={8}
-            style={styles.categorySelectIcon}
-            color={item.selected ? colors.black : colors.white}
-          />
-        </View>
-      </View>
-    );
-  };
-
   return (
     <View style={styles.container}>
       <ScrollView
@@ -101,7 +42,6 @@ function Setting() {
             style={styles.profileImage}
           />
         </View>
-
         {/* Categories */}
         <View style={styles.categoriesWrapper}>
           <View style={styles.userInfoWrapper}>
@@ -159,6 +99,8 @@ function Setting() {
             </View>
           </View>
         </View>
+
+        <NaverLoginBlock />
       </ScrollView>
     </View>
   );
