@@ -1,6 +1,7 @@
 import React from 'react';
 import {Alert, SafeAreaView, StyleSheet, Button, Platform} from 'react-native';
 import {NaverLogin, getProfile} from '@react-native-seoul/naver-login';
+import Config from 'react-native-config';
 
 const iosKeys = {
   kConsumerKey: 'VC5CPfjRigclJV_TFACU',
@@ -10,9 +11,9 @@ const iosKeys = {
 };
 
 const androidKeys = {
-  kConsumerKey: 'QfXNXVO8RnqfbPS9x0LR',
-  kConsumerSecret: '6ZGEYZabM9',
-  kServiceAppName: '테스트앱(안드로이드)',
+  kConsumerKey: `${Config.NAVER_LOGIN_API_KEY}`,
+  kConsumerSecret: `${Config.NAVER_LOGIN_API_SECRET}`,
+  kServiceAppName: 'Belloga',
 };
 
 const initials = Platform.OS === 'ios' ? iosKeys : androidKeys;

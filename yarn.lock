@@ -7606,6 +7606,11 @@
     "jscodeshift" "^0.11.0"
     "nullthrows" "^1.1.1"
 
+"react-native-config@^1.4.6":
+  "integrity" "sha512-cSLdOfva2IPCxh6HjHN1IDVW9ratAvNnnAUx6ar2Byvr8KQU7++ysdFYPaoNVuJURuYoAKgvjab8ZcnwGZIO6Q=="
+  "resolved" "https://registry.npmjs.org/react-native-config/-/react-native-config-1.4.6.tgz"
+  "version" "1.4.6"
+
 "react-native-flipper@^0.153.0", "react-native-flipper@^0.37.0", "react-native-flipper@>=0.100.0":
   "integrity" "sha512-s6l5DafPLCrhyGqb+awZ2rFoR8lE+of/ZANr+H57pm0KMn3usGCA3QYbKTK8iP1T/hCZOZwhwX7vsR2dXJzqHQ=="
   "resolved" "https://registry.npmjs.org/react-native-flipper/-/react-native-flipper-0.153.0.tgz"
