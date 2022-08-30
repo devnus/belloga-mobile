@@ -8,11 +8,11 @@ import {
   Pressable,
   Text,
   Image,
-  Dimensions,
-  View,
 } from 'react-native';
 import {NaverLogin, getProfile} from '@react-native-seoul/naver-login';
 import Config from 'react-native-config';
+import {useAppDispatch} from '../store';
+import userSlice from '../slices/user';
 
 const iosKeys = {
   kConsumerKey: 'VC5CPfjRigclJV_TFACU',
@@ -30,6 +30,7 @@ const androidKeys = {
 const initials = Platform.OS === 'ios' ? iosKeys : androidKeys;
 
 const NaverLoginBlock = () => {
+  const dispatch = useAppDispatch();
   const [naverToken, setNaverToken] = React.useState(null);
 
   const naverLogin = props => {
@@ -37,6 +38,7 @@ const NaverLoginBlock = () => {
       NaverLogin.login(props, (err, token) => {
         console.log(`\n\n  Token is fetched  :: ${token} \n\n`);
         setNaverToken(token);
+
         if (err) {
           reject(err);
           return;
@@ -57,6 +59,14 @@ const NaverLoginBlock = () => {
       Alert.alert('로그인 실패', profileResult.message);
       return;
     }
+
+    dispatch(
+      userSlice.actions.setUser({
+        name: profileResult.response.nickname,
+        email: profileResult.response.email,
+        userId: profileResult.response.id,
+      }),
+    );
     console.log('profileResult', profileResult);
   };
 
