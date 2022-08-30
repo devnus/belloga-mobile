@@ -14,7 +14,7 @@
       android:label="@string/app_name"
       android:icon="@mipmap/ic_launcher"
       android:roundIcon="@mipmap/ic_launcher_round"
-      android:allowBackup="false"
+      android:allowBackup="true"
       android:theme="@style/AppTheme">
       <receiver
             android:name="com.alarm.receivers.AlarmReceiver"
@@ -40,6 +40,21 @@
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
       </activity>
+
+      <activity 
+        android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+        android:exported="true">
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+
+            <!-- Redirect URI: "kakao{NATIVE_APP_KEY}://oauth“ -->
+            <data android:host="oauth"
+                android:scheme="kakaoed9179f7e530bd3fb5028e3aa1b5c2c7" />
+        </intent-filter>
+    </activity>
+      
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
       <service android:name="com.alarm.AlarmService" />
     </application>

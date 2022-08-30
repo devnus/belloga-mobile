@@ -3,4 +3,5 @@
     <string name="notification_channel_id">alarm-app</string>
     <string name="notification_channel_name">Alarm</string>
     <string name="notification_channel_desc">Fires alarms.</string>
+    <string name="kakao_app_key">ed9179f7e530bd3fb5028e3aa1b5c2c7</string>
 </resources>

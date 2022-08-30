@@ -174,26 +174,6 @@ function AlarmRing({route, navigation}) {
     }
   };
 
-  // const onSubmit = useCallback(async () => {
-  //   if (!answer || !answer.trim()) {
-  //     return Alert.alert('알림', '정답을 입력해주세요.');
-  //   }
-
-  //   console.log(answer);
-  //   try {
-  //     const response = await axios.post(`${Config.API_URL}/user`, {});
-  //     console.log(response.data);
-  //     Alert.alert('알림', '기록 되었습니다.');
-  //     navigation.navigate('SignIn');
-  //   } catch (error) {
-  //     const errorResponse = (error as AxiosError).response;
-  //     console.error(errorResponse);
-  //     if (errorResponse) {
-  //       Alert.alert('알림', errorResponse.data.message);
-  //     }
-  //   }
-  // }, [answer]);
-
   if (!alarm) {
     return <View />;
   }

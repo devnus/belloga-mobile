@@ -13,6 +13,7 @@ import {
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import colors from '../assets/colors';
+import KakaoLoginBlock from '../components/KakaoLoginBlock';
 import NaverLoginBlock from '../components/NaverLoginBlock';
 
 Feather.loadFont();
@@ -101,6 +102,7 @@ function Setting() {
         </View>
 
         <NaverLoginBlock />
+        <KakaoLoginBlock />
       </ScrollView>
     </View>
   );
