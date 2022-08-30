@@ -1,5 +1,16 @@
 import React from 'react';
-import {Alert, SafeAreaView, StyleSheet, Button, Platform} from 'react-native';
+import {
+  Alert,
+  SafeAreaView,
+  StyleSheet,
+  Button,
+  Platform,
+  Pressable,
+  Text,
+  Image,
+  Dimensions,
+  View,
+} from 'react-native';
 import {NaverLogin, getProfile} from '@react-native-seoul/naver-login';
 import Config from 'react-native-config';
 
@@ -51,10 +62,23 @@ const NaverLoginBlock = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Button
-        title="네이버 아이디로 로그인하기"
-        onPress={() => naverLogin(initials)}
-      />
+      <Pressable
+        style={styles.naverButton}
+        onPress={() => naverLogin(initials)}>
+        <Image
+          source={require('../assets/images/ico_naver.png')}
+          style={styles.companyIcon}
+        />
+        <Text
+          style={[
+            {
+              color: 'white',
+            },
+          ]}>
+          네이버로 로그인
+        </Text>
+      </Pressable>
+
       {!!naverToken && <Button title="로그아웃하기" onPress={naverLogout} />}
 
       {!!naverToken && (
@@ -69,6 +93,22 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-evenly',
     alignItems: 'center',
+  },
+  naverButton: {
+    alignSelf: 'stretch',
+    marginHorizontal: 20,
+    padding: 10,
+    margin: 10,
+    backgroundColor: '#03c75a',
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  companyIcon: {
+    width: 15,
+    height: 15,
+    marginHorizontal: 10,
   },
 });
 
