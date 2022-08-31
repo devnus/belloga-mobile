@@ -68,6 +68,7 @@ const NaverLoginBlock = () => {
       Alert.alert('로그인에 실패했습니다', profileResult.message);
       return;
     }
+
     dispatch(
       userSlice.actions.setUser({
         name: profileResult.response.nickname,

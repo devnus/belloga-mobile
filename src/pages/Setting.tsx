@@ -1,4 +1,3 @@
-import {NaverLogin} from '@react-native-seoul/naver-login';
 import * as React from 'react';
 import {
   View,
@@ -6,15 +5,14 @@ import {
   StyleSheet,
   SafeAreaView,
   Image,
-  FlatList,
   ScrollView,
-  TouchableOpacity,
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import colors from '../assets/colors';
 import KakaoLoginBlock from '../components/KakaoLoginBlock';
 import NaverLoginBlock from '../components/NaverLoginBlock';
+import UserData from '../components/UserData';
 
 Feather.loadFont();
 MaterialCommunityIcons.loadFont();
@@ -43,34 +41,8 @@ function Setting() {
             style={styles.profileImage}
           />
         </View>
-        {/* Categories */}
-        <View style={styles.categoriesWrapper}>
-          <View style={styles.userInfoWrapper}>
-            <View style={styles.userInfoRow}>
-              <View style={styles.userInfosDescribe}>
-                <Image
-                  source={require('../assets/images/coin.png')}
-                  style={styles.userInfoIcon}
-                />
-                <Text style={styles.titlesSubtitle}>내 포인트</Text>
-              </View>
-              <Text style={styles.titlesSubtitle}> 6803P</Text>
-            </View>
-
-            <View style={styles.userInfoRow}>
-              <View style={styles.userInfosDescribe}>
-                <Image
-                  source={require('../assets/images/point.png')}
-                  style={styles.userInfoIcon}
-                />
-                <Text style={styles.titlesSubtitle}>지급 예정 포인트</Text>
-              </View>
-              <Text style={styles.titlesSubtitle}>1000P</Text>
-            </View>
-          </View>
-
-          <Text style={styles.addPizzaButton}>지급 예정 포인트</Text>
-        </View>
+        {/* User Information */}
+        <UserData />
 
         {/* Popular */}
         <View style={styles.popularWrapper}>
@@ -78,7 +50,7 @@ function Setting() {
             style={[
               styles.popularCardWrapper,
               {
-                marginTop: 10,
+                marginTop: 15,
               },
             ]}>
             <View>
@@ -265,16 +237,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginLeft: -20,
   },
-  addPizzaButton: {
-    backgroundColor: '#54a5bc',
-    textAlign: 'center',
-    fontWeight: 'bold',
-    color: 'white',
-    paddingHorizontal: 40,
-    paddingVertical: 15,
-    borderBottomLeftRadius: 25,
-    borderBottomRightRadius: 25,
-  },
+
   ratingWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -293,28 +256,5 @@ const styles = StyleSheet.create({
     width: 210,
     height: 125,
     resizeMode: 'contain',
-  },
-  userInfosDescribe: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  userInfoRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    marginVertical: 5,
-  },
-  userInfoIcon: {
-    width: 20,
-    height: 20,
-    marginHorizontal: 10,
-  },
-  userInfoWrapper: {
-    backgroundColor: '#f2f6f7',
-    borderTopRightRadius: 25,
-    borderTopLeftRadius: 25,
-    paddingVertical: 20,
-    flexDirection: 'column',
   },
 });

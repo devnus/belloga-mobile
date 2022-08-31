@@ -1,22 +1,27 @@
 /* eslint-disable prettier/prettier */
-import React from 'react';
-import {View, Switch, Text, StyleSheet} from 'react-native';
+import React, {useState} from 'react';
+import {View, Switch, Text, StyleSheet, Pressable} from 'react-native';
 
 export default function ({value, onChange, description}) {
+  const [isEnabled, setIsEnabled] = useState(false);
+  const onToggle = value => {
+    setIsEnabled(previousState => !previousState);
+    onChange(value);
+  };
+
   return (
-    <View style={styles.container}>
-      <View style={styles.leftContainer}>
-        <Text style={styles.descriptionText}>{description}</Text>
-      </View>
-      <View style={styles.rightContainer}>
-        <Switch
-          ios_backgroundColor={'black'}
-          trackColor={{false: '#d0d5dc', true: '#1992fe'}}
-          value={value}
-          onValueChange={value => onChange(value)}
-        />
-      </View>
-    </View>
+    <Wrap>
+      <Pressable onPress={onToggle(value)}>
+        <ToggleContainer styles={{backgroundColor: color}}>
+          <ToggleWheel
+            style={[
+              styles.toggleWheel,
+              {transform: [{translateX: moveSwitchToggle}]},
+            ]}
+          />
+        </ToggleContainer>
+      </Pressable>
+    </Wrap>
   );
 }
 
