@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Alert,
   SafeAreaView,
@@ -9,7 +9,11 @@ import {
   Text,
   Image,
 } from 'react-native';
-import {NaverLogin, getProfile} from '@react-native-seoul/naver-login';
+import {
+  NaverLogin,
+  getProfile,
+  TokenResponse,
+} from '@react-native-seoul/naver-login';
 import Config from 'react-native-config';
 import {useAppDispatch} from '../store';
 import userSlice from '../slices/user';
@@ -18,7 +22,7 @@ const iosKeys = {
   kConsumerKey: 'VC5CPfjRigclJV_TFACU',
   kConsumerSecret: 'f7tLFw0AHn',
   kServiceAppName: '테스트앱(iOS)',
-  kServiceAppUrlScheme: 'testapp', // only for iOS
+  kServiceAppUrlScheme: 'testApp', // only for iOS
 };
 
 const androidKeys = {
@@ -31,14 +35,18 @@ const initials = Platform.OS === 'ios' ? iosKeys : androidKeys;
 
 const NaverLoginBlock = () => {
   const dispatch = useAppDispatch();
-  const [naverToken, setNaverToken] = React.useState(null);
+  const [naverToken, setNaverToken] = useState<TokenResponse | undefined>(
+    undefined,
+  );
 
-  const naverLogin = props => {
+  const naverLogin = (props: any) => {
     return new Promise((resolve, reject) => {
       NaverLogin.login(props, (err, token) => {
-        console.log(`\n\n  Token is fetched  :: ${token} \n\n`);
-        setNaverToken(token);
-
+        //토큰이 있다면 NaverToken에 값을 할당하고, getUserProfile로 액션을 발생시킨다.
+        if (token) {
+          setNaverToken(token);
+          getUserProfile(token.accessToken);
+        }
         if (err) {
           reject(err);
           return;
@@ -50,16 +58,16 @@ const NaverLoginBlock = () => {
 
   const naverLogout = () => {
     NaverLogin.logout();
-    setNaverToken('');
+    setNaverToken(undefined);
   };
 
-  const getUserProfile = async () => {
-    const profileResult = await getProfile(naverToken.accessToken);
+  //accessToken을 받아서 getProfile 함수를 통해 유저 정보를 가져오고, getUser 액션을 발생시켜 값을 리듀서에 저장한다.
+  const getUserProfile = async (accessToken: string) => {
+    const profileResult = await getProfile(accessToken);
     if (profileResult.resultcode === '024') {
-      Alert.alert('로그인 실패', profileResult.message);
+      Alert.alert('로그인에 실패했습니다', profileResult.message);
       return;
     }
-
     dispatch(
       userSlice.actions.setUser({
         name: profileResult.response.nickname,
@@ -67,7 +75,6 @@ const NaverLoginBlock = () => {
         userId: profileResult.response.id,
       }),
     );
-    console.log('profileResult', profileResult);
   };
 
   return (
@@ -81,6 +88,7 @@ const NaverLoginBlock = () => {
         />
         <Text
           style={[
+            // eslint-disable-next-line react-native/no-inline-styles
             {
               color: 'white',
             },
@@ -90,10 +98,6 @@ const NaverLoginBlock = () => {
       </Pressable>
 
       {!!naverToken && <Button title="로그아웃하기" onPress={naverLogout} />}
-
-      {!!naverToken && (
-        <Button title="회원정보 가져오기" onPress={getUserProfile} />
-      )}
     </SafeAreaView>
   );
 };
