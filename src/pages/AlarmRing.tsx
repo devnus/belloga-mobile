@@ -1,26 +1,40 @@
-import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
-import {
-  ActivityIndicator,
-  Alert,
-  Image,
-  Platform,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 
-import axios, {AxiosError} from 'axios';
+import axios from 'axios';
 import Button from '../components/Button';
 import TextInput from '../components/TextInput';
 import {getAlarm, snoozeAlarm, stopAlarm} from '../modules/alarms';
 
-const renderImage = (
-  topPosition,
-  bottomPosition,
-  leftPosition,
-  rightPosition,
-) => {
+function RenderImage({boundingBoxInfo, imageUrl}) {
+  const [topPosition, setTopPosition] = useState(0);
+  const [bottomPosition, setBottomPosition] = useState(0);
+  const [leftPosition, setLeftPosition] = useState(0);
+  const [rightPosition, setRightPosition] = useState(0);
+
+  useEffect(() => {
+    const xArray = boundingBoxInfo.x;
+    const yArray = boundingBoxInfo.y;
+    Image.getSize(imageUrl, (width, height) => {
+      const imageWidth = width;
+      const imageHeight = height;
+
+      const resizedHeight = (200 * imageHeight) / imageWidth;
+
+      // get the top left position of the image
+      //boundingboxId, 왼쪽 위, 윈쪽아래, 오른쪽위, 오른쪽아래
+      setTopPosition(
+        (200 - resizedHeight) / 2 + (yArray[0] / imageHeight) * resizedHeight,
+      );
+      setBottomPosition(
+        (200 - resizedHeight) / 2 +
+          (1 - yArray[2] / imageHeight) * resizedHeight,
+      );
+      setLeftPosition((xArray[0] / imageWidth) * 200);
+      setRightPosition((1 - xArray[2] / imageWidth) * 200);
+    });
+  }, []);
+
   return (
     <View
       style={[
@@ -34,50 +48,35 @@ const renderImage = (
       ]}
     />
   );
-};
+}
 
 const showBoundingBox = (boundingBoxInfo, imageUrl) => {
-  let topPosition;
-  let bottomPosition;
-  let leftPosition;
-  let rightPosition;
-
   console.log('showBoundingBox called');
-  if (boundingBoxInfo) {
-    const xArray = boundingBoxInfo.x;
-    const yArray = boundingBoxInfo.y;
 
-    //boundingboxId, 왼쪽 위, 윈쪽아래, 오른쪽위, 오른쪽아래
-    topPosition = yArray[0];
-    bottomPosition = yArray[2];
-    leftPosition = xArray[0];
-    rightPosition = xArray[2];
+  if (boundingBoxInfo && imageUrl) {
+    return (
+      <>
+        <View style={{height: 200, width: 200}}>
+          {imageUrl && boundingBoxInfo ? (
+            <>
+              <Image
+                source={{
+                  uri: `${imageUrl}`,
+                }}
+                style={{height: 200, width: 200, resizeMode: 'contain'}}
+              />
+              <RenderImage
+                boundingBoxInfo={boundingBoxInfo}
+                imageUrl={imageUrl}
+              />
+            </>
+          ) : (
+            <Text>로딩중</Text>
+          )}
+        </View>
+      </>
+    );
   }
-
-  return (
-    <>
-      <View style={{height: 200, width: 200}}>
-        {imageUrl && boundingBoxInfo ? (
-          <>
-            <Image
-              source={{
-                uri: `${imageUrl}`,
-              }}
-              style={{height: 200, width: 200}}
-            />
-            {renderImage(
-              topPosition,
-              bottomPosition,
-              leftPosition,
-              rightPosition,
-            )}
-          </>
-        ) : (
-          <Text>로딩중</Text>
-        )}
-      </View>
-    </>
-  );
 };
 
 function AlarmRing({route, navigation}) {
@@ -120,20 +119,21 @@ function AlarmRing({route, navigation}) {
 
   const finishAlarm = async () => {
     await stopAlarm();
-    navigation.goBack();
+    navigation.navigate('AlarmSuccess');
   };
 
   const getAlarmInfo = async () => {
     try {
-      await axios
-        .get<{data: string}>(
-          `http://a138b0b67de234557afc8eaf29aa97b6-1258302528.ap-northeast-2.elb.amazonaws.com/api/data/v1/target/OCR`,
-        )
-        .then(res => {
-          console.log(res.data.response.boundingBox);
-          setboundingBoxList(() => res.data.response.boundingBox);
-          setImageUrl(() => res.data.response.imageUrl);
-        });
+      await axios.get(`http://webcode.me/`).then(res => {
+        console.log('got response', res.data);
+        const boundingBoxData = {
+          boundingBoxId: res.data.response.boundingBoxId,
+          x: res.data.response.x,
+          y: res.data.response.y,
+        };
+        setboundingBoxList(() => [boundingBoxData]);
+        setImageUrl(() => res.data.response.imageUrl);
+      });
     } catch (error) {
       console.log(error);
     } finally {
@@ -145,15 +145,14 @@ function AlarmRing({route, navigation}) {
     try {
       await axios
         .post(
-          `https://api.belloga.com/api/labeled-data/v1/ocr-data`,
+          `http://a138b0b67de234557afc8eaf29aa97b6-1258302528.ap-northeast-2.elb.amazonaws.com/api/labeled-data/v1/ocr-data`,
           {
             boundingBoxId: boundingBoxId,
             label: lebelText,
           },
           {
             headers: {
-              Authorization:
-                'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyUm9sZSI6IkxBQkVMRVIiLCJ1c2VySWQiOiJZNTN4Q0pxSE96MGdXMUUybmVENm4zcTFmOUwrL0YzdHBJcXU5c0UrZG51a1NwNURqeVVYK0UyeVprY3FFdmpuIiwic3ViIjoiYWNjZXNzVG9rZW4iLCJleHAiOjE2OTQ5MDgxMjN9.TwMTd4lZubepa5m3dF3PsMKpjGokF_yDK7siV0BBDSU',
+              'labeler-id': 'gildong',
             },
           },
         )
@@ -166,26 +165,6 @@ function AlarmRing({route, navigation}) {
       // setLoading(() => true);
     }
   };
-
-  // const onSubmit = useCallback(async () => {
-  //   if (!answer || !answer.trim()) {
-  //     return Alert.alert('알림', '정답을 입력해주세요.');
-  //   }
-
-  //   console.log(answer);
-  //   try {
-  //     const response = await axios.post(`${Config.API_URL}/user`, {});
-  //     console.log(response.data);
-  //     Alert.alert('알림', '기록 되었습니다.');
-  //     navigation.navigate('SignIn');
-  //   } catch (error) {
-  //     const errorResponse = (error as AxiosError).response;
-  //     console.error(errorResponse);
-  //     if (errorResponse) {
-  //       Alert.alert('알림', errorResponse.data.message);
-  //     }
-  //   }
-  // }, [answer]);
 
   if (!alarm) {
     return <View />;
@@ -265,14 +244,16 @@ const styles = StyleSheet.create({
     color: '#d0d5dc',
   },
   loginButton: {
-    backgroundColor: 'gray',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 5,
-    marginBottom: 10,
+    padding: 10,
+    margin: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
+    borderWidth: 2,
+    borderColor: '#1992fe',
+    borderRadius: 25,
   },
   loginButtonActive: {
-    backgroundColor: 'blue',
+    backgroundColor: 'whited',
   },
   rectangle: {
     borderWidth: 3,

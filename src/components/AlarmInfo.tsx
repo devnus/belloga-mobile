@@ -1,33 +1,49 @@
 import React from 'react';
-import {StyleSheet, Switch, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Image,
+  StyleSheet,
+  Switch,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 function AlarmInfo({
   uid,
   hour,
   minutes,
   days,
+  title,
   onPress,
   isActive,
   onChange,
 }: any) {
   return (
     <TouchableOpacity onPress={() => onPress(uid)} style={styles.container}>
-      <View style={styles.leftInnerContainer}>
-        <Text style={styles.clock}>
-          {hour < 10 ? '0' + hour : hour}:
-          {minutes < 10 ? '0' + minutes : minutes}
-        </Text>
-        <View style={styles.descContainer}>
-          <Text>{getAlphabeticalDays(days)}</Text>
+      <View style={styles.alarmUpperBlock}>
+        <View style={styles.leftInnerContainer}>
+          <Image
+            source={require('../assets/images/watch.png')}
+            style={styles.clockIcon}
+          />
+          <Text style={styles.clock}>
+            {hour < 10 ? '0' + hour : hour}:
+            {minutes < 10 ? '0' + minutes : minutes}
+          </Text>
+          <Text style={styles.title}>{title}</Text>
+        </View>
+        <View style={styles.rightInnerContainer}>
+          <Switch
+            ios_backgroundColor={'black'}
+            trackColor={{false: '#ededed', true: '#b4eee7'}}
+            value={isActive}
+            onValueChange={onChange}
+          />
         </View>
       </View>
-      <View style={styles.rightInnerContainer}>
-        <Switch
-          ios_backgroundColor={'black'}
-          trackColor={{false: '#d0d5dc', true: '#1992fe'}}
-          value={isActive}
-          onValueChange={onChange}
-        />
+
+      <View style={styles.descContainer}>
+        <Text>{getAlphabeticalDays(days)}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -36,7 +52,7 @@ function AlarmInfo({
 export default AlarmInfo;
 
 function getAlphabeticalDays(days: any) {
-  let weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  let weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sa t'];
   let activeDays = [];
   for (let i = 0; i < days.length; i++) {
     activeDays.push(weekdays[parseInt(days[i])] + ' ');
@@ -47,12 +63,17 @@ function getAlphabeticalDays(days: any) {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
+    backgroundColor: 'white',
+    borderRadius: 10,
+    marginBottom: 10,
+  },
+  alarmUpperBlock: {
+    alignItems: 'center',
     flexDirection: 'row',
   },
   leftInnerContainer: {
-    margin: 5,
-    flex: 1,
-    alignItems: 'flex-start',
+    alignItems: 'center',
+    flexDirection: 'row',
   },
   rightInnerContainer: {
     margin: 5,
@@ -65,11 +86,18 @@ const styles = StyleSheet.create({
     color: 'grey',
   },
   clock: {
-    color: 'black',
-    fontSize: 35,
+    color: '#0f5078',
+    fontSize: 25,
     fontWeight: 'bold',
   },
   title: {
-    fontSize: 10,
+    fontSize: 12,
+    color: '#8abccb',
+    marginLeft: 7,
+  },
+  clockIcon: {
+    width: 15,
+    height: 15,
+    marginHorizontal: 10,
   },
 });

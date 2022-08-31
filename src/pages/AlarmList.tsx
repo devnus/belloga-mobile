@@ -31,10 +31,20 @@ function AlarmList({navigation}: any) {
     }
   }
   return (
-    <View style={globalStyles.container}>
-      <View style={globalStyles.innerContainer}>
-        <ScrollView contentContainerStyle={globalStyles.scrollView}>
-          {alarms && alarms.length === 0 && <Text>No alarms</Text>}
+    <View style={styles.container}>
+      <View style={styles.earliestAlarmContainer}>
+        {alarms.length == 0 ? (
+          <Text> 알람이 없습니다 </Text>
+        ) : (
+          <View style={styles.earliestAlarmContainer}>
+            <Text> 다음 알람까지 </Text>
+            <Text> 11 : 00 : 30 </Text>
+            <Text> 06월 29일 8:56 </Text>
+          </View>
+        )}
+      </View>
+      <View style={styles.innerContainer}>
+        <ScrollView contentContainerStyle={styles.scrollView}>
           {alarms &&
             alarms.map(a => (
               <AlarmInfo
@@ -63,14 +73,20 @@ function AlarmList({navigation}: any) {
 
 export default AlarmList;
 
-const globalStyles = StyleSheet.create({
+const styles = StyleSheet.create({
+  earliestAlarmContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+  },
   container: {
     height: '100%',
     width: '100%',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'white',
+    backgroundColor: '#f2f6f7',
   },
   innerContainer: {
     width: '90%',

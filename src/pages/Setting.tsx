@@ -1,11 +1,30 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import UserInfo from './UserInfo';
+import LoginPage from './LoginPage';
+import LabelingLog from './LabelingLog';
+
+const Stack = createNativeStackNavigator();
 
 function Setting() {
   return (
-    <View>
-      <Text>설정</Text>
-    </View>
+    <Stack.Navigator>
+      <Stack.Screen
+        name="UserInfo"
+        component={UserInfo}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Login"
+        component={LoginPage}
+        options={{title: 'Alarm'}}
+      />
+      <Stack.Screen
+        name="LabelingLog"
+        component={LabelingLog}
+        options={{headerShown: false}}
+      />
+    </Stack.Navigator>
   );
 }
 

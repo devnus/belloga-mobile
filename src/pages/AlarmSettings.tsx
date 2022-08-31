@@ -83,6 +83,12 @@ function AlarmSettings({route, navigation}) {
         />
 
         <SwitcherInput
+          description={'진동모드'}
+          value={'진동모드'}
+          onChange={v => v}
+        />
+
+        <SwitcherInput
           description={'Repeat'}
           value={alarm.repeating}
           onChange={v => update([['repeating', v]])}

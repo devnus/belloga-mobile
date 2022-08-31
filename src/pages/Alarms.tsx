@@ -5,6 +5,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import AlarmList from './AlarmList';
 import AlarmRing from './AlarmRing';
 import AlarmSettings from './AlarmSettings';
+import AlarmSuccess from './AlarmSuccess';
 
 const Stack = createNativeStackNavigator();
 
@@ -32,6 +33,11 @@ function Alarms() {
       <Stack.Screen
         name="Ring"
         component={AlarmRing}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="AlarmSuccess"
+        component={AlarmSuccess}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

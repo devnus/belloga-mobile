@@ -264,6 +264,7 @@ dependencies {
     implementation "com.facebook.react:react-native:0.66.4"  // From node_modules
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+    implementation project(':react-native-seoul-naver-login')
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
         exclude group:'com.facebook.fbjni'
@@ -320,3 +321,6 @@ def isNewArchitectureEnabled() {
     // - Set an environment variable `ORG_GRADLE_PROJECT_newArchEnabled=true`
     return project.hasProperty("newArchEnabled") && project.newArchEnabled == "true"
 }
+
+apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
