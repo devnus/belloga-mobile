@@ -29,6 +29,7 @@ function RenderImage({boundingBoxInfo, imageUrl}) {
       const imageHeight = height;
 
       const resizedHeight = (200 * imageHeight) / imageWidth;
+
       // get the top left position of the image
       //boundingboxId, 왼쪽 위, 윈쪽아래, 오른쪽위, 오른쪽아래
       setTopPosition(

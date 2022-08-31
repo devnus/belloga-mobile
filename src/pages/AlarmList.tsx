@@ -37,8 +37,8 @@ function AlarmList({navigation}: any) {
           <Text> 알람이 없습니다 </Text>
         ) : (
           <View style={styles.earliestAlarmContainer}>
-            <Text>다음 알람까지</Text>
-            <Text>11 : 00 : 30 </Text>
+            <Text> 다음 알람까지 </Text>
+            <Text> 11 : 00 : 30 </Text>
             <Text> 06월 29일 8:56 </Text>
           </View>
         )}
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'white',
+    backgroundColor: '#f2f6f7',
   },
   innerContainer: {
     width: '90%',
