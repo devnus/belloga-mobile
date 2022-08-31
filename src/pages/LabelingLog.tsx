@@ -1,10 +1,10 @@
 import React from 'react';
 import {Image, Text, View} from 'react-native';
 
-function Ranking() {
+function LabelingLog() {
   return (
     <View>
-      <Text>랭팅</Text>
+      <Text>라벨링 로그입니다</Text>
       <Image
         source={{
           uri: 'https://reactnative.dev/img/tiny_logo.png',
@@ -16,4 +16,4 @@ function Ranking() {
   );
 }
 
-export default Ranking;
+export default LabelingLog;

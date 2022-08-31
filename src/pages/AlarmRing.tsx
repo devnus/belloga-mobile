@@ -1,16 +1,7 @@
-import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
-import {
-  ActivityIndicator,
-  Alert,
-  Image,
-  Platform,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 
-import axios, {AxiosError} from 'axios';
+import axios from 'axios';
 import Button from '../components/Button';
 import TextInput from '../components/TextInput';
 import {getAlarm, snoozeAlarm, stopAlarm} from '../modules/alarms';

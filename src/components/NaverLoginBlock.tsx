@@ -58,6 +58,13 @@ const NaverLoginBlock = () => {
 
   const naverLogout = () => {
     NaverLogin.logout();
+    dispatch(
+      userSlice.actions.setUser({
+        name: '',
+        email: '',
+        userId: '',
+      }),
+    );
     setNaverToken(undefined);
   };
 

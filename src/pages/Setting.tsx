@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   Image,
   ScrollView,
+  Pressable,
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -13,6 +14,7 @@ import {useSelector} from 'react-redux';
 import colors from '../assets/colors';
 import KakaoLoginBlock from '../components/KakaoLoginBlock';
 import NaverLoginBlock from '../components/NaverLoginBlock';
+import Stamp from '../components/Stamp';
 import UserData from '../components/UserData';
 import {RootState} from '../store/reducer';
 
@@ -50,6 +52,7 @@ function Setting() {
             </View>
             {/* User Information */}
             <UserData isLoggedIn={isLoggedIn} />
+            <Stamp />
           </View>
         ) : (
           <View>
@@ -57,39 +60,18 @@ function Setting() {
               <View>
                 <Text style={styles.titlesBoldTitle}>로그인이 필요합니다.</Text>
               </View>
+
+              <Pressable
+                style={styles.loginButton}
+                onPress={() => {
+                  navigation.navigate('AlarmSuccess');
+                }}>
+                <Text style={styles.loginButtonText}>로그인</Text>
+              </Pressable>
             </View>
             <UserData isLoggedIn={isLoggedIn} />
           </View>
         )}
-
-        {/* Popular */}
-        <View style={styles.popularWrapper}>
-          <View
-            style={[
-              styles.popularCardWrapper,
-              {
-                marginTop: 15,
-              },
-            ]}>
-            <View>
-              <View>
-                <View style={styles.popularTitlesWrapper}>
-                  <Text style={styles.titlesBoldTitle}>스탬프 찍기</Text>
-                  <View style={styles.popularTopWrapper}>
-                    <MaterialCommunityIcons
-                      name="crown"
-                      size={12}
-                      color={colors.primary}
-                    />
-                    <Text style={styles.popularTopText}>
-                      500P를 모으면 스탬프 한개를 받을 수 있어요
-                    </Text>
-                  </View>
-                </View>
-              </View>
-            </View>
-          </View>
-        </View>
 
         <NaverLoginBlock />
         <KakaoLoginBlock />
@@ -133,25 +115,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 20,
     color: colors.textDark,
-    marginTop: 5,
   },
   searchWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 20,
     marginTop: 30,
-  },
-  search: {
-    flex: 1,
-    marginLeft: 10,
-    borderBottomColor: colors.textLight,
-    borderBottomWidth: 2,
-  },
-  searchText: {
-    fontFamily: 'Montserrat-Semibold',
-    fontSize: 14,
-    marginBottom: 5,
-    color: colors.textLight,
   },
   categoriesWrapper: {
     marginTop: 30,
@@ -204,57 +173,6 @@ const styles = StyleSheet.create({
   categorySelectIcon: {
     alignSelf: 'center',
   },
-  popularWrapper: {
-    paddingHorizontal: 20,
-  },
-  popularTitle: {
-    fontFamily: 'Montserrat-Bold',
-    fontSize: 16,
-  },
-  popularCardWrapper: {
-    backgroundColor: colors.white,
-    borderRadius: 25,
-    paddingVertical: 20,
-    marginVertical: 30,
-    paddingLeft: 20,
-    flexDirection: 'row',
-    shadowColor: '#4dd1d1d1',
-    shadowOffset: {
-      width: 10,
-      height: 10,
-    },
-    shadowOpacity: 0.05,
-    elevation: 20,
-  },
-  popularTopWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  popularTopText: {
-    marginLeft: 10,
-    fontFamily: 'Montserrat-SemiBold',
-    fontSize: 14,
-  },
-  popularTitlesWrapper: {
-    marginTop: 20,
-  },
-  popularTitlesTitle: {
-    fontFamily: 'Montserrat-SemiBold',
-    fontSize: 14,
-    color: colors.textDark,
-  },
-  popularTitlesWeight: {
-    fontFamily: 'Montserrat-Medium',
-    fontSize: 12,
-    color: colors.textLight,
-    marginTop: 5,
-  },
-  popularCardBottom: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 10,
-    marginLeft: -20,
-  },
 
   ratingWrapper: {
     flexDirection: 'row',
@@ -274,5 +192,17 @@ const styles = StyleSheet.create({
     width: 210,
     height: 125,
     resizeMode: 'contain',
+  },
+  loginButton: {
+    backgroundColor: '#54a5bc',
+    borderRadius: 13.5,
+    paddingHorizontal: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  loginButtonText: {
+    fontWeight: 'bold',
+    fontSize: 14,
+    color: 'white',
   },
 });
