@@ -33,7 +33,7 @@ const androidKeys = {
 
 const initials = Platform.OS === 'ios' ? iosKeys : androidKeys;
 
-const NaverLoginBlock = () => {
+const NaverLoginBlock = ({onPress}) => {
   const dispatch = useAppDispatch();
   const [naverToken, setNaverToken] = useState<TokenResponse | undefined>(
     undefined,
@@ -46,6 +46,7 @@ const NaverLoginBlock = () => {
         if (token) {
           setNaverToken(token);
           getUserProfile(token.accessToken);
+          onPress();
         }
         if (err) {
           reject(err);

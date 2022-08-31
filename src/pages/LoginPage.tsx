@@ -1,19 +1,25 @@
 import React from 'react';
-import {Image, Text, View} from 'react-native';
+import {Image, StyleSheet, Text, View} from 'react-native';
+import NaverLoginBlock from '../components/NaverLoginBlock';
 
-function LoginPage() {
+function LoginPage({route, navigation}) {
   return (
-    <View>
-      <Text>로그인</Text>
-      <Image
-        source={{
-          uri: 'https://reactnative.dev/img/tiny_logo.png',
+    <View style={styles.container}>
+      <Text>여기는 로그인</Text>
+      <NaverLoginBlock
+        onPress={() => {
+          navigation.goBack();
         }}
-        style={{height: 200, width: 200}}
-        resizeMode={'cover'}
       />
     </View>
   );
 }
 
 export default LoginPage;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+  },
+});
