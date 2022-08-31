@@ -9,15 +9,20 @@ import {
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {useSelector} from 'react-redux';
 import colors from '../assets/colors';
 import KakaoLoginBlock from '../components/KakaoLoginBlock';
 import NaverLoginBlock from '../components/NaverLoginBlock';
 import UserData from '../components/UserData';
+import {RootState} from '../store/reducer';
 
 Feather.loadFont();
 MaterialCommunityIcons.loadFont();
 
 function Setting() {
+  const isLoggedIn = useSelector((state: RootState) => !!state.user.email);
+  console.log(isLoggedIn);
+
   return (
     <View style={styles.container}>
       <ScrollView
@@ -31,18 +36,31 @@ function Setting() {
         </SafeAreaView>
 
         {/* Titles */}
-        <View style={styles.titlesWrapper}>
+        {isLoggedIn ? (
           <View>
-            <Text style={styles.titlesBoldTitle}>홍길동님</Text>
-            <Text style={styles.titlesSubtitle}>안녕하세요.</Text>
+            <View style={styles.titlesWrapper}>
+              <View>
+                <Text style={styles.titlesBoldTitle}>홍길동님</Text>
+                <Text style={styles.titlesSubtitle}>안녕하세요.</Text>
+              </View>
+              <Image
+                source={require('../assets/images/profile.png')}
+                style={styles.profileImage}
+              />
+            </View>
+            {/* User Information */}
+            <UserData isLoggedIn={isLoggedIn} />
           </View>
-          <Image
-            source={require('../assets/images/profile.png')}
-            style={styles.profileImage}
-          />
-        </View>
-        {/* User Information */}
-        <UserData />
+        ) : (
+          <View>
+            <View style={styles.titlesWrapper}>
+              <View>
+                <Text style={styles.titlesBoldTitle}>로그인이 필요합니다.</Text>
+              </View>
+            </View>
+            <UserData isLoggedIn={isLoggedIn} />
+          </View>
+        )}
 
         {/* Popular */}
         <View style={styles.popularWrapper}>
