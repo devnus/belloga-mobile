@@ -68,7 +68,7 @@ export function getDays(selectedBtn) {
 }
 
 function getDay(number) {
-  let weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  let weekdays = ['일', '월', '화', '수', '목', '금', '토'];
   return weekdays[number];
 }
 
@@ -78,14 +78,17 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     marginTop: 5,
     marginBottom: 5,
+    padding: 10,
+    borderRadius: 10,
+    backgroundColor: '#f2f6f7',
   },
   innerContainer: {
     display: 'flex',
     flexDirection: 'row',
   },
   btnContainer: {
-    width: 40,
-    height: 40,
+    width: 30,
+    height: 30,
     borderRadius: 20,
     display: 'flex',
     justifyContent: 'center',
@@ -94,20 +97,16 @@ const styles = StyleSheet.create({
   selectedBtn: {
     color: 'black',
     fontWeight: 'bold',
-    backgroundColor: '#1992fe',
-  },
-  unselectedBtn: {
-    color: 'black',
-    borderWidth: 1,
-    borderColor: '#1992fe',
+    backgroundColor: '#54a5bc',
   },
   text: {
-    fontWeight: 'bold',
+    fontSize: 14,
   },
   selectedText: {
     color: 'white',
+    fontWeight: 'bold',
   },
   unselectedText: {
-    color: 'black',
+    color: '#8abccb',
   },
 });
