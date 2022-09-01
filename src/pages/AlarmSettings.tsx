@@ -42,7 +42,7 @@ function AlarmSettings({route, navigation}) {
     if (mode === 'CREATE') {
       await scheduleAlarm(alarm);
     }
-    console.log('alarmSettings', 'setting Complete');
+    console.log('alarmSettings', alarm);
     navigation.goBack();
   }
 
@@ -70,30 +70,16 @@ function AlarmSettings({route, navigation}) {
           />
         </View>
 
+        <DayPicker
+          onChange={v => update([['days', v]])}
+          activeDays={alarm.days}
+        />
+
         <TextInput
-          description={'Title'}
-          style={styles.textInput}
+          description={'알람 이름'}
           onChangeText={v => update([['title', v]])}
           value={alarm.title}
         />
-        <TextInput
-          description={'Description'}
-          style={styles.textInput}
-          onChangeText={v => update([['description', v]])}
-          value={alarm.description}
-        />
-
-        <SwitcherInput
-          isActive={alarm.repeating}
-          onToggle={v => update([['repeating', v]])}
-        />
-
-        {alarm.repeating && (
-          <DayPicker
-            onChange={v => update([['days', v]])}
-            activeDays={alarm.days}
-          />
-        )}
 
         <View style={styles.buttonContainer}>
           {mode === 'EDIT' && <Button onPress={onDelete} title={'Delete'} />}

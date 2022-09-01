@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   clockText: {
-    color: 'black',
+    color: '#0f5078',
     fontWeight: 'bold',
     fontSize: 70,
   },

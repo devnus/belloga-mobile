@@ -12,6 +12,8 @@ export default function ({onChangeText, value, description}) {
         style={styles.textInput}
         onChangeText={onChangeText}
         value={value}
+        placeholder="알람 이름을 입력해주세요"
+        placeholderTextColor="#a4aaac"
       />
     </View>
   );
@@ -21,22 +23,24 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 5,
     marginBottom: 5,
+    alignSelf: 'stretch',
+    padding: 10,
+    display: 'flex',
+    flexDirection: 'column',
   },
   textInput: {
-    borderWidth: 1,
-    borderRadius: 12,
+    borderRadius: 10,
     padding: 10,
     paddingTop: 5,
     paddingBottom: 5,
-    borderColor: '#1992fe',
     fontWeight: 'bold',
+    backgroundColor: '#f2f6f7',
   },
   descriptionContainer: {
     margin: 10,
     marginLeft: 0,
   },
   descriptionText: {
-    fontWeight: 'bold',
-    color: '#1992fe',
+    color: '#0f5078',
   },
 });

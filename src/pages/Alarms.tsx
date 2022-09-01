@@ -28,7 +28,7 @@ function Alarms() {
       <Stack.Screen
         name="Edit"
         component={AlarmSettings}
-        options={{title: 'Alarm'}}
+        options={{title: '알람 시간 지정'}}
       />
       <Stack.Screen
         name="Ring"

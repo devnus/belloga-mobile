@@ -106,14 +106,14 @@ export default class Alarm {
   constructor(params = null) {
     this.uid = getParam(params, 'uid', uuidv4());
     this.enabled = getParam(params, 'enabled', true);
-    this.title = getParam(params, 'title', 'Alarm');
+    this.title = getParam(params, 'title', '');
     this.description = getParam(params, 'description', 'Wake up');
     this.hour = getParam(params, 'hour', new Date().getHours());
     this.minutes = getParam(params, 'minutes', new Date().getMinutes() + 1);
     this.snoozeInterval = getParam(params, 'snoozeInterval', 1);
     this.repeating = getParam(params, 'repeating', false);
     this.active = getParam(params, 'active', true);
-    this.days = getParam(params, 'days', [new Date().getDay()]);
+    this.days = getParam(params, 'days', []);
   }
 
   static getEmpty() {
