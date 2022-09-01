@@ -5,8 +5,8 @@ import styled from 'styled-components/native';
 
 export default function ({
   isOn,
-  onColor = '#246DFB',
-  offColor = '#E8E8E9',
+  onColor = '#b4eee7',
+  offColor = '#ededed',
   onToggle,
 }) {
   const [aniValue, setAniValue] = useState(new Animated.Value(0));

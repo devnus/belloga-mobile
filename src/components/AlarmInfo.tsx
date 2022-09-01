@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Image,
   StyleSheet,
@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import SwitcherInput from './SwitcherInput';
 
 function AlarmInfo({
   uid,
@@ -18,6 +19,11 @@ function AlarmInfo({
   isActive,
   onChange,
 }: any) {
+  const [isEnabled, setIsEnabled] = useState(isActive);
+  const toggleSwitch = () => {
+    setIsEnabled(previousState => !previousState);
+    onChange(isEnabled);
+  };
   return (
     <TouchableOpacity onPress={() => onPress(uid)} style={styles.container}>
       <View style={styles.alarmUpperBlock}>
@@ -33,12 +39,7 @@ function AlarmInfo({
           <Text style={styles.title}>{title}</Text>
         </View>
         <View style={styles.rightInnerContainer}>
-          <Switch
-            ios_backgroundColor={'black'}
-            trackColor={{false: '#ededed', true: '#b4eee7'}}
-            value={isActive}
-            onValueChange={onChange}
-          />
+          <SwitcherInput isOn={isEnabled} onToggle={toggleSwitch} />
         </View>
       </View>
 

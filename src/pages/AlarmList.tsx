@@ -43,6 +43,7 @@ function AlarmList({navigation}: any) {
           </View>
         )}
       </View>
+
       <View style={styles.innerContainer}>
         <ScrollView contentContainerStyle={styles.scrollView}>
           {alarms &&
