@@ -19,11 +19,6 @@ function AlarmInfo({
   isActive,
   onChange,
 }: any) {
-  const [isEnabled, setIsEnabled] = useState(isActive);
-  const toggleSwitch = () => {
-    setIsEnabled(previousState => !previousState);
-    onChange(isEnabled);
-  };
   return (
     <TouchableOpacity onPress={() => onPress(uid)} style={styles.container}>
       <View style={styles.alarmUpperBlock}>
@@ -39,7 +34,7 @@ function AlarmInfo({
           <Text style={styles.title}>{title}</Text>
         </View>
         <View style={styles.rightInnerContainer}>
-          <SwitcherInput isOn={isEnabled} onToggle={toggleSwitch} />
+          <SwitcherInput isActive={isActive} onToggle={onChange} />
         </View>
       </View>
 
@@ -53,7 +48,7 @@ function AlarmInfo({
 export default AlarmInfo;
 
 function getAlphabeticalDays(days: any) {
-  let weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sa t'];
+  let weekdays = ['일', '월', '화', '수', '목', '금', '토'];
   let activeDays = [];
   for (let i = 0; i < days.length; i++) {
     activeDays.push(weekdays[parseInt(days[i])] + ' ');

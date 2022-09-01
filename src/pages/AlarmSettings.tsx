@@ -30,6 +30,7 @@ function AlarmSettings({route, navigation}) {
     for (let u of updates) {
       a[u[0]] = u[1];
     }
+    console.log('눌렸뜸', updates);
     setAlarm(a);
   }
 
@@ -83,7 +84,7 @@ function AlarmSettings({route, navigation}) {
         />
 
         <SwitcherInput
-          isOn={alarm.repeating}
+          isActive={alarm.repeating}
           onToggle={v => update([['repeating', v]])}
         />
 

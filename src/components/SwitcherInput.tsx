@@ -1,16 +1,23 @@
 /* eslint-disable prettier/prettier */
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Pressable, Animated, Easing} from 'react-native';
 import styled from 'styled-components/native';
 
 export default function ({
-  isOn,
+  isActive,
   onColor = '#b4eee7',
   offColor = '#ededed',
   onToggle,
 }) {
   const [aniValue, setAniValue] = useState(new Animated.Value(0));
-  const color = isOn ? onColor : offColor;
+  const [isEnabled, setIsEnabled] = useState(isActive);
+
+  const toggleSwitch = () => {
+    onToggle(!isEnabled);
+    setIsEnabled(previousState => !previousState);
+  };
+
+  const color = isEnabled ? onColor : offColor;
 
   const moveSwitchToggle = aniValue.interpolate({
     inputRange: [0, 1],
@@ -18,15 +25,15 @@ export default function ({
   });
 
   Animated.timing(aniValue, {
-    toValue: isOn ? 1 : 0,
-    duration: 200,
+    toValue: isEnabled ? 1 : 0,
+    duration: 100,
     easing: Easing.linear,
     useNativeDriver: true,
   }).start();
 
   return (
     <Wrap>
-      <Pressable onPress={onToggle}>
+      <Pressable onPress={toggleSwitch}>
         <ToggleContainer style={{backgroundColor: color}}>
           <ToggleWheel
             style={[
