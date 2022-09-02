@@ -3,7 +3,7 @@ import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
 import DatePicker from 'react-native-date-picker';
 
-type datePickerProps = {
+type timePickerProps = {
   hour: number;
   minutes: number;
   onChange: (hour: number, minutes: number) => void; // 아무것도 리턴하지 않는다는 함수를 의미합니다.
@@ -13,7 +13,7 @@ export default function ({
   hour,
   minutes,
   onChange = () => null,
-}: datePickerProps) {
+}: timePickerProps) {
   const [date, setDate] = useState(getDate(hour, minutes));
 
   console.log(getDate(hour, minutes));

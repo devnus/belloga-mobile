@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Image,
   StyleSheet,
@@ -8,6 +8,17 @@ import {
   View,
 } from 'react-native';
 import SwitcherInput from './SwitcherInput';
+
+// // type alarmInfoProps = {
+//   uid,
+//   hour,
+//   minutes,
+//   days,
+//   title,
+//   onPress,
+//   isActive,
+//   onChange,
+// // };
 
 function AlarmInfo({
   uid,
@@ -19,6 +30,18 @@ function AlarmInfo({
   isActive,
   onChange,
 }: any) {
+  function newHour(hour) {
+    let changedHour;
+    if (hour - 12 > 0) {
+      changedHour = hour - 12;
+    } else if (hour == 0) {
+      changedHour = '12';
+    } else {
+      changedHour = hour;
+    }
+    return changedHour;
+  }
+
   return (
     <TouchableOpacity onPress={() => onPress(uid)} style={styles.container}>
       <View style={styles.alarmUpperBlock}>
@@ -28,9 +51,10 @@ function AlarmInfo({
             style={styles.clockIcon}
           />
           <Text style={styles.clock}>
-            {hour < 10 ? '0' + hour : hour}:
+            {newHour(hour) < 10 ? '0' + newHour(hour) : newHour(hour)}:
             {minutes < 10 ? '0' + minutes : minutes}
           </Text>
+          <Text style={styles.title}> {hour < 12 ? 'AM' : 'PM'}</Text>
           <Text style={styles.title}>{title}</Text>
         </View>
         <View style={styles.rightInnerContainer}>
