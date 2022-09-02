@@ -1,12 +1,23 @@
 /* eslint-disable prettier/prettier */
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import DatePicker from 'react-native-date-picker';
 
-export default function ({hour, minutes, onChange = () => null}) {
-  const [showPicker, setShowPicker] = useState(false);
-  const [date, setDate] = useState(new Date());
+type datePickerProps = {
+  hour: number;
+  minutes: number;
+  onChange: (hour: number, minutes: number) => void; // 아무것도 리턴하지 않는다는 함수를 의미합니다.
+};
+
+export default function ({
+  hour,
+  minutes,
+  onChange = () => null,
+}: datePickerProps) {
+  const [date, setDate] = useState(getDate(hour, minutes));
+
+  console.log(getDate(hour, minutes));
+  console.log(date);
 
   return (
     <View>
@@ -17,7 +28,10 @@ export default function ({hour, minutes, onChange = () => null}) {
           textColor="#0f5078"
           androidVariant="iosClone"
           fadeToColor="none"
-          onDateChange={setDate}
+          onDateChange={day => {
+            setDate(() => day);
+            onChange(day.getHours(), day.getMinutes());
+          }}
         />
         {/* <Text style={styles.clockText}>
           {hour < 10 ? '0' + hour : hour}:
@@ -43,7 +57,7 @@ export default function ({hour, minutes, onChange = () => null}) {
   );
 }
 
-function getDate(hour, minutes) {
+function getDate(hour: number, minutes: number) {
   const date = new Date();
   date.setHours(hour);
   date.setMinutes(minutes);
