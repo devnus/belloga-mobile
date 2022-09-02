@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import AlarmInfo from '../components/AlarmInfo';
@@ -90,7 +89,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#f2f6f7',
   },
   innerContainer: {
-    width: '90%',
     height: '90%',
     display: 'flex',
     alignItems: 'center',

@@ -1,13 +1,12 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
 import {TextInput, View, StyleSheet, Text} from 'react-native';
+import SettingTitleText from './AlarmSetting/SettingTitleText';
 
 export default function ({onChangeText, value, description}) {
   return (
     <View style={styles.container}>
-      <View style={styles.descriptionContainer}>
-        <Text style={styles.descriptionText}>{description}</Text>
-      </View>
+      <SettingTitleText text={description} />
       <TextInput
         style={styles.textInput}
         onChangeText={onChangeText}
@@ -24,7 +23,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 5,
     alignSelf: 'stretch',
-    padding: 10,
+    paddingVertical: 10,
     display: 'flex',
     flexDirection: 'column',
   },
@@ -37,8 +36,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f2f6f7',
   },
   descriptionContainer: {
-    margin: 10,
-    marginLeft: 0,
+    marginVertical: 10,
   },
   descriptionText: {
     color: '#0f5078',
