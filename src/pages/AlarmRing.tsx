@@ -3,7 +3,7 @@ import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 
 import axios from 'axios';
 import Button from '../components/Button';
-import TextInput from '../components/TextInput';
+import TextInput from '../components/AlarmSetting/TextInput';
 import {getAlarm, snoozeAlarm, stopAlarm} from '../modules/alarms';
 
 function RenderImage({boundingBoxInfo, imageUrl}) {

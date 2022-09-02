@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
 import {TextInput, View, StyleSheet, Text} from 'react-native';
-import SettingTitleText from './AlarmSetting/SettingTitleText';
+import SettingTitleText from './SettingTitleText';
 
 export default function ({onChangeText, value, description}) {
   return (

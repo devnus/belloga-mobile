@@ -9,7 +9,6 @@ import TextInput from '../components/AlarmSetting/TextInput';
 import DayPicker from '../components/AlarmSetting/DayPicker';
 import TimePicker from '../components/AlarmSetting/TimePicker';
 import Button from '../components/Button';
-import SwitcherInput from '../components/SwitcherInput';
 import AlarmSettingDetail from '../components/AlarmSetting/AlarmSettingDetail';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import SettingTitleText from '../components/AlarmSetting/SettingTitleText';
@@ -72,41 +71,49 @@ function AlarmSettings({route, navigation}) {
         />
       </View>
 
-      <View style={styles.scrollView}>
-        <ScrollView>
-          <DayPicker
-            onChange={v => update([['days', v]])}
-            activeDays={alarm.days}
+      <View style={styles.selectionsContainer}>
+        <View style={styles.scrollView}>
+          <ScrollView>
+            <DayPicker
+              onChange={v => update([['days', v]])}
+              activeDays={alarm.days}
+            />
+            <TextInput
+              description={'알람 이름'}
+              onChangeText={v => update([['title', v]])}
+              value={alarm.title}
+            />
+
+            <SettingTitleText text="설정" />
+            <View style={styles.settingsDetailContainer}>
+              <AlarmSettingDetail
+                detailTitle="공휴일에 알람 끄기"
+                detailDiscription="대체 공휴일, 임시 공휴일 미포함"
+              />
+              <AlarmSettingDetail
+                detailTitle="소리"
+                detailDiscription="어쩔티비"
+              />
+              <AlarmSettingDetail detailTitle="진동" detailDiscription="On" />
+
+              <AlarmSettingDetail
+                detailTitle="다시 울림"
+                detailDiscription="5분 간격으로 다시 울림"
+              />
+            </View>
+          </ScrollView>
+        </View>
+
+        <View style={styles.buttonContainer}>
+          {/* {mode === 'EDIT' && <Button onPress={onDelete} title={'Delete'} />} */}
+          <Button
+            onPress={() => {
+              navigation.goBack();
+            }}
+            title={'Cancel'}
           />
-          <TextInput
-            description={'알람 이름'}
-            onChangeText={v => update([['title', v]])}
-            value={alarm.title}
-          />
-
-          <SettingTitleText text="설정" />
-          <View style={styles.settingsDetailContainer}>
-            <AlarmSettingDetail
-              detailTitle="공휴일에 알람 끄기"
-              detailDiscription="대체 공휴일, 임시 공휴일 미포함"
-            />
-            <AlarmSettingDetail
-              detailTitle="소리"
-              detailDiscription="어쩔티비"
-            />
-            <AlarmSettingDetail detailTitle="진동" detailDiscription="On" />
-
-            <AlarmSettingDetail
-              detailTitle="다시 울림"
-              detailDiscription="5분 간격으로 다시 울림"
-            />
-          </View>
-        </ScrollView>
-      </View>
-
-      <View style={styles.buttonContainer}>
-        {mode === 'EDIT' && <Button onPress={onDelete} title={'Delete'} />}
-        <Button fill={true} onPress={onSave} title={'Save'} />
+          <Button fill={true} onPress={onSave} title={'Save'} />
+        </View>
       </View>
     </View>
   );
@@ -120,27 +127,48 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     backgroundColor: '#f2f6f7',
+    justifyContent: 'space-between',
+    flex: 1,
   },
   inputsContainer: {
-    height: '40%',
     justifyContent: 'center',
+    flex: 2,
   },
   buttonContainer: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-around',
+    backgroundColor: 'white',
+  },
+  selectionsContainer: {
+    flex: 3,
   },
   scrollView: {
-    height: '40%',
     paddingHorizontal: 13,
     paddingTop: 24.5,
     borderTopRightRadius: 30,
     borderTopLeftRadius: 30,
     backgroundColor: 'white',
+    flex: 3,
   },
   settingsDetailContainer: {
     borderTopColor: '#dce2e3',
     borderTopWidth: 1,
     paddingTop: 10,
+  },
+  item1: {
+    width: 50,
+    height: 50,
+    backgroundColor: 'red',
+  },
+  item2: {
+    width: 50,
+    height: 50,
+    backgroundColor: 'yellow',
+  },
+  item3: {
+    width: 50,
+    height: 50,
+    backgroundColor: 'green',
   },
 });

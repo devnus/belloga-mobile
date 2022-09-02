@@ -47,6 +47,7 @@ const NaverLoginBlock = ({onPress}) => {
           setNaverToken(token);
           getUserProfile(token.accessToken);
           onPress();
+          console.log(token);
         }
         if (err) {
           reject(err);

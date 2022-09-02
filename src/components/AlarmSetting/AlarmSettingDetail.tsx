@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import SwitcherInput from './SwitcherInput';
+import SwitcherInput from '../SwitcherInput';
 
 function AlarmSettingDetail({
   detailTitle = '',
