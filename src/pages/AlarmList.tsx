@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {Animated, ScrollView, StyleSheet, Text, View} from 'react-native';
 import AlarmInfo from '../components/AlarmInfo';
 import {
   disableAlarm,
@@ -29,22 +29,56 @@ function AlarmList({navigation}: any) {
       navigation.navigate('Ring', {alarmUid});
     }
   }
+
+  let AnimatedHeaderValue = new Animated.Value(0);
+  const Header_Maximum_Height = 150;
+  //Max Height of the Header
+  const Header_Minimum_Height = 50;
+  //Min Height of the Header
+
+  const animateHeaderBackgroundColor = AnimatedHeaderValue.interpolate({
+    inputRange: [0, Header_Maximum_Height - Header_Minimum_Height],
+    outputRange: ['#4286F4', '#00BCD4'],
+    extrapolate: 'clamp',
+  });
+
+  const animateHeaderHeight = AnimatedHeaderValue.interpolate({
+    inputRange: [0, Header_Maximum_Height - Header_Minimum_Height],
+    outputRange: [Header_Maximum_Height, Header_Minimum_Height],
+    extrapolate: 'clamp',
+  });
+
   return (
     <View style={styles.container}>
-      <View style={styles.earliestAlarmContainer}>
-        {alarms.length == 0 ? (
-          <Text> 알람이 없습니다 </Text>
-        ) : (
-          <View style={styles.earliestAlarmContainer}>
-            <Text> 다음 알람까지 </Text>
-            <Text> 11 : 00 : 30 </Text>
-            <Text> 06월 29일 8:56 </Text>
-          </View>
-        )}
-      </View>
+      <Animated.View
+        style={[
+          styles.earliestAlarmContainer,
+          {
+            height: animateHeaderHeight,
+            backgroundColor: '#f2f6f7',
+          },
+        ]}>
+        <View style={styles.earliestAlarmContainer}>
+          {alarms.length == 0 ? (
+            <Text> 알람이 없습니다 </Text>
+          ) : (
+            <View style={styles.earliestAlarmContainer}>
+              <Text> 다음 알람까지 </Text>
+              <Text> 11 : 00 : 30 </Text>
+              <Text> 06월 29일 8:56 </Text>
+            </View>
+          )}
+        </View>
+      </Animated.View>
 
       <View style={styles.innerContainer}>
-        <ScrollView contentContainerStyle={styles.scrollView}>
+        <ScrollView
+          contentContainerStyle={styles.scrollView}
+          scrollEventThrottle={16}
+          onScroll={Animated.event(
+            [{nativeEvent: {contentOffset: {y: AnimatedHeaderValue}}}],
+            {useNativeDriver: false},
+          )}>
           {alarms &&
             alarms.map(a => (
               <AlarmInfo
@@ -77,7 +111,6 @@ const styles = StyleSheet.create({
   earliestAlarmContainer: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
     backgroundColor: 'white',
   },
   container: {
@@ -85,17 +118,13 @@ const styles = StyleSheet.create({
     width: '100%',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
     backgroundColor: '#f2f6f7',
   },
   innerContainer: {
-    height: '90%',
-    display: 'flex',
     alignItems: 'center',
   },
   scrollView: {
     width: '90%',
     alignItems: 'center',
-    justifyContent: 'center',
   },
 });

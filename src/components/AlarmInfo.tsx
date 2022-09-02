@@ -1,12 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {
-  Image,
-  StyleSheet,
-  Switch,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import React from 'react';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import SwitcherInput from './SwitcherInput';
 
 // // type alarmInfoProps = {
@@ -86,10 +79,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 10,
     marginBottom: 10,
+    height: '10%',
+    display: 'flex',
+    justifyContent: 'space-between',
   },
   alarmUpperBlock: {
     alignItems: 'center',
     flexDirection: 'row',
+    flex: 3,
   },
   leftInnerContainer: {
     alignItems: 'center',
@@ -104,6 +101,7 @@ const styles = StyleSheet.create({
   descContainer: {
     flexDirection: 'row',
     color: 'grey',
+    flex: 1,
   },
   clock: {
     color: '#0f5078',
