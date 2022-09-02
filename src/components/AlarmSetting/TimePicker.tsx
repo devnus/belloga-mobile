@@ -2,21 +2,30 @@
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import DatePicker from 'react-native-date-picker';
 
 export default function ({hour, minutes, onChange = () => null}) {
   const [showPicker, setShowPicker] = useState(false);
+  const [date, setDate] = useState(new Date());
 
   return (
     <View>
-      <TouchableOpacity
-        style={styles.container}
-        onPress={() => setShowPicker(true)}>
-        <Text style={styles.clockText}>
+      <TouchableOpacity style={styles.container}>
+        <DatePicker
+          date={date}
+          mode={'time'}
+          textColor="#0f5078"
+          androidVariant="iosClone"
+          fadeToColor="none"
+          onDateChange={setDate}
+        />
+        {/* <Text style={styles.clockText}>
           {hour < 10 ? '0' + hour : hour}:
           {minutes < 10 ? '0' + minutes : minutes}
-        </Text>
+        </Text> */}
       </TouchableOpacity>
-      {showPicker && (
+
+      {/* {showPicker && (
         <DateTimePicker
           testID="dateTimePicker"
           timeZoneOffsetInMinutes={0}
@@ -29,7 +38,7 @@ export default function ({hour, minutes, onChange = () => null}) {
             onChange(date.getHours(), date.getMinutes());
           }}
         />
-      )}
+      )} */}
     </View>
   );
 }

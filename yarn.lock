@@ -7714,6 +7714,13 @@
   "resolved" "https://registry.npmjs.org/react-native-config/-/react-native-config-1.4.6.tgz"
   "version" "1.4.6"
 
+"react-native-date-picker@^4.2.5":
+  "integrity" "sha512-YjwiMpZEnVVS+ymLvmJDicVZ3pSR+nJHgtAhctMl6fO8f7iRNcYhY427gemlTBf2Ji+XIAK0Agyl255DhaemFw=="
+  "resolved" "https://registry.npmjs.org/react-native-date-picker/-/react-native-date-picker-4.2.5.tgz"
+  "version" "4.2.5"
+  dependencies:
+    "prop-types" "^15.8.1"
+
 "react-native-flipper@^0.153.0", "react-native-flipper@^0.37.0", "react-native-flipper@>=0.100.0":
   "integrity" "sha512-s6l5DafPLCrhyGqb+awZ2rFoR8lE+of/ZANr+H57pm0KMn3usGCA3QYbKTK8iP1T/hCZOZwhwX7vsR2dXJzqHQ=="
   "resolved" "https://registry.npmjs.org/react-native-flipper/-/react-native-flipper-0.153.0.tgz"
