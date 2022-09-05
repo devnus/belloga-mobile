@@ -17,7 +17,7 @@ function Setting() {
       <Stack.Screen
         name="Login"
         component={LoginPage}
-        options={{title: 'Alarm'}}
+        options={{title: 'Alarm', headerShown: false}}
       />
       <Stack.Screen
         name="LabelingLog"

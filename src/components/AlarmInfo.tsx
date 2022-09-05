@@ -1,12 +1,18 @@
 import React from 'react';
-import {
-  Image,
-  StyleSheet,
-  Switch,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import DayPicker from './AlarmSetting/DayPicker';
+import SwitcherInput from './SwitcherInput';
+
+// // type alarmInfoProps = {
+//   uid,
+//   hour,
+//   minutes,
+//   days,
+//   title,
+//   onPress,
+//   isActive,
+//   onChange,
+// // };
 
 function AlarmInfo({
   uid,
@@ -18,6 +24,21 @@ function AlarmInfo({
   isActive,
   onChange,
 }: any) {
+  /**
+   24시간 포맷으로 된 시간 정보를 넣으면 AM, PM 이 붙어 12시간 포맷으로 가공되는 함수다
+   */
+  function newHour(hour) {
+    let changedHour;
+    if (hour - 12 > 0) {
+      changedHour = hour - 12;
+    } else if (hour == 0) {
+      changedHour = '12';
+    } else {
+      changedHour = hour;
+    }
+    return changedHour;
+  }
+
   return (
     <TouchableOpacity onPress={() => onPress(uid)} style={styles.container}>
       <View style={styles.alarmUpperBlock}>
@@ -27,38 +48,22 @@ function AlarmInfo({
             style={styles.clockIcon}
           />
           <Text style={styles.clock}>
-            {hour < 10 ? '0' + hour : hour}:
+            {newHour(hour) < 10 ? '0' + newHour(hour) : newHour(hour)}:
             {minutes < 10 ? '0' + minutes : minutes}
           </Text>
+          <Text style={styles.timeRange}> {hour < 12 ? 'AM' : 'PM'}</Text>
           <Text style={styles.title}>{title}</Text>
         </View>
         <View style={styles.rightInnerContainer}>
-          <Switch
-            ios_backgroundColor={'black'}
-            trackColor={{false: '#ededed', true: '#b4eee7'}}
-            value={isActive}
-            onValueChange={onChange}
-          />
+          <SwitcherInput isActive={isActive} onToggle={onChange} />
         </View>
       </View>
-
-      <View style={styles.descContainer}>
-        <Text>{getAlphabeticalDays(days)}</Text>
-      </View>
+      <DayPicker activeDays={days} isDisabled={true} />
     </TouchableOpacity>
   );
 }
 
 export default AlarmInfo;
-
-function getAlphabeticalDays(days: any) {
-  let weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sa t'];
-  let activeDays = [];
-  for (let i = 0; i < days.length; i++) {
-    activeDays.push(weekdays[parseInt(days[i])] + ' ');
-  }
-  return activeDays;
-}
 
 const styles = StyleSheet.create({
   container: {
@@ -66,24 +71,36 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 10,
     marginBottom: 10,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    marginHorizontal: '5%',
+    height: 120,
+    display: 'flex',
+    justifyContent: 'space-between',
+    shadowColor: '#4dd1d1d1',
+    shadowOffset: {
+      width: 5,
+      height: 5,
+    },
+    shadowOpacity: 0.02,
+    elevation: 10,
   },
   alarmUpperBlock: {
     alignItems: 'center',
     flexDirection: 'row',
+    flex: 3,
   },
   leftInnerContainer: {
     alignItems: 'center',
     flexDirection: 'row',
   },
   rightInnerContainer: {
-    margin: 5,
-    marginRight: 0,
     flex: 1,
     alignItems: 'flex-end',
   },
-  descContainer: {
-    flexDirection: 'row',
-    color: 'grey',
+  timeRange: {
+    color: '#0f5078',
+    fontSize: 18,
   },
   clock: {
     color: '#0f5078',
@@ -98,6 +115,7 @@ const styles = StyleSheet.create({
   clockIcon: {
     width: 15,
     height: 15,
-    marginHorizontal: 10,
+
+    marginRight: 5.5,
   },
 });

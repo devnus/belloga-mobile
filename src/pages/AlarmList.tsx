@@ -1,7 +1,7 @@
-import axios from 'axios';
 import React, {useEffect, useState} from 'react';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {Animated, ScrollView, StyleSheet, Text, View} from 'react-native';
 import AlarmInfo from '../components/AlarmInfo';
+import AddButton from '../components/AlarmSetting/AddButton';
 import {
   disableAlarm,
   enableAlarm,
@@ -30,21 +30,56 @@ function AlarmList({navigation}: any) {
       navigation.navigate('Ring', {alarmUid});
     }
   }
+
+  let AnimatedHeaderValue = new Animated.Value(0);
+  const Header_Maximum_Height = 200;
+  //Max Height of the Header
+  const Header_Minimum_Height = 50;
+  //Min Height of the Header
+
+  const animateHeaderHeight = AnimatedHeaderValue.interpolate({
+    inputRange: [0, Header_Maximum_Height - Header_Minimum_Height],
+    outputRange: [Header_Maximum_Height, Header_Minimum_Height],
+    extrapolate: 'clamp',
+  });
+
   return (
     <View style={styles.container}>
-      <View style={styles.earliestAlarmContainer}>
-        {alarms.length == 0 ? (
-          <Text> 알람이 없습니다 </Text>
-        ) : (
-          <View style={styles.earliestAlarmContainer}>
-            <Text> 다음 알람까지 </Text>
-            <Text> 11 : 00 : 30 </Text>
-            <Text> 06월 29일 8:56 </Text>
+      <Animated.View
+        style={[
+          styles.animatedToolbarContainer,
+          {
+            height: animateHeaderHeight,
+            // backgroundColor: '#f2f6f7',
+          },
+        ]}>
+        <View style={styles.earliestAlarmContainer}>
+          {alarms.length == 0 ? (
+            <Text> 알람이 없습니다 </Text>
+          ) : (
+            <View style={styles.nextAlarmTextContainer}>
+              <Text style={styles.nextAlarmGuideText}> 다음 알람까지 </Text>
+              <Text style={styles.nextAlarmLeftTime}> 11 : 00 </Text>
+              <Text style={styles.nextAlarmInfo}> 06월 29일 8:56 </Text>
+            </View>
+          )}
+          <View style={styles.addButtonContainer}>
+            <AddButton
+              title={'+'}
+              onPress={() => navigation.navigate('Edit')}
+            />
           </View>
-        )}
-      </View>
+        </View>
+      </Animated.View>
+
       <View style={styles.innerContainer}>
-        <ScrollView contentContainerStyle={styles.scrollView}>
+        <ScrollView
+          contentContainerStyle={styles.scrollView}
+          scrollEventThrottle={16}
+          onScroll={Animated.event(
+            [{nativeEvent: {contentOffset: {y: AnimatedHeaderValue}}}],
+            {useNativeDriver: false},
+          )}>
           {alarms &&
             alarms.map(a => (
               <AlarmInfo
@@ -77,26 +112,50 @@ const styles = StyleSheet.create({
   earliestAlarmContainer: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'white',
+    justifyContent: 'flex-end',
+    flexDirection: 'column',
+    width: '90%',
+  },
+  animatedToolbarContainer: {
+    justifyContent: 'flex-end',
+    flexDirection: 'column',
+  },
+  addButtonContainer: {
+    height: 50,
+    width: '100%',
+    justifyContent: 'flex-end',
+    flexDirection: 'row',
+    backgroundColor: '#f2f6f7',
   },
   container: {
     height: '100%',
     width: '100%',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
     backgroundColor: '#f2f6f7',
   },
   innerContainer: {
-    width: '90%',
-    height: '90%',
-    display: 'flex',
     alignItems: 'center',
+    flex: 1,
   },
   scrollView: {
-    width: '90%',
+    width: '100%',
     alignItems: 'center',
-    justifyContent: 'center',
+  },
+  nextAlarmTextContainer: {
+    alignItems: 'center',
+  },
+  nextAlarmGuideText: {
+    color: '#8abccb',
+    fontSize: 14,
+  },
+  nextAlarmLeftTime: {
+    color: '#0f5078',
+    fontSize: 50,
+    fontWeight: 'bold',
+  },
+  nextAlarmInfo: {
+    color: '#0f5078',
+    fontSize: 18,
   },
 });

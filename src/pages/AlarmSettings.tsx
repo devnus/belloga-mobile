@@ -1,15 +1,17 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import Alarm, {
   removeAlarm,
   scheduleAlarm,
   updateAlarm,
 } from '../modules/alarms';
-import TextInput from '../components/TextInput';
-import DayPicker from '../components/DayPicker';
-import TimePicker from '../components/TimePicker';
+import TextInput from '../components/AlarmSetting/TextInput';
+import DayPicker from '../components/AlarmSetting/DayPicker';
+import TimePicker from '../components/AlarmSetting/TimePicker';
 import Button from '../components/Button';
-import SwitcherInput from '../components/SwitcherInput';
+import AlarmSettingDetail from '../components/AlarmSetting/AlarmSettingDetail';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import SettingTitleText from '../components/AlarmSetting/SettingTitleText';
 
 function AlarmSettings({route, navigation}) {
   const [alarm, setAlarm] = useState(null);
@@ -30,6 +32,7 @@ function AlarmSettings({route, navigation}) {
     for (let u of updates) {
       a[u[0]] = u[1];
     }
+    console.log('눌렸뜸', updates);
     setAlarm(a);
   }
 
@@ -41,7 +44,7 @@ function AlarmSettings({route, navigation}) {
     if (mode === 'CREATE') {
       await scheduleAlarm(alarm);
     }
-    console.log('alarmSettings', 'setting Complete');
+    console.log('alarmSettings', alarm);
     navigation.goBack();
   }
 
@@ -54,55 +57,68 @@ function AlarmSettings({route, navigation}) {
     return <View />;
   }
   return (
-    <View style={globalStyles.container}>
-      <View style={[globalStyles.innerContainer, styles.container]}>
-        <View styles={styles.inputsContainer}>
-          <TimePicker
-            onChange={(h, m) =>
-              update([
-                ['hour', h],
-                ['minutes', m],
-              ])
-            }
-            hour={alarm.hour}
-            minutes={alarm.minutes}
-          />
+    <View style={styles.container}>
+      <View style={styles.inputsContainer}>
+        <TimePicker
+          onChange={(h, m) =>
+            update([
+              ['hour', h],
+              ['minutes', m],
+            ])
+          }
+          hour={alarm.hour}
+          minutes={alarm.minutes}
+        />
+      </View>
+
+      <View style={styles.selectionsContainer}>
+        <View style={styles.scrollView}>
+          <ScrollView>
+            <DayPicker
+              onChange={v => update([['days', v]])}
+              activeDays={alarm.days}
+            />
+            <TextInput
+              description={'알람 이름'}
+              onChangeText={v => update([['title', v]])}
+              value={alarm.title}
+            />
+
+            <SettingTitleText text="설정" />
+            <View style={styles.settingsDetailContainer}>
+              <AlarmSettingDetail
+                detailTitle="공휴일에 알람 끄기"
+                detailDiscription="대체 공휴일, 임시 공휴일 미포함"
+              />
+              <AlarmSettingDetail
+                detailTitle="소리"
+                detailDiscription="어쩔티비"
+              />
+              <AlarmSettingDetail detailTitle="진동" detailDiscription="On" />
+
+              <AlarmSettingDetail
+                detailTitle="다시 울림"
+                detailDiscription="5분 간격으로 다시 울림"
+              />
+            </View>
+
+            {mode === 'EDIT' && <Button onPress={onDelete} title={'삭제'} />}
+          </ScrollView>
         </View>
 
-        <TextInput
-          description={'Title'}
-          style={styles.textInput}
-          onChangeText={v => update([['title', v]])}
-          value={alarm.title}
-        />
-        <TextInput
-          description={'Description'}
-          style={styles.textInput}
-          onChangeText={v => update([['description', v]])}
-          value={alarm.description}
-        />
-
-        <SwitcherInput
-          description={'진동모드'}
-          value={'진동모드'}
-          onChange={v => v}
-        />
-
-        <SwitcherInput
-          description={'Repeat'}
-          value={alarm.repeating}
-          onChange={v => update([['repeating', v]])}
-        />
-        {alarm.repeating && (
-          <DayPicker
-            onChange={v => update([['days', v]])}
-            activeDays={alarm.days}
-          />
-        )}
-
         <View style={styles.buttonContainer}>
-          {mode === 'EDIT' && <Button onPress={onDelete} title={'Delete'} />}
-          <Button fill={true} onPress={onSave} title={'Save'} />
+          {/* {mode === 'EDIT' && <Button onPress={onDelete} title={'Delete'} />} */}
+          <View style={styles.buttonBox}>
+            <Button
+              onPress={() => {
+                navigation.goBack();
+              }}
+              title={'취소'}
+            />
+          </View>
+          <View style={styles.buttonBox}>
+            <Button fill={true} onPress={onSave} title={'저장'} />
+          </View>
         </View>
       </View>
     </View>
@@ -113,37 +129,40 @@ export default AlarmSettings;
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'space-around',
-    alignItems: 'center',
     height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    backgroundColor: '#f2f6f7',
+    justifyContent: 'space-between',
+    flex: 1,
   },
   inputsContainer: {
-    width: '100%',
+    justifyContent: 'center',
+    flex: 2,
   },
   buttonContainer: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-around',
-  },
-});
-const globalStyles = StyleSheet.create({
-  container: {
-    height: '100%',
-    width: '100%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
     backgroundColor: 'white',
   },
-  innerContainer: {
-    width: '90%',
-    height: '90%',
-    display: 'flex',
-    alignItems: 'center',
+  selectionsContainer: {
+    flex: 3,
   },
   scrollView: {
-    width: '90%',
-    alignItems: 'center',
-    justifyContent: 'center',
+    paddingHorizontal: 13,
+    paddingTop: 24.5,
+    borderTopRightRadius: 30,
+    borderTopLeftRadius: 30,
+    backgroundColor: 'white',
+    flex: 3,
+  },
+  settingsDetailContainer: {
+    borderTopColor: '#dce2e3',
+    borderTopWidth: 1,
+    paddingTop: 10,
+  },
+  buttonBox: {
+    flex: 1,
   },
 });

@@ -24,12 +24,13 @@ const styles = StyleSheet.create({
     margin: 10,
     paddingLeft: 20,
     paddingRight: 20,
-    borderWidth: 2,
-    borderColor: '#1992fe',
-    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: '#0f5078',
+    borderRadius: 20,
+    alignItems: 'center',
   },
   fillContainer: {
-    backgroundColor: '#1992fe',
+    backgroundColor: '#0f5078',
   },
   normalContainer: {
     backgroundColor: 'transparent',
@@ -41,6 +42,6 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   normalText: {
-    color: '#1992fe',
+    color: '#0f5078',
   },
 });
