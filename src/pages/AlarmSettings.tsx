@@ -101,18 +101,24 @@ function AlarmSettings({route, navigation}) {
                 detailDiscription="5분 간격으로 다시 울림"
               />
             </View>
+
+            {mode === 'EDIT' && <Button onPress={onDelete} title={'삭제'} />}
           </ScrollView>
         </View>
 
         <View style={styles.buttonContainer}>
           {/* {mode === 'EDIT' && <Button onPress={onDelete} title={'Delete'} />} */}
-          <Button
-            onPress={() => {
-              navigation.goBack();
-            }}
-            title={'Cancel'}
-          />
-          <Button fill={true} onPress={onSave} title={'Save'} />
+          <View style={styles.buttonBox}>
+            <Button
+              onPress={() => {
+                navigation.goBack();
+              }}
+              title={'취소'}
+            />
+          </View>
+          <View style={styles.buttonBox}>
+            <Button fill={true} onPress={onSave} title={'저장'} />
+          </View>
         </View>
       </View>
     </View>
@@ -156,19 +162,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     paddingTop: 10,
   },
-  item1: {
-    width: 50,
-    height: 50,
-    backgroundColor: 'red',
-  },
-  item2: {
-    width: 50,
-    height: 50,
-    backgroundColor: 'yellow',
-  },
-  item3: {
-    width: 50,
-    height: 50,
-    backgroundColor: 'green',
+  buttonBox: {
+    flex: 1,
   },
 });
