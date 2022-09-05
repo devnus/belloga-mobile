@@ -32,7 +32,7 @@ function AlarmList({navigation}: any) {
   }
 
   let AnimatedHeaderValue = new Animated.Value(0);
-  const Header_Maximum_Height = 150;
+  const Header_Maximum_Height = 200;
   //Max Height of the Header
   const Header_Minimum_Height = 50;
   //Min Height of the Header
@@ -47,20 +47,20 @@ function AlarmList({navigation}: any) {
     <View style={styles.container}>
       <Animated.View
         style={[
-          styles.earliestAlarmContainer,
+          styles.animatedToolbarContainer,
           {
             height: animateHeaderHeight,
-            backgroundColor: '#f2f6f7',
+            // backgroundColor: '#f2f6f7',
           },
         ]}>
         <View style={styles.earliestAlarmContainer}>
           {alarms.length == 0 ? (
             <Text> 알람이 없습니다 </Text>
           ) : (
-            <View style={styles.earliestTextContainer}>
-              <Text> 다음 알람까지 </Text>
-              <Text> 11 : 00 : 30 </Text>
-              <Text> 06월 29일 8:56 </Text>
+            <View style={styles.nextAlarmTextContainer}>
+              <Text style={styles.nextAlarmGuideText}> 다음 알람까지 </Text>
+              <Text style={styles.nextAlarmLeftTime}> 11 : 00 </Text>
+              <Text style={styles.nextAlarmInfo}> 06월 29일 8:56 </Text>
             </View>
           )}
           <View style={styles.addButtonContainer}>
@@ -116,10 +116,16 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     width: '90%',
   },
+  animatedToolbarContainer: {
+    justifyContent: 'flex-end',
+    flexDirection: 'column',
+  },
   addButtonContainer: {
+    height: 50,
     width: '100%',
     justifyContent: 'flex-end',
     flexDirection: 'row',
+    backgroundColor: '#f2f6f7',
   },
   container: {
     height: '100%',
@@ -135,5 +141,21 @@ const styles = StyleSheet.create({
   scrollView: {
     width: '90%',
     alignItems: 'center',
+  },
+  nextAlarmTextContainer: {
+    alignItems: 'center',
+  },
+  nextAlarmGuideText: {
+    color: '#8abccb',
+    fontSize: 14,
+  },
+  nextAlarmLeftTime: {
+    color: '#0f5078',
+    fontSize: 50,
+    fontWeight: 'bold',
+  },
+  nextAlarmInfo: {
+    color: '#0f5078',
+    fontSize: 18,
   },
 });
