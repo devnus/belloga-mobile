@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollView: {
-    width: '90%',
+    width: '100%',
     alignItems: 'center',
   },
   nextAlarmTextContainer: {

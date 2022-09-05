@@ -2,7 +2,11 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
 
-export default function ({activeDays = [], onChange = () => null}) {
+export default function ({
+  activeDays = [],
+  onChange = () => null,
+  isDisabled = false,
+}) {
   // NOTICE: days doesn't change if prop activeDays changes
   const [days, setDays] = useState(activeDays);
 
@@ -23,6 +27,7 @@ export default function ({activeDays = [], onChange = () => null}) {
             isActive={isSelected}
             dayIndex={index}
             onUpdate={onDayChange}
+            isDisabled={isDisabled}
           />
         ))}
       </View>
@@ -30,7 +35,7 @@ export default function ({activeDays = [], onChange = () => null}) {
   );
 }
 
-function Day({isActive, dayIndex, onUpdate}) {
+function Day({isActive, dayIndex, onUpdate, isDisabled}) {
   return (
     <View style={{flex: 1}}>
       <TouchableOpacity
@@ -38,6 +43,7 @@ function Day({isActive, dayIndex, onUpdate}) {
           isActive ? styles.selectedBtn : styles.unselectedBtn,
           styles.btnContainer,
         ]}
+        disabled={isDisabled}
         onPress={() => onUpdate(dayIndex)}>
         <Text
           style={[

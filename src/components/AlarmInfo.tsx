@@ -1,5 +1,6 @@
 import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import DayPicker from './AlarmSetting/DayPicker';
 import SwitcherInput from './SwitcherInput';
 
 // // type alarmInfoProps = {
@@ -50,31 +51,19 @@ function AlarmInfo({
             {newHour(hour) < 10 ? '0' + newHour(hour) : newHour(hour)}:
             {minutes < 10 ? '0' + minutes : minutes}
           </Text>
-          <Text style={styles.title}> {hour < 12 ? 'AM' : 'PM'}</Text>
+          <Text style={styles.timeRange}> {hour < 12 ? 'AM' : 'PM'}</Text>
           <Text style={styles.title}>{title}</Text>
         </View>
         <View style={styles.rightInnerContainer}>
           <SwitcherInput isActive={isActive} onToggle={onChange} />
         </View>
       </View>
-
-      <View style={styles.descContainer}>
-        <Text>{getAlphabeticalDays(days)}</Text>
-      </View>
+      <DayPicker activeDays={days} isDisabled={true} />
     </TouchableOpacity>
   );
 }
 
 export default AlarmInfo;
-
-function getAlphabeticalDays(days: any) {
-  let weekdays = ['일', '월', '화', '수', '목', '금', '토'];
-  let activeDays = [];
-  for (let i = 0; i < days.length; i++) {
-    activeDays.push(weekdays[parseInt(days[i])] + ' ');
-  }
-  return activeDays;
-}
 
 const styles = StyleSheet.create({
   container: {
@@ -82,9 +71,19 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 10,
     marginBottom: 10,
-    height: 100,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    marginHorizontal: '5%',
+    height: 120,
     display: 'flex',
     justifyContent: 'space-between',
+    shadowColor: '#4dd1d1d1',
+    shadowOffset: {
+      width: 5,
+      height: 5,
+    },
+    shadowOpacity: 0.02,
+    elevation: 10,
   },
   alarmUpperBlock: {
     alignItems: 'center',
@@ -96,15 +95,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   rightInnerContainer: {
-    margin: 5,
-    marginRight: 0,
     flex: 1,
     alignItems: 'flex-end',
   },
-  descContainer: {
-    flexDirection: 'row',
-    color: 'grey',
-    flex: 1,
+  timeRange: {
+    color: '#0f5078',
+    fontSize: 18,
   },
   clock: {
     color: '#0f5078',
@@ -119,6 +115,7 @@ const styles = StyleSheet.create({
   clockIcon: {
     width: 15,
     height: 15,
-    marginHorizontal: 10,
+
+    marginRight: 5.5,
   },
 });
