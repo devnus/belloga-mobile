@@ -1,5 +1,4 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableHighlight} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import AlarmList from './AlarmList';
@@ -15,15 +14,7 @@ function Alarms() {
       <Stack.Screen
         name="Alarms"
         component={AlarmList}
-        options={params => ({
-          title: 'Alarms',
-          headerRight: () => (
-            <AddButton
-              title={'+ '}
-              onPress={() => params.navigation.navigate('Edit')}
-            />
-          ),
-        })}
+        options={{headerShown: false}}
       />
       <Stack.Screen
         name="Edit"
@@ -43,28 +34,5 @@ function Alarms() {
     </Stack.Navigator>
   );
 }
-
-function AddButton({title, onPress}: any) {
-  return (
-    <TouchableHighlight
-      style={styles.button}
-      onPress={onPress}
-      underlayColor="#fff">
-      <Text style={styles.buttonText}>{title}</Text>
-    </TouchableHighlight>
-  );
-}
-
-const styles = StyleSheet.create({
-  button: {
-    backgroundColor: 'transparent',
-    padding: 10,
-  },
-  buttonText: {
-    color: 'black',
-    fontWeight: 'bold',
-    fontSize: 25,
-  },
-});
 
 export default Alarms;

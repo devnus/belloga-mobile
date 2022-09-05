@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Animated, ScrollView, StyleSheet, Text, View} from 'react-native';
 import AlarmInfo from '../components/AlarmInfo';
+import AddButton from '../components/AlarmSetting/AddButton';
 import {
   disableAlarm,
   enableAlarm,
@@ -36,12 +37,6 @@ function AlarmList({navigation}: any) {
   const Header_Minimum_Height = 50;
   //Min Height of the Header
 
-  const animateHeaderBackgroundColor = AnimatedHeaderValue.interpolate({
-    inputRange: [0, Header_Maximum_Height - Header_Minimum_Height],
-    outputRange: ['#4286F4', '#00BCD4'],
-    extrapolate: 'clamp',
-  });
-
   const animateHeaderHeight = AnimatedHeaderValue.interpolate({
     inputRange: [0, Header_Maximum_Height - Header_Minimum_Height],
     outputRange: [Header_Maximum_Height, Header_Minimum_Height],
@@ -62,12 +57,18 @@ function AlarmList({navigation}: any) {
           {alarms.length == 0 ? (
             <Text> 알람이 없습니다 </Text>
           ) : (
-            <View style={styles.earliestAlarmContainer}>
+            <View style={styles.earliestTextContainer}>
               <Text> 다음 알람까지 </Text>
               <Text> 11 : 00 : 30 </Text>
               <Text> 06월 29일 8:56 </Text>
             </View>
           )}
+          <View style={styles.addButtonContainer}>
+            <AddButton
+              title={'+'}
+              onPress={() => navigation.navigate('Edit')}
+            />
+          </View>
         </View>
       </Animated.View>
 
@@ -111,7 +112,14 @@ const styles = StyleSheet.create({
   earliestAlarmContainer: {
     display: 'flex',
     alignItems: 'center',
-    backgroundColor: 'white',
+    justifyContent: 'flex-end',
+    flexDirection: 'column',
+    width: '90%',
+  },
+  addButtonContainer: {
+    width: '100%',
+    justifyContent: 'flex-end',
+    flexDirection: 'row',
   },
   container: {
     height: '100%',
@@ -122,6 +130,7 @@ const styles = StyleSheet.create({
   },
   innerContainer: {
     alignItems: 'center',
+    flex: 1,
   },
   scrollView: {
     width: '90%',

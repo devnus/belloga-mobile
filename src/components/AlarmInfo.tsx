@@ -23,6 +23,9 @@ function AlarmInfo({
   isActive,
   onChange,
 }: any) {
+  /**
+   24시간 포맷으로 된 시간 정보를 넣으면 AM, PM 이 붙어 12시간 포맷으로 가공되는 함수다
+   */
   function newHour(hour) {
     let changedHour;
     if (hour - 12 > 0) {
@@ -79,7 +82,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 10,
     marginBottom: 10,
-    height: '10%',
+    height: 100,
     display: 'flex',
     justifyContent: 'space-between',
   },
