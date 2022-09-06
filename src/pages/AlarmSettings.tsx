@@ -27,6 +27,11 @@ function AlarmSettings({route, navigation}) {
     }
   }, []);
 
+  /**
+  업데이트 시키는 함수를 넣으면 알람 정보에 있는 걸 업데이트 시켜주는 함수
+   * @param updates : 
+   */
+
   function update(updates) {
     const a = Object.assign({}, alarm);
     for (let u of updates) {

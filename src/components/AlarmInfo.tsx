@@ -39,6 +39,8 @@ function AlarmInfo({
     return changedHour;
   }
 
+  console.log('나는 다시 불려졌다.', days);
+
   return (
     <TouchableOpacity onPress={() => onPress(uid)} style={styles.container}>
       <View style={styles.alarmUpperBlock}>

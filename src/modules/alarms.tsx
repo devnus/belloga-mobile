@@ -11,7 +11,6 @@ export async function scheduleAlarm(alarm) {
   }
   try {
     await AlarmService.set(alarm.toAndroid());
-    console.log('scheduling alarm: ', JSON.stringify(alarm));
   } catch (e) {
     console.log(e);
   }

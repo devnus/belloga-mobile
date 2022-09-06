@@ -36,6 +36,7 @@ public class Manager {
                 Log.d(TAG, "rescheduling alarm: " + alarm.uid);
             }
         }
+        
     }
 
     static void update(Context context, Alarm alarm) {

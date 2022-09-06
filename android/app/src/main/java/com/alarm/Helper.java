@@ -13,6 +13,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
@@ -45,6 +46,11 @@ class Helper {
         } else {
             alarmManager.set(AlarmManager.RTC_WAKEUP, triggerAtMillis, pendingIntent);
         }
+        Float times = (((float)(triggerAtMillis - System.currentTimeMillis())) / (1000 * 60));
+        String remainHours = Float.toString( times / 60);
+        String remainMinutes = Float.toString( times % 60);
+
+        Toast.makeText(context, "알람이 "+ remainHours+ "시간" + remainMinutes + "분" + " 안에 울립니다", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "SDK version: " + Build.VERSION.SDK_INT);
         Log.d(TAG, "scheduling alarm with notification id: " + notificationID);
         Log.d(TAG, "alarm scheduled to fire in " + (((float)(triggerAtMillis - System.currentTimeMillis())) / (1000 * 60)) + "min");

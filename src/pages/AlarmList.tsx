@@ -30,6 +30,7 @@ function AlarmList({navigation}: any) {
       navigation.navigate('Ring', {alarmUid});
     }
   }
+  console.log(alarms);
 
   let AnimatedHeaderValue = new Animated.Value(0);
   const Header_Maximum_Height = 200;
@@ -81,25 +82,30 @@ function AlarmList({navigation}: any) {
             {useNativeDriver: false},
           )}>
           {alarms &&
-            alarms.map(a => (
-              <AlarmInfo
-                key={a.uid}
-                uid={a.uid}
-                onChange={async active => {
-                  if (active) {
-                    await enableAlarm(a.uid);
-                  } else {
-                    await disableAlarm(a.uid);
-                  }
-                }}
-                onPress={() => navigation.navigate('Edit', {alarm: a})}
-                title={a.title}
-                hour={a.hour}
-                minutes={a.minutes}
-                days={a.days}
-                isActive={a.active}
-              />
-            ))}
+            alarms.map(a => {
+              console.log('map function', a.days);
+              return (
+                <AlarmInfo
+                  key={a.uid}
+                  uid={a.uid}
+                  onChange={async active => {
+                    if (active) {
+                      await enableAlarm(a.uid);
+                      setAlarms(await getAllAlarms());
+                    } else {
+                      await disableAlarm(a.uid);
+                      setAlarms(await getAllAlarms());
+                    }
+                  }}
+                  onPress={() => navigation.navigate('Edit', {alarm: a})}
+                  title={a.title}
+                  hour={a.hour}
+                  minutes={a.minutes}
+                  days={a.days}
+                  isActive={a.active}
+                />
+              );
+            })}
         </ScrollView>
       </View>
     </View>
