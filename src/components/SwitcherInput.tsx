@@ -9,9 +9,12 @@ export default function ({
   offColor = '#ededed',
   onToggle,
 }) {
-  console.log('나는 스위치 버튼으로 다시 불려졌다', isActive);
   const [aniValue, setAniValue] = useState(new Animated.Value(0));
-  const [isEnabled, setIsEnabled] = useState(isActive);
+  const [isEnabled, setIsEnabled] = useState<boolean>(isActive);
+
+  useEffect(() => {
+    setIsEnabled(() => isActive);
+  }, [isActive]);
 
   const toggleSwitch = () => {
     onToggle(!isEnabled);
