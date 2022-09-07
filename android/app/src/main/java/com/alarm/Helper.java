@@ -46,11 +46,7 @@ class Helper {
         } else {
             alarmManager.set(AlarmManager.RTC_WAKEUP, triggerAtMillis, pendingIntent);
         }
-        Float times = (((float)(triggerAtMillis - System.currentTimeMillis())) / (1000 * 60));
-        String remainHours = Float.toString( times / 60);
-        String remainMinutes = Float.toString( times % 60);
 
-        Toast.makeText(context, "알람이 "+ remainHours+ "시간" + remainMinutes + "분" + " 안에 울립니다", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "SDK version: " + Build.VERSION.SDK_INT);
         Log.d(TAG, "scheduling alarm with notification id: " + notificationID);
         Log.d(TAG, "alarm scheduled to fire in " + (((float)(triggerAtMillis - System.currentTimeMillis())) / (1000 * 60)) + "min");
@@ -114,6 +110,29 @@ class Helper {
             Log.d(TAG, "didn't need to create a notification channel");
         }
     }
+    
+    // private void turnScreenOnAndKeyguardOf(Context context) {
+    //     // Create the NotificationChannel, but only on API 26+ because
+    //     // the NotificationChannel class is new and not in the support library
+    //     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+    //         setShowWhenLocked(true);
+    //         setTurnScreenOn(true);
+    //         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+    //         | WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
+    //     } else {
+    //         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED    // deprecated api 27
+    //         | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD     // deprecated api 26
+    //         | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+    //         | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON   // deprecated api 27
+    //         | WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
+    //     }
+
+    //     KeyguardManager keyguardMgr =(KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
+    //     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+    //         keyguardMgr.requestDismissKeyguard(this, null) ;
+    //     }
+    // }
+    
 
     protected static Notification getNotification(Context context, int id, String alarmUid, String title, String description) {
         Resources res = context.getResources();
@@ -133,6 +152,7 @@ class Helper {
                 .setSound(null)
                 .setVibrate(null)
                 .setContentIntent(createOnClickedIntent(context, alarmUid, id))
+                .setFullScreenIntent(createOnClickedIntent(context, alarmUid, id), true)
                 .setDeleteIntent(createOnDismissedIntent(context, alarmUid, id));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

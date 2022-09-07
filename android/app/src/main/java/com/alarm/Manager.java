@@ -1,6 +1,7 @@
 package com.alarm;
 
 import android.content.Context;
+import android.widget.Toast;
 import android.util.Log;
 
 import java.util.Date;
@@ -77,6 +78,16 @@ public class Manager {
 
     static void enable(Context context, String alarmUid) {
         Alarm alarm = Storage.getAlarm(context, alarmUid);
+        AlarmDates dates = alarm.getAlarmDates();
+
+        Date nearestDate = getNearestDate(dates);
+
+        Integer times = (int) ((((long)(nearestDate.getTime() - System.currentTimeMillis())) / (1000 * 60)) + 1 );
+        String remainHours = Integer.toString(times / 60);
+        String remainMinutes = Integer.toString(times % 60);
+
+        Toast.makeText(context, "알람이 "+ remainHours+ "시간" + remainMinutes + "분" + " 안에 울립니다", Toast.LENGTH_SHORT).show();
+
         if (!alarm.active) {
             alarm.active = true;
             Storage.saveAlarm(context, alarm);
@@ -84,12 +95,26 @@ public class Manager {
             Log.d(TAG, "Alarm already active - exiting job");
             return;
         }
-        AlarmDates dates = alarm.getAlarmDates();
+
         Storage.saveDates(context, dates);
+
         for (Date date : dates.getDates()) {
             Helper.scheduleAlarm(context, alarmUid, date.getTime(), dates.getNotificationId(date));
         }
     }
+
+    static Date getNearestDate(AlarmDates dates) {
+        long minDiff = -1, currentTime = System.currentTimeMillis();
+        Date minDate = null;
+        for (Date date : dates.getDates()) {
+          long diff = Math.abs(System.currentTimeMillis() - date.getTime());
+          if ((minDiff == -1) || (diff < minDiff)) {
+            minDiff = diff;
+            minDate = date;
+          }
+        }
+        return minDate;
+      }
 
     static void disable(Context context, String alarmUid) {
         Alarm alarm = Storage.getAlarm(context, alarmUid);

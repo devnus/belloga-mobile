@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import Alarm, {
   calcAlarmRingTime,
+  enableAlarm,
   removeAlarm,
   scheduleAlarm,
   updateAlarm,
@@ -61,16 +62,19 @@ function AlarmSettings({route, navigation}) {
   async function onSave() {
     if (alarm.days.length === 0) {
       alarm.repeating = false;
+      const day: number = calcAlarmRingTime(alarm.hour, alarm.minutes);
+      alarm.days = [day];
     } else {
       alarm.repeating = true;
     }
 
     if (mode === 'EDIT') {
-      alarm.active = true;
       await updateAlarm(alarm);
+      await enableAlarm(alarm.uid);
     }
     if (mode === 'CREATE') {
       await scheduleAlarm(alarm);
+      await enableAlarm(alarm.uid);
     }
     console.log('alarmSettings', alarm);
     navigation.goBack();

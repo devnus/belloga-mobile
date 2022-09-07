@@ -35,7 +35,7 @@ function AlarmList({navigation}: any) {
 
   useEffect(() => {
     calcNextAlarm(); //가장 빨리 울리는 알람의 시간을 계산
-    alarms && calcNoRepeatingAlarmTime(); //repeat에 false가 눌러져 있다면
+    alarms && calcNoRepeatingAlarmTime(); //repeat에 false가 눌러져 있는 알람들이 언제 울려야 하는지 알려준다
   }, [alarms]);
 
   async function fetchState() {
