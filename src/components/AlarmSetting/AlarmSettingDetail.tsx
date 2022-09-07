@@ -4,7 +4,7 @@ import SwitcherInput from '../SwitcherInput';
 
 function AlarmSettingDetail({
   detailTitle = '',
-  detailDiscription = '',
+  detailDescription = '',
   isActive = false,
   onChange,
 }) {
@@ -13,7 +13,7 @@ function AlarmSettingDetail({
       <View style={styles.leftInnerContainer}>
         <View>
           <Text style={styles.settingSubject}> {detailTitle}</Text>
-          <Text style={styles.settingDescribe}> {detailDiscription}</Text>
+          <Text style={styles.settingDescribe}> {detailDescription}</Text>
         </View>
       </View>
       <View style={styles.rightInnerContainer}>

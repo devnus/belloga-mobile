@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import Alarm, {
+  calcAlarmRingTime,
   removeAlarm,
   scheduleAlarm,
   updateAlarm,
@@ -13,8 +14,21 @@ import AlarmSettingDetail from '../components/AlarmSetting/AlarmSettingDetail';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import SettingTitleText from '../components/AlarmSetting/SettingTitleText';
 
+export type AlarmType = {
+  active: boolean;
+  days: number[];
+  description: string;
+  enabled: boolean;
+  hour: number;
+  minutes: number;
+  repeating: boolean;
+  snoozeInterval: number;
+  title: string;
+  uid: string;
+};
+
 function AlarmSettings({route, navigation}) {
-  const [alarm, setAlarm] = useState(null);
+  const [alarm, setAlarm] = useState<AlarmType>(null);
   const [mode, setMode] = useState(null);
 
   useEffect(() => {
@@ -31,7 +45,6 @@ function AlarmSettings({route, navigation}) {
   업데이트 시키는 함수를 넣으면 알람 정보에 있는 걸 업데이트 시켜주는 함수
    * @param updates : 
    */
-
   function update(updates) {
     const a = Object.assign({}, alarm);
     for (let u of updates) {
@@ -41,7 +54,17 @@ function AlarmSettings({route, navigation}) {
     setAlarm(a);
   }
 
+  /**
+   * 해당 알람을 저장할 떄, 만약 날짜를 지정하지 않았다면 repeating을 true or false로 지정한다.
+   */
+
   async function onSave() {
+    if (alarm.days.length === 0) {
+      alarm.repeating = false;
+    } else {
+      alarm.repeating = true;
+    }
+
     if (mode === 'EDIT') {
       alarm.active = true;
       await updateAlarm(alarm);
@@ -93,17 +116,17 @@ function AlarmSettings({route, navigation}) {
             <View style={styles.settingsDetailContainer}>
               <AlarmSettingDetail
                 detailTitle="공휴일에 알람 끄기"
-                detailDiscription="대체 공휴일, 임시 공휴일 미포함"
+                detailDescription="대체 공휴일, 임시 공휴일 미포함"
               />
               <AlarmSettingDetail
                 detailTitle="소리"
-                detailDiscription="어쩔티비"
+                detailDescription="어쩔티비"
               />
-              <AlarmSettingDetail detailTitle="진동" detailDiscription="On" />
+              <AlarmSettingDetail detailTitle="진동" detailDescription="On" />
 
               <AlarmSettingDetail
                 detailTitle="다시 울림"
-                detailDiscription="5분 간격으로 다시 울림"
+                detailDescription="5분 간격으로 다시 울림"
               />
             </View>
 

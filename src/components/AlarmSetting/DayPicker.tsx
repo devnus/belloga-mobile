@@ -19,8 +19,6 @@ export default function ({
     <View style={styles.container}>
       <View style={styles.innerContainer}>
         {getSelected(activeDays).map((isSelected, index) => {
-          console.log(index, '번째', isSelected);
-
           return (
             <Day
               key={index}
@@ -51,7 +49,7 @@ function Day({isActive, dayIndex, onUpdate, isDisabled}) {
             styles.text,
             isActive ? styles.selectedText : styles.unselectedText,
           ]}>
-          {getDay(dayIndex)}
+          {getKoreanDayName(dayIndex)}
         </Text>
       </TouchableOpacity>
     </View>
@@ -74,9 +72,9 @@ export function getDays(selectedBtn) {
   return activeDays;
 }
 
-function getDay(number) {
+export function getKoreanDayName(index: number) {
   let weekdays = ['일', '월', '화', '수', '목', '금', '토'];
-  return weekdays[number];
+  return weekdays[index];
 }
 
 const styles = StyleSheet.create({

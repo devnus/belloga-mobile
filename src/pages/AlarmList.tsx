@@ -3,14 +3,22 @@ import {Animated, ScrollView, StyleSheet, Text, View} from 'react-native';
 import AlarmInfo from '../components/AlarmInfo';
 import AddButton from '../components/AlarmSetting/AddButton';
 import {
+  calcAlarmRingTime,
   disableAlarm,
   enableAlarm,
   getAlarmState,
   getAllAlarms,
+  updateAlarm,
 } from '../modules/alarms';
+import {AlarmType} from './AlarmSettings';
+
+const Header_Maximum_Height = 200;
+//Max Height of the Header
+const Header_Minimum_Height = 50;
+//Min Height of the Header
 
 function AlarmList({navigation}: any) {
-  const [alarms, setAlarms] = useState([]);
+  const [alarms, setAlarms] = useState<Array<AlarmType>>([]);
   const [scheduler, setScheduler] = useState(null);
 
   useEffect(() => {
@@ -21,8 +29,14 @@ function AlarmList({navigation}: any) {
     navigation.addListener('blur', async () => {
       clearInterval(scheduler);
     });
-    fetchState();
+
+    calcNextAlarm();
   }, []);
+
+  useEffect(() => {
+    calcNextAlarm(); //가장 빨리 울리는 알람의 시간을 계산
+    alarms && calcNoRepeatingAlarmTime(); //repeat에 false가 눌러져 있다면
+  }, [alarms]);
 
   async function fetchState() {
     const alarmUid = await getAlarmState(); //알람 state를 가져온다
@@ -30,14 +44,32 @@ function AlarmList({navigation}: any) {
       navigation.navigate('Ring', {alarmUid});
     }
   }
-  console.log(alarms);
+
+  const calcNoRepeatingAlarmTime = () => {
+    const noRepeatingAlarms = alarms.filter(alarm => alarm.repeating === false);
+
+    noRepeatingAlarms.map(alarm => {
+      const day: number = calcAlarmRingTime(alarm.hour, alarm.minutes);
+      alarm.days = [day];
+      updateAlarm(alarm);
+    });
+  };
+
+  const calcNextAlarm = () => {
+    const dayOfWeekDigit = new Date().getDay();
+    console.log(alarms);
+
+    const activeAlarms = alarms.filter(alarm => alarm.active === true);
+    const noRepeatAlarms = activeAlarms.filter(
+      alarm => alarm.repeating === false,
+    );
+
+    console.log(dayOfWeekDigit);
+    console.log('active', activeAlarms);
+    console.log('closeset', noRepeatAlarms);
+  };
 
   let AnimatedHeaderValue = new Animated.Value(0);
-  const Header_Maximum_Height = 200;
-  //Max Height of the Header
-  const Header_Minimum_Height = 50;
-  //Min Height of the Header
-
   const animateHeaderHeight = AnimatedHeaderValue.interpolate({
     inputRange: [0, Header_Maximum_Height - Header_Minimum_Height],
     outputRange: [Header_Maximum_Height, Header_Minimum_Height],
@@ -82,30 +114,28 @@ function AlarmList({navigation}: any) {
             {useNativeDriver: false},
           )}>
           {alarms &&
-            alarms.map(a => {
-              console.log('map function', a.days);
-              return (
-                <AlarmInfo
-                  key={a.uid}
-                  uid={a.uid}
-                  onChange={async active => {
-                    if (active) {
-                      await enableAlarm(a.uid);
-                      setAlarms(await getAllAlarms());
-                    } else {
-                      await disableAlarm(a.uid);
-                      setAlarms(await getAllAlarms());
-                    }
-                  }}
-                  onPress={() => navigation.navigate('Edit', {alarm: a})}
-                  title={a.title}
-                  hour={a.hour}
-                  minutes={a.minutes}
-                  days={a.days}
-                  isActive={a.active}
-                />
-              );
-            })}
+            alarms.map(a => (
+              <AlarmInfo
+                key={a.uid}
+                uid={a.uid}
+                onChange={async active => {
+                  if (active) {
+                    await enableAlarm(a.uid);
+                    setAlarms(await getAllAlarms());
+                  } else {
+                    await disableAlarm(a.uid);
+                    setAlarms(await getAllAlarms());
+                  }
+                }}
+                onPress={() => navigation.navigate('Edit', {alarm: a})}
+                title={a.title}
+                repeating={a.repeating}
+                hour={a.hour}
+                minutes={a.minutes}
+                days={a.days}
+                isActive={a.active}
+              />
+            ))}
         </ScrollView>
       </View>
     </View>

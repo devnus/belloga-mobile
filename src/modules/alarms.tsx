@@ -2,10 +2,11 @@
 import {NativeModules} from 'react-native';
 import 'react-native-get-random-values';
 import {v4 as uuidv4} from 'uuid';
+import {AlarmType} from '../pages/AlarmSettings';
 
 const AlarmService = NativeModules.AlarmModule;
 
-export async function scheduleAlarm(alarm) {
+export async function scheduleAlarm(alarm: AlarmType) {
   if (!(alarm instanceof Alarm)) {
     alarm = new Alarm(alarm);
   }
@@ -48,6 +49,29 @@ export async function snoozeAlarm() {
   }
 }
 
+/**
+ 시간과 분을 넣으면 해당 알람이 오늘 울려야 하는지 내일 울려야 하는지 요일을 계산해주는 함수
+ * @param hour : number
+ * @param minutes : number
+ * @returns : number
+ */
+export function calcAlarmRingTime(hour: number, minutes: number) {
+  const today = new Date();
+  if (today.getHours() >= hour) {
+    if (today.getHours() === hour && today.getMinutes() < minutes) {
+      return today.getDay();
+    }
+
+    //일요일인 경우 0으로 핸들링
+    if (today.getDay() === 6) {
+      return 0;
+    }
+    return today.getDay() + 1;
+  } else {
+    return today.getDay();
+  }
+}
+
 export async function removeAlarm(uid) {
   try {
     await AlarmService.remove(uid);
@@ -84,7 +108,7 @@ export async function getAllAlarms() {
   }
 }
 
-export async function getAlarm(uid) {
+export async function getAlarm(uid: string) {
   try {
     const alarm = await AlarmService.get(uid);
     return Alarm.fromAndroid(alarm);
