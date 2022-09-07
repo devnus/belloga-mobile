@@ -34,7 +34,14 @@ function AlarmSettings({route, navigation}) {
 
   useEffect(() => {
     if (route.params && route.params.alarm) {
-      setAlarm(new Alarm(route.params.alarm));
+      const deliveredAlarm = route.params.alarm;
+
+      if (deliveredAlarm.repeating === false) {
+        console.log('123');
+        deliveredAlarm.days = [];
+      }
+
+      setAlarm(new Alarm(deliveredAlarm));
       setMode('EDIT');
     } else {
       setAlarm(new Alarm());
