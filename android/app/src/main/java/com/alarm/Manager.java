@@ -83,10 +83,12 @@ public class Manager {
         Date nearestDate = getNearestDate(dates);
 
         Integer times = (int) ((((long)(nearestDate.getTime() - System.currentTimeMillis())) / (1000 * 60)) + 1 );
-        String remainHours = Integer.toString(times / 60);
-        String remainMinutes = Integer.toString(times % 60);
+        Integer remainHours = times / 60;
+        Integer remainMinutes = times % 60;
 
-        Toast.makeText(context, "알람이 "+ remainHours+ "시간" + remainMinutes + "분" + " 안에 울립니다", Toast.LENGTH_SHORT).show();
+        String ringDate = getRingDate(remainHours, remainMinutes);
+
+        Toast.makeText(context, "알람이 "+ ringDate + " 뒤에 울립니다", Toast.LENGTH_SHORT).show();
 
         if (!alarm.active) {
             alarm.active = true;
@@ -102,6 +104,22 @@ public class Manager {
             Helper.scheduleAlarm(context, alarmUid, date.getTime(), dates.getNotificationId(date));
         }
     }
+
+    static String getRingDate(Integer remainHours, Integer remainMinutes) {
+        String Minutes = Integer.toString(remainMinutes);
+        String Hours = Integer.toString(remainHours % 24);
+        String Days = Integer.toString(remainHours / 24);
+
+        if (remainHours >= 24){
+            return (Days + "일 " + Hours+"시간 "+ Minutes+"분");
+        } else {
+            if (remainHours == 0){
+                return (Minutes + "분");
+            } 
+
+            return (Hours+"시간 "+ Minutes+"분");
+        }
+      }
 
     static Date getNearestDate(AlarmDates dates) {
         long minDiff = -1, currentTime = System.currentTimeMillis();
