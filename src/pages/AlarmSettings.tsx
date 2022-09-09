@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {ScrollView, StyleSheet, View} from 'react-native';
 import Alarm, {
   calcAlarmRingTime,
   enableAlarm,
@@ -81,7 +81,6 @@ function AlarmSettings({route, navigation}) {
     }
     if (mode === 'CREATE') {
       await scheduleAlarm(alarm);
-      await enableAlarm(alarm.uid);
     }
     console.log('alarmSettings', alarm);
     navigation.goBack();

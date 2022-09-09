@@ -30,6 +30,8 @@ public class Manager {
         Alarm[] alarms = Storage.getAllAlarms(context);
         for (Alarm alarm : alarms) {
             Storage.removeDates(context, alarm.uid);
+
+
             AlarmDates dates = alarm.getAlarmDates();
             Storage.saveDates(context, dates);
             for (Date date : dates.getDates()) {
@@ -37,10 +39,10 @@ public class Manager {
                 Log.d(TAG, "rescheduling alarm: " + alarm.uid);
             }
         }
-        
     }
 
     static void update(Context context, Alarm alarm) {
+        Log.d(TAG, "Updating Alarm");
         AlarmDates prevDates = Storage.getDates(context, alarm.uid);
         AlarmDates dates = alarm.getAlarmDates();
         for (Date date : dates.getDates()) {
@@ -49,7 +51,9 @@ public class Manager {
         Storage.saveAlarm(context, alarm);
         Storage.saveDates(context, dates);
         if (prevDates == null) return;
+        Log.d(TAG, "Here is prevDates");
         for (Date date : prevDates.getDates()) {
+            Log.d(TAG, "remain dates" + dates.getNotificationId(date) + "times" + date.getTime());
             Helper.cancelAlarm(context, dates.getNotificationId(date));
         }
     }
@@ -143,7 +147,8 @@ public class Manager {
             Log.d(TAG, "Alarm already inactive - exiting job");
             return;
         }
-        AlarmDates dates = Storage.getDates(context, alarmUid);
+        // AlarmDates dates = Storage.getDates(context, alarmUid);
+        AlarmDates dates = Storage.getDates(context, alarm.uid);
         for (Date date : dates.getDates()) {
             Helper.cancelAlarm(context, dates.getNotificationId(date));
         }

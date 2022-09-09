@@ -46,12 +46,15 @@ function AlarmList({navigation}: any) {
   }
 
   const calcNoRepeatingAlarmTime = () => {
+    //중복 알람이 아닌 알람들을 추려냄
     const noRepeatingAlarms = alarms.filter(alarm => alarm.repeating === false);
 
     noRepeatingAlarms.map(alarm => {
-      const day: number = calcAlarmRingTime(alarm.hour, alarm.minutes);
-      alarm.days = [day];
-      updateAlarm(alarm);
+      if (alarm.active === true) {
+        const day: number = calcAlarmRingTime(alarm.hour, alarm.minutes);
+        alarm.days = [day];
+        updateAlarm(alarm);
+      }
     });
   };
 
@@ -66,7 +69,7 @@ function AlarmList({navigation}: any) {
 
     console.log(dayOfWeekDigit);
     console.log('active', activeAlarms);
-    console.log('closeset', noRepeatAlarms);
+    console.log('closest', noRepeatAlarms);
   };
 
   let AnimatedHeaderValue = new Animated.Value(0);
@@ -87,7 +90,7 @@ function AlarmList({navigation}: any) {
           },
         ]}>
         <View style={styles.earliestAlarmContainer}>
-          {alarms.length == 0 ? (
+          {alarms.length === 0 ? (
             <Text> 알람이 없습니다 </Text>
           ) : (
             <View style={styles.nextAlarmTextContainer}>
@@ -118,7 +121,7 @@ function AlarmList({navigation}: any) {
               <AlarmInfo
                 key={a.uid}
                 uid={a.uid}
-                onChange={async active => {
+                onChange={async (active: Boolean) => {
                   if (active) {
                     await enableAlarm(a.uid);
                     setAlarms(await getAllAlarms());

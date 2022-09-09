@@ -22,7 +22,7 @@ function RenderImage({boundingBoxInfo, imageUrl}) {
       const resizedHeight = (200 * imageHeight) / imageWidth;
 
       // get the top left position of the image
-      //boundingboxId, 왼쪽 위, 윈쪽아래, 오른쪽위, 오른쪽아래
+      //boundingBboxId, 왼쪽 위, 윈쪽아래, 오른쪽위, 오른쪽아래
       setTopPosition(
         (200 - resizedHeight) / 2 + (yArray[0] / imageHeight) * resizedHeight,
       );
@@ -82,7 +82,7 @@ const showBoundingBox = (boundingBoxInfo, imageUrl) => {
 function AlarmRing({route, navigation}) {
   const [alarm, setAlarm] = useState(null);
   const [imageUrl, setImageUrl] = useState('');
-  const [answer, setAnswer] = useState('');
+  const [answer, setAnswer] = useState<String>('');
   const [loading, setLoading] = useState(false);
   const [boundingBoxList, setboundingBoxList] = useState([]);
   const [boundingBoxIndex, setBoundingBoxIndex] = useState(0);
@@ -141,14 +141,14 @@ function AlarmRing({route, navigation}) {
     }
   };
 
-  const sendLabelingResult = async (boundingBoxId, lebelText) => {
+  const sendLabelingResult = async (boundingBoxId, labelText) => {
     try {
       await axios
         .post(
-          `http://a138b0b67de234557afc8eaf29aa97b6-1258302528.ap-northeast-2.elb.amazonaws.com/api/labeled-data/v1/ocr-data`,
+          'http://a138b0b67de234557afc8eaf29aa97b6-1258302528.ap-northeast-2.elb.amazonaws.com/api/labeled-data/v1/ocr-data',
           {
             boundingBoxId: boundingBoxId,
-            label: lebelText,
+            label: labelText,
           },
           {
             headers: {
@@ -184,7 +184,7 @@ function AlarmRing({route, navigation}) {
           <TextInput
             description={'answer'}
             style={styles.textInput}
-            onChangeText={text => setAnswer(text)}
+            onChangeText={(text: String) => setAnswer(text)}
             value={answer}
           />
         </View>
