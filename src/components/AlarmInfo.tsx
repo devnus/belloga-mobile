@@ -40,8 +40,6 @@ function AlarmInfo({
     return changedHour;
   }
 
-  // const today = new Date();
-
   return (
     <TouchableOpacity onPress={() => onPress(uid)} style={styles.container}>
       <View style={styles.alarmUpperBlock}>
