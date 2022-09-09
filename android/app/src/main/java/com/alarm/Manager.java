@@ -31,7 +31,6 @@ public class Manager {
         for (Alarm alarm : alarms) {
             Storage.removeDates(context, alarm.uid);
 
-
             AlarmDates dates = alarm.getAlarmDates();
             Storage.saveDates(context, dates);
             for (Date date : dates.getDates()) {
@@ -42,7 +41,6 @@ public class Manager {
     }
 
     static void update(Context context, Alarm alarm) {
-        Log.d(TAG, "Updating Alarm");
         AlarmDates prevDates = Storage.getDates(context, alarm.uid);
         AlarmDates dates = alarm.getAlarmDates();
         for (Date date : dates.getDates()) {
@@ -51,10 +49,8 @@ public class Manager {
         Storage.saveAlarm(context, alarm);
         Storage.saveDates(context, dates);
         if (prevDates == null) return;
-        Log.d(TAG, "Here is prevDates");
         for (Date date : prevDates.getDates()) {
-            Log.d(TAG, "remain dates" + dates.getNotificationId(date) + "times" + date.getTime());
-            Helper.cancelAlarm(context, dates.getNotificationId(date));
+            Helper.cancelAlarm(context, prevDates.getNotificationId(date));
         }
     }
 
@@ -139,6 +135,7 @@ public class Manager {
       }
 
     static void disable(Context context, String alarmUid) {
+        AlarmDates dates = Storage.getDates(context, alarmUid);
         Alarm alarm = Storage.getAlarm(context, alarmUid);
         if (alarm.active) {
             alarm.active = false;
@@ -148,7 +145,6 @@ public class Manager {
             return;
         }
         // AlarmDates dates = Storage.getDates(context, alarmUid);
-        AlarmDates dates = Storage.getDates(context, alarm.uid);
         for (Date date : dates.getDates()) {
             Helper.cancelAlarm(context, dates.getNotificationId(date));
         }

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import com.bellogamobile.R;
 import com.google.gson.Gson;
 
+import android.util.Log;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
