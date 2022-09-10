@@ -1,6 +1,6 @@
 import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import DayPicker from './AlarmSetting/DayPicker';
+import DayPicker, {getKoreanDayName} from './AlarmSetting/DayPicker';
 import SwitcherInput from './SwitcherInput';
 
 // // type alarmInfoProps = {
@@ -23,18 +23,19 @@ function AlarmInfo({
   onPress,
   isActive,
   onChange,
+  repeating,
 }: any) {
   /**
    24시간 포맷으로 된 시간 정보를 넣으면 AM, PM 이 붙어 12시간 포맷으로 가공되는 함수다
    */
-  function newHour(hour) {
+  function newHour(oldHour: number) {
     let changedHour;
-    if (hour - 12 > 0) {
-      changedHour = hour - 12;
-    } else if (hour == 0) {
+    if (oldHour - 12 > 0) {
+      changedHour = oldHour - 12;
+    } else if (oldHour === 0) {
       changedHour = '12';
     } else {
-      changedHour = hour;
+      changedHour = oldHour;
     }
     return changedHour;
   }
@@ -58,7 +59,11 @@ function AlarmInfo({
           <SwitcherInput isActive={isActive} onToggle={onChange} />
         </View>
       </View>
-      <DayPicker activeDays={days} isDisabled={true} />
+      {repeating ? (
+        <DayPicker activeDays={days} isDisabled={true} />
+      ) : (
+        <Text> {getKoreanDayName(days[0])} </Text>
+      )}
     </TouchableOpacity>
   );
 }

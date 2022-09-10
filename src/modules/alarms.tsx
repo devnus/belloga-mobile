@@ -2,16 +2,16 @@
 import {NativeModules} from 'react-native';
 import 'react-native-get-random-values';
 import {v4 as uuidv4} from 'uuid';
+import {AlarmType} from '../pages/AlarmSettings';
 
 const AlarmService = NativeModules.AlarmModule;
 
-export async function scheduleAlarm(alarm) {
+export async function scheduleAlarm(alarm: AlarmType) {
   if (!(alarm instanceof Alarm)) {
     alarm = new Alarm(alarm);
   }
   try {
     await AlarmService.set(alarm.toAndroid());
-    console.log('scheduling alarm: ', JSON.stringify(alarm));
   } catch (e) {
     console.log(e);
   }
@@ -85,7 +85,7 @@ export async function getAllAlarms() {
   }
 }
 
-export async function getAlarm(uid) {
+export async function getAlarm(uid: string) {
   try {
     const alarm = await AlarmService.get(uid);
     return Alarm.fromAndroid(alarm);

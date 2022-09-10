@@ -1,6 +1,7 @@
 package com.alarm;
 
 import android.content.Context;
+import android.widget.Toast;
 import android.util.Log;
 
 import java.util.Date;
@@ -29,6 +30,7 @@ public class Manager {
         Alarm[] alarms = Storage.getAllAlarms(context);
         for (Alarm alarm : alarms) {
             Storage.removeDates(context, alarm.uid);
+
             AlarmDates dates = alarm.getAlarmDates();
             Storage.saveDates(context, dates);
             for (Date date : dates.getDates()) {
@@ -48,7 +50,7 @@ public class Manager {
         Storage.saveDates(context, dates);
         if (prevDates == null) return;
         for (Date date : prevDates.getDates()) {
-            Helper.cancelAlarm(context, dates.getNotificationId(date));
+            Helper.cancelAlarm(context, prevDates.getNotificationId(date));
         }
     }
 
@@ -76,6 +78,18 @@ public class Manager {
 
     static void enable(Context context, String alarmUid) {
         Alarm alarm = Storage.getAlarm(context, alarmUid);
+        AlarmDates dates = alarm.getAlarmDates();
+
+        Date nearestDate = getNearestDate(dates);
+
+        Integer times = (int) ((((long)(nearestDate.getTime() - System.currentTimeMillis())) / (1000 * 60)) + 1 );
+        Integer remainHours = times / 60;
+        Integer remainMinutes = times % 60;
+
+        String ringDate = getRingDate(remainHours, remainMinutes);
+
+        Toast.makeText(context, "알람이 "+ ringDate + " 뒤에 울립니다", Toast.LENGTH_SHORT).show();
+
         if (!alarm.active) {
             alarm.active = true;
             Storage.saveAlarm(context, alarm);
@@ -83,14 +97,45 @@ public class Manager {
             Log.d(TAG, "Alarm already active - exiting job");
             return;
         }
-        AlarmDates dates = alarm.getAlarmDates();
+
         Storage.saveDates(context, dates);
+
         for (Date date : dates.getDates()) {
             Helper.scheduleAlarm(context, alarmUid, date.getTime(), dates.getNotificationId(date));
         }
     }
 
+    static String getRingDate(Integer remainHours, Integer remainMinutes) {
+        String Minutes = Integer.toString(remainMinutes);
+        String Hours = Integer.toString(remainHours % 24);
+        String Days = Integer.toString(remainHours / 24);
+
+        if (remainHours >= 24){
+            return (Days + "일 " + Hours+"시간 "+ Minutes+"분");
+        } else {
+            if (remainHours == 0){
+                return (Minutes + "분");
+            } 
+
+            return (Hours+"시간 "+ Minutes+"분");
+        }
+      }
+
+    static Date getNearestDate(AlarmDates dates) {
+        long minDiff = -1, currentTime = System.currentTimeMillis();
+        Date minDate = null;
+        for (Date date : dates.getDates()) {
+          long diff = Math.abs(System.currentTimeMillis() - date.getTime());
+          if ((minDiff == -1) || (diff < minDiff)) {
+            minDiff = diff;
+            minDate = date;
+          }
+        }
+        return minDate;
+      }
+
     static void disable(Context context, String alarmUid) {
+        AlarmDates dates = Storage.getDates(context, alarmUid);
         Alarm alarm = Storage.getAlarm(context, alarmUid);
         if (alarm.active) {
             alarm.active = false;
@@ -99,7 +144,7 @@ public class Manager {
             Log.d(TAG, "Alarm already inactive - exiting job");
             return;
         }
-        AlarmDates dates = Storage.getDates(context, alarmUid);
+        // AlarmDates dates = Storage.getDates(context, alarmUid);
         for (Date date : dates.getDates()) {
             Helper.cancelAlarm(context, dates.getNotificationId(date));
         }

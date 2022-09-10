@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import {TextInput, View, StyleSheet, Text} from 'react-native';
+import {TextInput, View, StyleSheet} from 'react-native';
 import SettingTitleText from './SettingTitleText';
 
 export default function ({onChangeText, value, description}) {

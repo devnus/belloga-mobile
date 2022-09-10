@@ -2,15 +2,27 @@ import React, {useEffect, useState} from 'react';
 import {Animated, ScrollView, StyleSheet, Text, View} from 'react-native';
 import AlarmInfo from '../components/AlarmInfo';
 import AddButton from '../components/AlarmSetting/AddButton';
+import {getDays} from '../components/AlarmSetting/DayPicker';
 import {
   disableAlarm,
   enableAlarm,
   getAlarmState,
   getAllAlarms,
 } from '../modules/alarms';
+import {
+  calcNextAlarm,
+  calcNoRepeatingAlarmTime,
+} from '../modules/calcAlarmsTime';
+import {AlarmType} from './AlarmSettings';
+
+//움직이는 탭바를 위한 상수
+const Header_Maximum_Height = 200;
+//Max Height of the Header
+const Header_Minimum_Height = 50;
+//Min Height of the Header
 
 function AlarmList({navigation}: any) {
-  const [alarms, setAlarms] = useState([]);
+  const [alarms, setAlarms] = useState<Array<AlarmType>>([]);
   const [scheduler, setScheduler] = useState(null);
 
   useEffect(() => {
@@ -21,8 +33,11 @@ function AlarmList({navigation}: any) {
     navigation.addListener('blur', async () => {
       clearInterval(scheduler);
     });
-    fetchState();
   }, []);
+
+  useEffect(() => {
+    alarms && calcNoRepeatingAlarmTime(alarms); //repeat에 false가 눌러져 있는 알람들이 언제 울려야 하는지 알려준다
+  }, [alarms]);
 
   async function fetchState() {
     const alarmUid = await getAlarmState(); //알람 state를 가져온다
@@ -32,11 +47,6 @@ function AlarmList({navigation}: any) {
   }
 
   let AnimatedHeaderValue = new Animated.Value(0);
-  const Header_Maximum_Height = 200;
-  //Max Height of the Header
-  const Header_Minimum_Height = 50;
-  //Min Height of the Header
-
   const animateHeaderHeight = AnimatedHeaderValue.interpolate({
     inputRange: [0, Header_Maximum_Height - Header_Minimum_Height],
     outputRange: [Header_Maximum_Height, Header_Minimum_Height],
@@ -54,13 +64,11 @@ function AlarmList({navigation}: any) {
           },
         ]}>
         <View style={styles.earliestAlarmContainer}>
-          {alarms.length == 0 ? (
+          {alarms.length === 0 ? (
             <Text> 알람이 없습니다 </Text>
           ) : (
             <View style={styles.nextAlarmTextContainer}>
-              <Text style={styles.nextAlarmGuideText}> 다음 알람까지 </Text>
-              <Text style={styles.nextAlarmLeftTime}> 11 : 00 </Text>
-              <Text style={styles.nextAlarmInfo}> 06월 29일 8:56 </Text>
+              {calcNextAlarm(alarms)}
             </View>
           )}
           <View style={styles.addButtonContainer}>
@@ -85,15 +93,18 @@ function AlarmList({navigation}: any) {
               <AlarmInfo
                 key={a.uid}
                 uid={a.uid}
-                onChange={async active => {
+                onChange={async (active: Boolean) => {
                   if (active) {
                     await enableAlarm(a.uid);
+                    setAlarms(await getAllAlarms());
                   } else {
                     await disableAlarm(a.uid);
+                    setAlarms(await getAllAlarms());
                   }
                 }}
                 onPress={() => navigation.navigate('Edit', {alarm: a})}
                 title={a.title}
+                repeating={a.repeating}
                 hour={a.hour}
                 minutes={a.minutes}
                 days={a.days}
@@ -144,18 +155,5 @@ const styles = StyleSheet.create({
   },
   nextAlarmTextContainer: {
     alignItems: 'center',
-  },
-  nextAlarmGuideText: {
-    color: '#8abccb',
-    fontSize: 14,
-  },
-  nextAlarmLeftTime: {
-    color: '#0f5078',
-    fontSize: 50,
-    fontWeight: 'bold',
-  },
-  nextAlarmInfo: {
-    color: '#0f5078',
-    fontSize: 18,
   },
 });

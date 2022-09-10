@@ -10,7 +10,11 @@ export default function ({
   onToggle,
 }) {
   const [aniValue, setAniValue] = useState(new Animated.Value(0));
-  const [isEnabled, setIsEnabled] = useState(isActive);
+  const [isEnabled, setIsEnabled] = useState<boolean>(isActive);
+
+  useEffect(() => {
+    setIsEnabled(() => isActive);
+  }, [isActive]);
 
   const toggleSwitch = () => {
     onToggle(!isEnabled);

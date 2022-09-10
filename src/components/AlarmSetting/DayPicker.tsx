@@ -8,28 +8,27 @@ export default function ({
   isDisabled = false,
 }) {
   // NOTICE: days doesn't change if prop activeDays changes
-  const [days, setDays] = useState(activeDays);
-
   function onDayChange(dayIndex) {
-    let selectedBtn = getSelected(days);
+    let selectedBtn = getSelected(activeDays);
     selectedBtn[dayIndex] = !selectedBtn[dayIndex];
     const newDays = getDays(selectedBtn);
-    setDays(newDays);
     onChange(newDays);
   }
 
   return (
     <View style={styles.container}>
       <View style={styles.innerContainer}>
-        {getSelected(days).map((isSelected, index) => (
-          <Day
-            key={index}
-            isActive={isSelected}
-            dayIndex={index}
-            onUpdate={onDayChange}
-            isDisabled={isDisabled}
-          />
-        ))}
+        {getSelected(activeDays).map((isSelected, index) => {
+          return (
+            <Day
+              key={index}
+              isActive={isSelected}
+              dayIndex={index}
+              onUpdate={onDayChange}
+              isDisabled={isDisabled}
+            />
+          );
+        })}
       </View>
     </View>
   );
@@ -50,7 +49,7 @@ function Day({isActive, dayIndex, onUpdate, isDisabled}) {
             styles.text,
             isActive ? styles.selectedText : styles.unselectedText,
           ]}>
-          {getDay(dayIndex)}
+          {getKoreanDayName(dayIndex)}
         </Text>
       </TouchableOpacity>
     </View>
@@ -73,9 +72,9 @@ export function getDays(selectedBtn) {
   return activeDays;
 }
 
-function getDay(number) {
+export function getKoreanDayName(index: number) {
   let weekdays = ['일', '월', '화', '수', '목', '금', '토'];
-  return weekdays[number];
+  return weekdays[index];
 }
 
 const styles = StyleSheet.create({
