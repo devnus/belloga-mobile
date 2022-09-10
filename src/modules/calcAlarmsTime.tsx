@@ -2,6 +2,7 @@ import React from 'react';
 import {AlarmType} from '../pages/AlarmSettings';
 import {StyleSheet, Text} from 'react-native';
 import {updateAlarm} from './alarms';
+import {getKoreanDayName} from '../components/AlarmSetting/DayPicker';
 
 /**
  * 반복하지 않는 알람의 경우 언제 울리는지 계산해주는 함수 (오늘 혹은 내일)
@@ -51,11 +52,19 @@ export function calcNextAlarm(alarms) {
   return (
     <>
       <Text style={styles.nextAlarmGuideText}> 다음 알람까지 </Text>
-      <Text style={styles.nextAlarmLeftTime}>
-        {`${Math.floor((min / 60) % 24)} : ${Math.floor(min % 60)}`}{' '}
-      </Text>
+
+      {min / 60 < 24 ? (
+        <Text style={styles.nextAlarmLeftTime}>
+          {`${Math.floor((min / 60) % 24)} : ${leftPad(Math.floor(min % 60))}`}
+        </Text>
+      ) : (
+        <Text style={styles.nextAlarmLeftTime}>
+          {`${Math.floor(min / 60 / 24)} 일`}
+        </Text>
+      )}
+
       <Text style={styles.nextAlarmInfo}>
-        {calcRemainTime(activeAlarms[index]).toString()}{' '}
+        {toStringByFormatting(calcRemainTime(activeAlarms[index]))}{' '}
       </Text>
     </>
   );
@@ -69,12 +78,21 @@ function leftPad(value: number) {
   return `0${value}`;
 }
 
-function toStringByFormatting(source: Date, delimiter = '-') {
-  const year = source.getFullYear();
+function toStringByFormatting(source: Date) {
   const month = leftPad(source.getMonth() + 1);
   const day = leftPad(source.getDate());
 
-  return [year, month, day].join(delimiter);
+  let hours = leftPad(source.getHours());
+  const minutes = leftPad(source.getMinutes());
+
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  hours = hours < 10 ? '0' + hours : hours;
+
+  return `${month}월 ${day}일 ${getKoreanDayName(source.getDay())}요일 ${
+    hours + ':' + minutes + ' ' + ampm
+  }`;
 }
 
 /**
