@@ -4,15 +4,18 @@ import AlarmInfo from '../components/AlarmInfo';
 import AddButton from '../components/AlarmSetting/AddButton';
 import {getDays} from '../components/AlarmSetting/DayPicker';
 import {
-  calcAlarmRingTime,
   disableAlarm,
   enableAlarm,
   getAlarmState,
   getAllAlarms,
-  updateAlarm,
 } from '../modules/alarms';
+import {
+  calcNextAlarm,
+  calcNoRepeatingAlarmTime,
+} from '../modules/calcAlarmsTime';
 import {AlarmType} from './AlarmSettings';
 
+//움직이는 탭바를 위한 상수
 const Header_Maximum_Height = 200;
 //Max Height of the Header
 const Header_Minimum_Height = 50;
@@ -33,8 +36,7 @@ function AlarmList({navigation}: any) {
   }, []);
 
   useEffect(() => {
-    console.log(calcNextAlarm()); //가장 빨리 울리는 알람의 시간을 계산
-    alarms && calcNoRepeatingAlarmTime(); //repeat에 false가 눌러져 있는 알람들이 언제 울려야 하는지 알려준다
+    alarms && calcNoRepeatingAlarmTime(alarms); //repeat에 false가 눌러져 있는 알람들이 언제 울려야 하는지 알려준다
   }, [alarms]);
 
   async function fetchState() {
@@ -43,80 +45,6 @@ function AlarmList({navigation}: any) {
       navigation.navigate('Ring', {alarmUid});
     }
   }
-
-  /**
-   * 반복하지 않는 알람의 경우 언제 울리는지 계산해주는 함수 (오늘 혹은 내일)
-   */
-
-  const calcNoRepeatingAlarmTime = () => {
-    //중복 알람이 아닌 알람들을 추려냄
-    const noRepeatingAlarms = alarms.filter(alarm => alarm.repeating === false);
-
-    noRepeatingAlarms.map(alarm => {
-      if (alarm.active === true) {
-        const day: number = calcAlarmRingTime(alarm.hour, alarm.minutes);
-        alarm.days = [day];
-        updateAlarm(alarm);
-      }
-    });
-  };
-
-  /**
-   * 가장 빠르게 울리는 알람이 어느 것인지 계산해주는 함수
-   */
-
-  const calcNextAlarm = () => {
-    const today = new Date();
-
-    const activeAlarms = alarms.filter(alarm => alarm.active === true);
-
-    if (activeAlarms.length === 0) {
-      return '알람이 없습니다';
-    }
-
-    const remainTimes = activeAlarms.map(alarm => {
-      return Math.floor((calcRemainTime(alarm) - today) / (1000 * 60));
-    });
-
-    const min = Math.min(...remainTimes);
-    const index = remainTimes.indexOf(min);
-
-    return [min, calcRemainTime(activeAlarms[index])];
-  };
-
-  const calcRemainTime = (alarm: AlarmType) => {
-    const alarmHour = alarm.hour;
-    const alarmMinutes = alarm.minutes;
-    const alarmDays: number[] = alarm.days;
-    const today = new Date();
-
-    //오늘 알람이 울릴 예정이었고 아직 울리지 않았다면 리턴
-    if (
-      alarmDays.includes(today.getDay()) &&
-      (today.getHours() < alarmHour ||
-        (today.getHours() === alarmHour && today.getMinutes() < alarmMinutes))
-    ) {
-      today.setHours(alarmHour);
-      today.setMinutes(alarmMinutes);
-      return today;
-    }
-
-    const dayArray = alarmDays.map(day => {
-      if (day <= today.getDay()) {
-        return day + 7 - today.getDay();
-      } else {
-        return day - today.getDay();
-      }
-    });
-
-    const min = Math.min(...dayArray);
-    const closeDate = new Date();
-    closeDate.setDate(today.getDate() + min);
-    closeDate.setHours(alarmHour);
-    closeDate.setMinutes(alarmMinutes);
-
-    return closeDate;
-  };
 
   let AnimatedHeaderValue = new Animated.Value(0);
   const animateHeaderHeight = AnimatedHeaderValue.interpolate({
@@ -140,9 +68,7 @@ function AlarmList({navigation}: any) {
             <Text> 알람이 없습니다 </Text>
           ) : (
             <View style={styles.nextAlarmTextContainer}>
-              <Text style={styles.nextAlarmGuideText}> 다음 알람까지 </Text>
-              <Text style={styles.nextAlarmLeftTime}> 11 : 00 </Text>
-              <Text style={styles.nextAlarmInfo}> 06월 29일 8:56 </Text>
+              {calcNextAlarm(alarms)}
             </View>
           )}
           <View style={styles.addButtonContainer}>
@@ -229,18 +155,5 @@ const styles = StyleSheet.create({
   },
   nextAlarmTextContainer: {
     alignItems: 'center',
-  },
-  nextAlarmGuideText: {
-    color: '#8abccb',
-    fontSize: 14,
-  },
-  nextAlarmLeftTime: {
-    color: '#0f5078',
-    fontSize: 50,
-    fontWeight: 'bold',
-  },
-  nextAlarmInfo: {
-    color: '#0f5078',
-    fontSize: 18,
   },
 });

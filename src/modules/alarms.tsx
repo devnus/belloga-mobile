@@ -49,29 +49,6 @@ export async function snoozeAlarm() {
   }
 }
 
-/**
- 시간과 분을 넣으면 해당 알람이 오늘 울려야 하는지 내일 울려야 하는지 요일을 계산해주는 함수
- * @param hour : number
- * @param minutes : number
- * @returns : number
- */
-export function calcAlarmRingTime(hour: number, minutes: number) {
-  const today = new Date();
-  if (today.getHours() >= hour) {
-    if (today.getHours() === hour && today.getMinutes() < minutes) {
-      return today.getDay();
-    }
-
-    //일요일인 경우 0으로 핸들링
-    if (today.getDay() === 6) {
-      return 0;
-    }
-    return today.getDay() + 1;
-  } else {
-    return today.getDay();
-  }
-}
-
 export async function removeAlarm(uid) {
   try {
     await AlarmService.remove(uid);

@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import Alarm, {
-  calcAlarmRingTime,
   enableAlarm,
   removeAlarm,
   scheduleAlarm,
@@ -14,6 +13,7 @@ import Button from '../components/Button';
 import AlarmSettingDetail from '../components/AlarmSetting/AlarmSettingDetail';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import SettingTitleText from '../components/AlarmSetting/SettingTitleText';
+import {calcAlarmRingTime} from '../modules/calcAlarmsTime';
 
 export type AlarmType = {
   active: boolean;
