@@ -5,7 +5,6 @@ import {
   Text,
   StyleSheet,
   SafeAreaView,
-  Image,
   ScrollView,
   Pressable,
   Alert,
@@ -65,7 +64,10 @@ function UserInfo({route, navigation}) {
               </Pressable>
             </View>
             {/* User Information */}
-            <UserData isLoggedIn={isLoggedIn} />
+            <UserData
+              isLoggedIn={isLoggedIn}
+              onPress={() => navigation.navigate('LabelingLog')}
+            />
             <Stamp />
           </View>
         ) : (

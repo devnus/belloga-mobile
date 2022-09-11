@@ -33,7 +33,7 @@ function Stamp() {
           <TouchableHighlight
             style={styles.nonCheckedStamp}
             underlayColor="#DDDDDD">
-            <Text style={styles.stampInsideText}> {i}</Text>
+            <Text style={styles.stampInsideText}>{i}</Text>
           </TouchableHighlight>,
         );
       }
@@ -124,6 +124,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     width: 300,
     marginVertical: 20,
+    marginTop: 40,
   },
   nonCheckedStamp: {
     borderRadius: 25,
@@ -140,6 +141,8 @@ const styles = StyleSheet.create({
   stampInsideText: {
     textAlign: 'center',
     fontSize: 15,
+    fontWeight: 'bold',
+    color: '#d2e3e1',
   },
   stampImage: {
     borderRadius: 25,
@@ -149,9 +152,10 @@ const styles = StyleSheet.create({
     marginVertical: 2,
   },
   linearGradient: {
-    paddingLeft: 15,
-    paddingRight: 15,
     borderRadius: 5,
+  },
+  pressStampBtn: {
+    width: 300,
   },
   pressBtnInsideText: {
     marginVertical: 15,
