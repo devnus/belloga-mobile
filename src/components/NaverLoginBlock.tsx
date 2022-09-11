@@ -82,7 +82,8 @@ const NaverLoginBlock = ({onPress}) => {
       userSlice.actions.setUser({
         name: profileResult.response.nickname,
         email: profileResult.response.email,
-        userId: profileResult.response.id,
+        birthYear: profileResult.response.birthyear,
+        phoneNumber: profileResult.response.mobile,
       }),
     );
   };

@@ -1,3 +1,4 @@
+import {NaverLogin} from '@react-native-seoul/naver-login';
 import * as React from 'react';
 import {
   View,
@@ -7,6 +8,7 @@ import {
   Image,
   ScrollView,
   Pressable,
+  Alert,
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -14,6 +16,8 @@ import {useSelector} from 'react-redux';
 import colors from '../assets/colors';
 import Stamp from '../components/Stamp';
 import UserData from '../components/UserData';
+import userSlice from '../slices/user';
+import {useAppDispatch} from '../store';
 import {RootState} from '../store/reducer';
 
 Feather.loadFont();
@@ -21,6 +25,7 @@ MaterialCommunityIcons.loadFont();
 
 function UserInfo({route, navigation}) {
   const isLoggedIn = useSelector((state: RootState) => !!state.user.email);
+  const dispatch = useAppDispatch();
   console.log(isLoggedIn);
 
   return (
@@ -43,10 +48,21 @@ function UserInfo({route, navigation}) {
                 <Text style={styles.titlesBoldTitle}>홍길동님</Text>
                 <Text style={styles.titlesSubtitle}>안녕하세요.</Text>
               </View>
-              <Image
-                source={require('../assets/images/profile.png')}
-                style={styles.profileImage}
-              />
+              <Pressable
+                style={styles.loginButton}
+                onPress={() => {
+                  NaverLogin.logout();
+                  dispatch(
+                    userSlice.actions.setUser({
+                      name: '',
+                      email: '',
+                      userId: '',
+                    }),
+                  );
+                  Alert.alert('알림', '로그아웃 되었습니다.');
+                }}>
+                <Text style={styles.loginButtonText}>로그아웃</Text>
+              </Pressable>
             </View>
             {/* User Information */}
             <UserData isLoggedIn={isLoggedIn} />
