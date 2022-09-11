@@ -39,7 +39,7 @@ function UserData({isLoggedIn}: any) {
       </View>
 
       {isLoggedIn && (
-        <Text style={styles.userInfoDetailButton}>지급 예정 포인트</Text>
+        <Text style={styles.userInfoDetailButton}>기록 보기 </Text>
       )}
     </View>
   );

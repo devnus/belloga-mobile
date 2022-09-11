@@ -36,7 +36,7 @@ function UserInfo({route, navigation}) {
         {/* Header */}
         <SafeAreaView>
           <View style={styles.headerWrapper}>
-            <Text style={styles.titlesSubtitle}>Belloga</Text>
+            <Text style={styles.titlesSubtitle}> </Text>
           </View>
         </SafeAreaView>
 

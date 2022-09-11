@@ -125,18 +125,13 @@ function AlarmSettings({route, navigation}) {
             <SettingTitleText text="설정" />
             <View style={styles.settingsDetailContainer}>
               <AlarmSettingDetail
-                detailTitle="공휴일에 알람 끄기"
-                detailDescription="대체 공휴일, 임시 공휴일 미포함"
+                detailTitle="진동"
+                detailDescription="진동과 소리를 설정합니다"
               />
-              <AlarmSettingDetail
-                detailTitle="소리"
-                detailDescription="어쩔티비"
-              />
-              <AlarmSettingDetail detailTitle="진동" detailDescription="On" />
 
               <AlarmSettingDetail
                 detailTitle="다시 울림"
-                detailDescription="5분 간격으로 다시 울림"
+                detailDescription="알람이 꺼져도 잠시 후 다시 울립니다"
               />
             </View>
 
@@ -189,7 +184,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     paddingHorizontal: 13,
-    paddingTop: 24.5,
+    paddingTop: 40,
     borderTopRightRadius: 30,
     borderTopLeftRadius: 30,
     backgroundColor: 'white',

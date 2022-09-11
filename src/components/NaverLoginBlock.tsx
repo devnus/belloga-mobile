@@ -47,7 +47,15 @@ const NaverLoginBlock = ({onPress}) => {
           setNaverToken(token);
           getUserProfile(token.accessToken);
           onPress();
-          console.log(token);
+
+          // 이후 해결되면 제거
+
+          dispatch(
+            userSlice.actions.setToken({
+              accessToken: token.accessToken,
+              refreshToken: token.refreshToken,
+            }),
+          );
         }
         if (err) {
           reject(err);
@@ -69,6 +77,32 @@ const NaverLoginBlock = ({onPress}) => {
     );
     setNaverToken(undefined);
   };
+
+  // const getTokenAndRefresh = async () => {
+  //   try {
+  //     const response = await axios.post(
+  //       `${Config.API_URL}/refreshToken`,
+  //       {},
+  //       {
+  //         headers: {
+  //           authorization: `Bearer ${token}`,
+  //         },
+  //       },
+  //     );
+  //     dispatch(
+  //       userSlice.actions.setUser({
+  //         name: response.data.data.name,
+  //         email: response.data.data.email,
+  //         accessToken: response.data.data.accessToken,
+  //       }),
+  //     );
+  //   } catch (error) {
+  //     console.error(error);
+  //     if ((error as AxiosError).response?.data.code === 'expired') {
+  //       Alert.alert('알림', '다시 로그인 해주세요.');
+  //     }
+  //   }
+  // };
 
   //accessToken을 받아서 getProfile 함수를 통해 유저 정보를 가져오고, getUser 액션을 발생시켜 값을 리듀서에 저장한다.
   const getUserProfile = async (accessToken: string) => {
