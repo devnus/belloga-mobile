@@ -68,6 +68,7 @@ function Stamp() {
             style={styles.pressStampBtn}
             onPress={() => {
               setStampNumbers(() => stampNumbers + 1);
+              Alert.alert('알림', '500포인트를 소모하여 스탬프를 찍었습니다');
             }}>
             <LinearGradient
               colors={['#b4eee7', '#b4e2ed', '#b4e1ee']}

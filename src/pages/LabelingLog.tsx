@@ -9,6 +9,7 @@ import {
   View,
 } from 'react-native';
 import colors from '../assets/colors';
+import LabelingLogInfo from '../components/LabelingLogInfo';
 
 function LabelingLog() {
   return (
@@ -16,12 +17,12 @@ function LabelingLog() {
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         showsVerticalScrollIndicator={false}>
-        {/* Header */}
+        {/* Header
         <SafeAreaView>
           <View style={styles.headerWrapper}>
             <Text style={styles.titlesSubtitle}> 내 기록 </Text>
           </View>
-        </SafeAreaView>
+        </SafeAreaView> */}
 
         <View>
           {/* User Information */}
@@ -51,7 +52,8 @@ function LabelingLog() {
             </View>
           </View>
 
-          <Text> 라벨링 내역 </Text>
+          <Text style={styles.titlesSubtitle}> 라벨링 내역 </Text>
+          <LabelingLogInfo />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -87,12 +89,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat-Bold',
     fontWeight: 'bold',
     fontSize: 20,
-    color: colors.textDark,
-  },
-
-  titlesSubtitle: {
-    fontFamily: 'Montserrat-Regular',
-    fontSize: 16,
     color: colors.textDark,
   },
   categoriesWrapper: {
