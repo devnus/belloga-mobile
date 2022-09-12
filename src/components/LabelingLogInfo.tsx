@@ -1,8 +1,45 @@
-import React from 'react';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import colors from '../assets/colors';
+import React, {useState} from 'react';
+import {
+  Animated,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import Collapsible from 'react-native-collapsible';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 function LabelingLogInfo({date, isProcessed, labeledLog}) {
+  const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
+  const [rotateAnimation, setRotateAnimation] = useState(new Animated.Value(0));
+
+  const handleAnimation = () => {
+    Animated.timing(rotateAnimation, {
+      toValue: isCollapsed ? 0 : 1,
+      duration: 200,
+      useNativeDriver: true,
+    }).start(() => {});
+  };
+
+  const cwRotating = rotateAnimation.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '180deg'],
+  });
+
+  const ccwRotating = rotateAnimation.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['180deg', '0deg'],
+  });
+
+  const animatedStyle = {
+    transform: [
+      {
+        rotate: cwRotating,
+      },
+    ],
+  };
+
   return (
     <View style={styles.labelingInfoWrapper}>
       <View style={styles.labelingInfoRow}>
@@ -11,7 +48,27 @@ function LabelingLogInfo({date, isProcessed, labeledLog}) {
         </View>
         <Text style={styles.labelingSuccess}>처리완료</Text>
       </View>
-      <Text style={styles.briefResultText}> 대기 5 * 완료 8 * 반려 2</Text>
+      <Text style={styles.briefResultText}> 대기 5 · 완료 8 · 반려 2</Text>
+      <View style={styles.totalResultContainer}>
+        <Text style={styles.totalResultText}>총 15건 </Text>
+        <Text style={styles.totalResultText}> 3000P </Text>
+      </View>
+      <TouchableOpacity
+        style={styles.labelingInfoRow}
+        onPress={async () => {
+          handleAnimation();
+          setIsCollapsed(() => !isCollapsed);
+        }}>
+        <Text style={styles.briefResultText}> 상세보기 </Text>
+        <Animated.View style={animatedStyle}>
+          <Icon name="chevron-down" size={15} color="#a4aaac" />
+        </Animated.View>
+      </TouchableOpacity>
+
+      <Collapsible collapsed={isCollapsed}>
+        <Text style={styles.dateInfo}>15:00 과자 OCR </Text>
+        <Text style={styles.briefResultText}> 대기 5 · 완료 8 · 반려 2</Text>
+      </Collapsible>
     </View>
   );
 }
@@ -48,6 +105,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     marginVertical: 5,
+  },
+  totalResultContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginVertical: 5,
+    borderRadius: 10,
+    backgroundColor: '#f2f6f7',
+  },
+  totalResultText: {
+    color: '#0f5078',
+    fontSize: 16,
+    fontWeight: 'bold',
+    flex: 1,
+    textAlign: 'center',
+    paddingVertical: 12,
   },
   dateInfo: {
     color: '#0f5078',
