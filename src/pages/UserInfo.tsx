@@ -52,13 +52,7 @@ function UserInfo({route, navigation}) {
                 style={styles.loginButton}
                 onPress={() => {
                   NaverLogin.logout();
-                  dispatch(
-                    userSlice.actions.setUser({
-                      name: '',
-                      email: '',
-                      userId: '',
-                    }),
-                  );
+                  dispatch(userSlice.actions.setInitial());
                   Alert.alert('알림', '로그아웃 되었습니다.');
                 }}>
                 <Text style={styles.loginButtonText}>로그아웃</Text>

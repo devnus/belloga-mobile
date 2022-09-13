@@ -22,6 +22,14 @@ const userSlice = createSlice({
       state.accessToken = action.payload.accessToken;
       state.refreshToken = action.payload.refreshToken;
     },
+    setInitial(state) {
+      state.accessToken = '';
+      state.refreshToken = '';
+      state.email = '';
+      state.name = '';
+      state.birthYear = '';
+      state.phoneNumber = '';
+    },
   },
   extraReducers: builder => {},
 });
