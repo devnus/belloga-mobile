@@ -29,8 +29,8 @@ export type AlarmType = {
 };
 
 function AlarmSettings({route, navigation}) {
-  const [alarm, setAlarm] = useState<Alarm>(new Alarm({}));
-  const [mode, setMode] = useState<string>('');
+  const [alarm, setAlarm] = useState<Alarm>(null);
+  const [mode, setMode] = useState(null);
 
   useEffect(() => {
     if (route.params && route.params.alarm) {
@@ -126,7 +126,11 @@ function AlarmSettings({route, navigation}) {
             <View style={styles.settingsDetailContainer}>
               <AlarmSettingDetail
                 detailTitle="진동"
-                detailDescription="진동과 소리를 설정합니다"
+                detailDescription="진동을 설정합니다"
+              />
+              <AlarmSettingDetail
+                detailTitle="소리"
+                detailDescription="소리를 설정합니다"
               />
 
               <AlarmSettingDetail

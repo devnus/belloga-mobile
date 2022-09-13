@@ -17,6 +17,7 @@ import {
 import Config from 'react-native-config';
 import {useAppDispatch} from '../store';
 import userSlice from '../slices/user';
+import axios, {AxiosError} from 'axios';
 
 const iosKeys = {
   kConsumerKey: 'VC5CPfjRigclJV_TFACU',
@@ -45,10 +46,12 @@ const NaverLoginBlock = ({onPress}) => {
         //토큰이 있다면 NaverToken에 값을 할당하고, getUserProfile로 액션을 발생시킨다.
         if (token) {
           setNaverToken(token);
+          getTokenAndRefresh(token.accessToken);
           getUserProfile(token.accessToken);
           onPress();
 
           // 이후 해결되면 제거
+          console.log('naverlogin', token);
 
           dispatch(
             userSlice.actions.setToken({
@@ -78,33 +81,25 @@ const NaverLoginBlock = ({onPress}) => {
     setNaverToken(undefined);
   };
 
-  // const getTokenAndRefresh = async () => {
-  //   try {
-  //     const response = await axios.post(
-  //       `${Config.API_URL}/refreshToken`,
-  //       {},
-  //       {
-  //         headers: {
-  //           authorization: `Bearer ${token}`,
-  //         },
-  //       },
-  //     );
-  //     dispatch(
-  //       userSlice.actions.setUser({
-  //         name: response.data.data.name,
-  //         email: response.data.data.email,
-  //         accessToken: response.data.data.accessToken,
-  //       }),
-  //     );
-  //   } catch (error) {
-  //     console.error(error);
-  //     if ((error as AxiosError).response?.data.code === 'expired') {
-  //       Alert.alert('알림', '다시 로그인 해주세요.');
-  //     }
-  //   }
-  // };
+  const getTokenAndRefresh = async (accessToken: string) => {
+    try {
+      const response = await axios.post(
+        `${Config.API_URL}/api/account/v1/auth/signin/naver/account`,
+        {token: accessToken},
+      );
+      dispatch(
+        userSlice.actions.setToken({
+          accessToken: response.data.accessToken,
+          refreshToken: response.data.refreshToken,
+        }),
+      );
+    } catch (error) {
+      console.error(error);
+      Alert.alert('로그인에 실패했습니다');
+    }
+  };
 
-  //accessToken을 받아서 getProfile 함수를 통해 유저 정보를 가져오고, getUser 액션을 발생시켜 값을 리듀서에 저장한다.
+  /**accessToken을 받아서 getProfile 함수를 통해 유저 정보를 가져오고, getUser 액션을 발생시켜 값을 리듀서에 저장한다.*/
   const getUserProfile = async (accessToken: string) => {
     const profileResult = await getProfile(accessToken);
     if (profileResult.resultcode === '024') {
