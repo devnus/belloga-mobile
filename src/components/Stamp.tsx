@@ -61,6 +61,7 @@ function Stamp() {
             500P를 모으면 스탬프 한개를 받을 수 있어요.
           </Text>
         </View>
+        <Text style={styles.popularTopText}>내가 응모한 커피 개수 : 9개 </Text>
         <View style={styles.stampContainer}>{displayStamps(stampNumbers)}</View>
 
         {stampNumbers < 10 ? (

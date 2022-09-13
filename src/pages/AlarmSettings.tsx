@@ -29,8 +29,8 @@ export type AlarmType = {
 };
 
 function AlarmSettings({route, navigation}) {
-  const [alarm, setAlarm] = useState<AlarmType>(null);
-  const [mode, setMode] = useState(null);
+  const [alarm, setAlarm] = useState<Alarm>(new Alarm({}));
+  const [mode, setMode] = useState<string>('');
 
   useEffect(() => {
     if (route.params && route.params.alarm) {
@@ -54,7 +54,7 @@ function AlarmSettings({route, navigation}) {
    * @param updates : 
    */
   function update(updates) {
-    const a = Object.assign({}, alarm);
+    const a: Alarm = Object.assign({}, alarm);
     for (let u of updates) {
       a[u[0]] = u[1];
     }

@@ -8,6 +8,7 @@ import {
   ScrollView,
   Pressable,
   Alert,
+  Image,
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -86,6 +87,17 @@ function UserInfo({route, navigation}) {
               </Pressable>
             </View>
             <UserData isLoggedIn={isLoggedIn} />
+            <View style={styles.advertisingContainer}>
+              <Text style={styles.titlesBoldTitle}>
+                아침에 일어나기만 해도{' '}
+              </Text>
+              <Text style={styles.titlesBoldTitle}>모닝 커피가 한 잔!</Text>
+              <Image
+                source={require('../assets/images/coffee.png')}
+                resizeMode="contain"
+                style={styles.coffeeImage}
+              />
+            </View>
           </View>
         )}
       </ScrollView>
@@ -174,6 +186,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginTop: 10,
   },
+  coffeeImage: {
+    width: 200,
+    height: 200,
+  },
   categorySelectWrapper: {
     alignSelf: 'center',
     justifyContent: 'center',
@@ -186,7 +202,10 @@ const styles = StyleSheet.create({
   categorySelectIcon: {
     alignSelf: 'center',
   },
-
+  advertisingContainer: {
+    alignSelf: 'center',
+    justifyContent: 'center',
+  },
   ratingWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
