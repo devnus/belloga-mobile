@@ -113,6 +113,8 @@ export default class Alarm {
   snoozeInterval: number;
   title: string;
   uid: string;
+  isSoundOn: boolean;
+  isVibrateOn: boolean;
 
   constructor(params: AlarmType) {
     this.uid = getParam(params, 'uid', uuidv4());
@@ -125,6 +127,8 @@ export default class Alarm {
     this.repeating = getParam(params, 'repeating', false);
     this.active = getParam(params, 'active', true);
     this.days = getParam(params, 'days', []);
+    this.isSoundOn = getParam(params, 'isSoundOn', false);
+    this.isVibrateOn = getParam(params, 'isVibrateOn', false);
   }
 
   static getEmpty() {
@@ -139,6 +143,8 @@ export default class Alarm {
       enabled: true,
       snoozeInterval: 0,
       uid: '',
+      isSoundOn: false,
+      isVibrateOn: false,
     });
   }
 

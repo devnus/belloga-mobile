@@ -153,7 +153,14 @@ public class Manager {
     static void start(Context context, String alarmUid) {
         activeAlarmUid = alarmUid;
         sound = new Sound(context);
-        sound.play("default");
+
+        Alarm alarm = Storage.getAlarm(context, alarmUid);
+        if (alarm.isSoundOn) {
+            sound.playSong("default");
+        } 
+        if (alarm.isVibrateOn){
+            sound.playVibration();
+        }
 
         Log.d(TAG, "Starting " + activeAlarmUid);
     }

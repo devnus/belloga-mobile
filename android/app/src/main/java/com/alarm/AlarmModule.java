@@ -130,6 +130,8 @@ public class AlarmModule extends ReactContextBaseJavaModule {
         int snoozeInterval = alarm.getInt("snoozeInterval");
         boolean repeating = alarm.getBoolean("repeating");
         boolean active = alarm.getBoolean("active");
+        boolean isSoundOn = alarm.getBoolean("isSoundOn");
+        boolean isVibrateOn = alarm.getBoolean("isVibrateOn");
         ArrayList<Integer> days = new ArrayList<>();
         if (!alarm.isNull("days")) {
             ReadableArray rawDays = alarm.getArray("days");
@@ -137,7 +139,7 @@ public class AlarmModule extends ReactContextBaseJavaModule {
                 days.add(rawDays.getInt(i));
             }
         }
-        return new Alarm(uid, days, hour, minutes, snoozeInterval, title, description, repeating, active);
+        return new Alarm(uid, days, hour, minutes, snoozeInterval, title, description, repeating, active, isSoundOn, isVibrateOn);
     }
 
     private WritableMap serializeAlarmObject (Alarm alarm) {
@@ -151,6 +153,8 @@ public class AlarmModule extends ReactContextBaseJavaModule {
         map.putArray("days", serializeArray(alarm.days));
         map.putBoolean("repeating", alarm.repeating);
         map.putBoolean("active", alarm.active);
+        map.putBoolean("isSoundOn", alarm.isSoundOn);
+        map.putBoolean("isVibrateOn", alarm.isVibrateOn);
         return map;
     }
 

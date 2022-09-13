@@ -26,11 +26,13 @@ export type AlarmType = {
   snoozeInterval: number;
   title: string;
   uid: string;
+  isSoundOn: boolean;
+  isVibrateOn: boolean;
 };
 
 function AlarmSettings({route, navigation}) {
   const [alarm, setAlarm] = useState<Alarm>(null);
-  const [mode, setMode] = useState(null);
+  const [mode, setMode] = useState<string>(null);
 
   useEffect(() => {
     if (route.params && route.params.alarm) {
@@ -127,10 +129,14 @@ function AlarmSettings({route, navigation}) {
               <AlarmSettingDetail
                 detailTitle="진동"
                 detailDescription="진동을 설정합니다"
+                isActive={alarm.isVibrateOn}
+                onChange={(v: boolean) => update([['isVibrateOn', v]])}
               />
               <AlarmSettingDetail
                 detailTitle="소리"
                 detailDescription="소리를 설정합니다"
+                isActive={alarm.isSoundOn}
+                onChange={(v: boolean) => update([['isSoundOn', v]])}
               />
 
               <AlarmSettingDetail
