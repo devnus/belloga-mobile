@@ -8,6 +8,7 @@ import {
   enableAlarm,
   getAlarmState,
   getAllAlarms,
+  showAlarmToastMessage,
 } from '../modules/alarms';
 import {
   calcNextAlarm,
@@ -96,6 +97,7 @@ function AlarmList({navigation}: any) {
                 onChange={async (active: Boolean) => {
                   if (active) {
                     await enableAlarm(a.uid);
+                    showAlarmToastMessage(a);
                     setAlarms(await getAllAlarms());
                   } else {
                     await disableAlarm(a.uid);
