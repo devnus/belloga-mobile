@@ -8,8 +8,8 @@ import {
   Text,
   View,
 } from 'react-native';
-import colors from '../assets/colors';
-import LabelingLogInfo from '../components/LabelingLogInfo';
+import colors from '../../assets/colors';
+import LabelingLogInfo from '../../components/LabelingLogInfo';
 
 function LabelingLog() {
   return (
@@ -31,7 +31,7 @@ function LabelingLog() {
               <View style={styles.userInfoRow}>
                 <View style={styles.userInfosDescribe}>
                   <Image
-                    source={require('../assets/images/label.png')}
+                    source={require('../../assets/images/label.png')}
                     style={styles.userInfoIcon}
                   />
                   <Text style={styles.titlesSubtitle}>검토 중인 라벨링</Text>
@@ -42,7 +42,7 @@ function LabelingLog() {
               <View style={styles.userInfoRow}>
                 <View style={styles.userInfosDescribe}>
                   <Image
-                    source={require('../assets/images/point.png')}
+                    source={require('../../assets/images/point.png')}
                     style={styles.userInfoIcon}
                   />
                   <Text style={styles.titlesSubtitle}>지급 예정 포인트</Text>

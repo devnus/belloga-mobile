@@ -7,14 +7,14 @@ import Alarm, {
   scheduleAlarm,
   showAlarmToastMessage,
   updateAlarm,
-} from '../modules/alarms';
-import TextInput from '../components/AlarmSetting/TextInput';
-import DayPicker from '../components/AlarmSetting/DayPicker';
-import TimePicker from '../components/AlarmSetting/TimePicker';
-import Button from '../components/Button';
-import AlarmSettingDetail from '../components/AlarmSetting/AlarmSettingDetail';
-import SettingTitleText from '../components/AlarmSetting/SettingTitleText';
-import {calcAlarmRingTime} from '../modules/calcAlarmsTime';
+} from 'modules/alarms';
+import TextInput from 'components/AlarmSetting/TextInput';
+import DayPicker from 'components/AlarmSetting/DayPicker';
+import TimePicker from 'components/AlarmSetting/TimePicker';
+import Button from 'components/Button';
+import AlarmSettingDetail from 'components/AlarmSetting/AlarmSettingDetail';
+import SettingTitleText from 'components/AlarmSetting/SettingTitleText';
+import {calcAlarmRingTime} from 'modules/calcAlarmsTime';
 
 export type AlarmType = {
   active: boolean;

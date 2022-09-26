@@ -1,20 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import {Animated, ScrollView, StyleSheet, Text, View} from 'react-native';
-import AlarmInfo from '../components/AlarmInfo';
-import AddButton from '../components/AlarmSetting/AddButton';
-import {getDays} from '../components/AlarmSetting/DayPicker';
+import AddButton from 'components/AlarmSetting/AddButton';
+import {getDays} from 'components/AlarmSetting/DayPicker';
 import {
   disableAlarm,
   enableAlarm,
   getAlarmState,
   getAllAlarms,
   showAlarmToastMessage,
-} from '../modules/alarms';
-import {
-  calcNextAlarm,
-  calcNoRepeatingAlarmTime,
-} from '../modules/calcAlarmsTime';
+} from 'modules/alarms';
+import {calcNextAlarm, calcNoRepeatingAlarmTime} from 'modules/calcAlarmsTime';
 import {AlarmType} from './AlarmSettings';
+import AlarmInfo from '../../components/AlarmInfo';
 
 //움직이는 탭바를 위한 상수
 const Header_Maximum_Height = 200;

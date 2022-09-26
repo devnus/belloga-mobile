@@ -12,7 +12,10 @@ function AlarmSuccess({route, navigation}) {
           <Text style={styles.clockText}>라벨링 완료!</Text>
           <Text style={styles.title}>총 지급 예정 포인트</Text>
           <Text style={styles.title}> +20 p</Text>
-          <Image style={styles.image} source={require('../assets/coin.png')} />
+          <Image
+            style={styles.image}
+            source={require('../../assets/coin.png')}
+          />
         </View>
         <View style={styles.buttonContainer}>
           <Pressable style={styles.loginButton} onPress={onPressSendButton}>

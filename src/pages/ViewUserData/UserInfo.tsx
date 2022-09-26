@@ -13,12 +13,11 @@ import {
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useSelector} from 'react-redux';
-import colors from '../assets/colors';
-import Stamp from '../components/Stamp';
-import UserData from '../components/UserData';
-import userSlice from '../slices/user';
-import {useAppDispatch} from '../store';
-import {RootState} from '../store/reducer';
+import colors from '../../assets/colors';
+import Stamp from '../../components/Stamp';
+import UserData from '../../components/UserData';
+import {useAppDispatch} from '../../store';
+import {RootState} from '../../store/reducer';
 
 Feather.loadFont();
 MaterialCommunityIcons.loadFont();
@@ -87,7 +86,7 @@ function UserInfo({route, navigation}) {
               </Text>
               <Text style={styles.titlesBoldTitle}>모닝 커피가 한 잔!</Text>
               <Image
-                source={require('../assets/images/coffee.png')}
+                source={require('../../assets/images/coffee.png')}
                 resizeMode="contain"
                 style={styles.coffeeImage}
               />
