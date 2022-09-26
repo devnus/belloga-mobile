@@ -40,6 +40,20 @@ public class Manager {
         }
     }
 
+    static void showRemainTimeToast(Context context, Alarm alarm) {
+        AlarmDates dates = alarm.getAlarmDates();
+
+        Date nearestDate = getNearestDate(dates);
+
+        Integer times = (int) ((((long)(nearestDate.getTime() - System.currentTimeMillis())) / (1000 * 60)) + 1 );
+        Integer remainHours = times / 60;
+        Integer remainMinutes = times % 60;
+
+        String ringDate = getRingDate(remainHours, remainMinutes);
+
+        Toast.makeText(context, "알람이 "+ ringDate + " 뒤에 울립니다", Toast.LENGTH_SHORT).show();
+    }
+
     static void update(Context context, Alarm alarm) {
         AlarmDates prevDates = Storage.getDates(context, alarm.uid);
         AlarmDates dates = alarm.getAlarmDates();
@@ -79,16 +93,6 @@ public class Manager {
     static void enable(Context context, String alarmUid) {
         Alarm alarm = Storage.getAlarm(context, alarmUid);
         AlarmDates dates = alarm.getAlarmDates();
-
-        Date nearestDate = getNearestDate(dates);
-
-        Integer times = (int) ((((long)(nearestDate.getTime() - System.currentTimeMillis())) / (1000 * 60)) + 1 );
-        Integer remainHours = times / 60;
-        Integer remainMinutes = times % 60;
-
-        String ringDate = getRingDate(remainHours, remainMinutes);
-
-        Toast.makeText(context, "알람이 "+ ringDate + " 뒤에 울립니다", Toast.LENGTH_SHORT).show();
 
         if (!alarm.active) {
             alarm.active = true;
@@ -162,7 +166,7 @@ public class Manager {
             sound.playVibration();
         }
 
-        Log.d(TAG, "Starting " + activeAlarmUid);
+        Log.d(TAG, "Starting " + activeAlarmUid + "sound" + alarm.isSoundOn + "vibe"+ alarm.isVibrateOn);
     }
 
     static void stop(Context context) {

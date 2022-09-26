@@ -75,6 +75,13 @@ public class AlarmModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void showRemainTimeToast(ReadableMap details, Promise promise)  {
+        Alarm alarm = parseAlarmObject(details);
+        Manager.showRemainTimeToast(reactContext, alarm);
+        promise.resolve(null);
+    }
+
+    @ReactMethod
     public void disable (String alarmUid, Promise promise) {
         Manager.disable(reactContext, alarmUid);
         promise.resolve(null);

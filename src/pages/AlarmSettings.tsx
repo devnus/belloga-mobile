@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import Alarm, {
+  disableAlarm,
   enableAlarm,
   removeAlarm,
   scheduleAlarm,
+  showAlarmToastMessage,
   updateAlarm,
 } from '../modules/alarms';
 import TextInput from '../components/AlarmSetting/TextInput';
@@ -11,7 +13,6 @@ import DayPicker from '../components/AlarmSetting/DayPicker';
 import TimePicker from '../components/AlarmSetting/TimePicker';
 import Button from '../components/Button';
 import AlarmSettingDetail from '../components/AlarmSetting/AlarmSettingDetail';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import SettingTitleText from '../components/AlarmSetting/SettingTitleText';
 import {calcAlarmRingTime} from '../modules/calcAlarmsTime';
 
@@ -79,10 +80,11 @@ function AlarmSettings({route, navigation}) {
 
     if (mode === 'EDIT') {
       await updateAlarm(alarm);
-      await enableAlarm(alarm.uid);
+      await showAlarmToastMessage(alarm);
     }
     if (mode === 'CREATE') {
       await scheduleAlarm(alarm);
+      await showAlarmToastMessage(alarm);
     }
     console.log('alarmSettings', alarm);
     navigation.goBack();

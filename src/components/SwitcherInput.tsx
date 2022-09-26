@@ -4,7 +4,7 @@ import {StyleSheet, Pressable, Animated, Easing} from 'react-native';
 import styled from 'styled-components/native';
 
 export default function ({
-  isActive,
+  isActive = false,
   onColor = '#b4eee7',
   offColor = '#ededed',
   onToggle,

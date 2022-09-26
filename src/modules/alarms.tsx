@@ -25,6 +25,17 @@ export async function enableAlarm(uid: string) {
   }
 }
 
+export async function showAlarmToastMessage(alarm: Alarm) {
+  if (!(alarm instanceof Alarm)) {
+    alarm = new Alarm(alarm);
+  }
+  try {
+    await AlarmService.showRemainTimeToast(alarm.toAndroid());
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 export async function disableAlarm(uid: string) {
   try {
     await AlarmService.disable(uid);
@@ -57,7 +68,8 @@ export async function removeAlarm(uid: string) {
   }
 }
 
-export async function updateAlarm(alarm) {
+export async function updateAlarm(alarm: Alarm) {
+  alarm.active = true;
   if (!(alarm instanceof Alarm)) {
     alarm = new Alarm(alarm);
   }

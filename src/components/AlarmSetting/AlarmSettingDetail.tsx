@@ -6,7 +6,7 @@ function AlarmSettingDetail({
   detailTitle = '',
   detailDescription = '',
   isActive = false,
-  onChange,
+  onChange = () => null,
 }) {
   return (
     <View style={styles.container}>

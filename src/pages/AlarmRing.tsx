@@ -210,6 +210,13 @@ function AlarmRing({route, navigation}) {
               navigation.goBack();
             }}
           />
+
+          <Button
+            title={'Cancel'}
+            onPress={async () => {
+              finishAlarm();
+            }}
+          />
         </View>
       </View>
     </View>
