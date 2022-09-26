@@ -144,7 +144,13 @@ function AlarmSettings({route, navigation}) {
               <AlarmSettingDetail
                 detailTitle="다시 울림"
                 detailDescription="알람이 꺼져도 잠시 후 다시 울립니다"
+                isActive={alarm.snoozeInterval > 0}
+                onChange={(v: boolean) =>
+                  update([['snoozeInterval', v ? 1 : 0]])
+                }
               />
+              {/* 
+              snoozeInterval이 0이면 snooze 없음, number type를 boolean 으로 처리해주는 방식이다. */}
             </View>
 
             {mode === 'EDIT' && <Button onPress={onDelete} title={'삭제'} />}

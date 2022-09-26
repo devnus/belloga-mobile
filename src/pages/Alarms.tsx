@@ -24,7 +24,7 @@ function Alarms() {
       <Stack.Screen
         name="Ring"
         component={AlarmRing}
-        options={{headerShown: false}}
+        options={{headerShown: false, tabBarStyle: {display: 'none'}}}
       />
       <Stack.Screen
         name="AlarmSuccess"

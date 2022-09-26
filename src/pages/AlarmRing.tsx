@@ -4,7 +4,7 @@ import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import axios from 'axios';
 import Button from '../components/Button';
 import TextInput from '../components/AlarmSetting/TextInput';
-import {getAlarm, snoozeAlarm, stopAlarm} from '../modules/alarms';
+import Alarm, {getAlarm, snoozeAlarm, stopAlarm} from '../modules/alarms';
 
 function RenderImage({boundingBoxInfo, imageUrl}) {
   const [topPosition, setTopPosition] = useState(0);
@@ -80,7 +80,7 @@ const showBoundingBox = (boundingBoxInfo, imageUrl) => {
 };
 
 function AlarmRing({route, navigation}) {
-  const [alarm, setAlarm] = useState(null);
+  const [alarm, setAlarm] = useState<Alarm | null>(null);
   const [imageUrl, setImageUrl] = useState('');
   const [answer, setAnswer] = useState<String>('');
   const [loading, setLoading] = useState(false);
@@ -203,13 +203,15 @@ function AlarmRing({route, navigation}) {
             <Text>Stop</Text>
           </Pressable>
 
-          <Button
-            title={'Snooze'}
-            onPress={async () => {
-              await snoozeAlarm();
-              navigation.goBack();
-            }}
-          />
+          {alarm.snoozeInterval > 0 && (
+            <Button
+              title={'Snooze'}
+              onPress={async () => {
+                await snoozeAlarm();
+                navigation.goBack();
+              }}
+            />
+          )}
 
           <Button
             title={'Cancel'}
