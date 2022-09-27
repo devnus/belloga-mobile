@@ -25,8 +25,9 @@ function AlarmList({navigation}: any) {
 
   useEffect(() => {
     navigation.addListener('focus', async () => {
-      setAlarms(await getAllAlarms());
-      setScheduler(setInterval(fetchState, 10000)); //1초마다 fetchState 하도록 설정, 알람 새로 생겼는지 체크
+      setAlarms(await getAllAlarms()); //저장된 모든 알람 목록을 불러온다.
+      await fetchState();
+      // setScheduler(setInterval(fetchState, 10000)); //1초마다 fetchState 하도록 설정, 알람 새로 생겼는지 체크
     });
     navigation.addListener('blur', async () => {
       clearInterval(scheduler);
@@ -39,6 +40,7 @@ function AlarmList({navigation}: any) {
 
   async function fetchState() {
     const alarmUid = await getAlarmState(); //알람 state를 가져온다
+    console.log('alarmUid is Here');
     if (alarmUid) {
       navigation.navigate('Ring', {
         screen: 'AlarmRing',
