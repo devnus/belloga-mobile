@@ -25,7 +25,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         serviceIntent.putExtra("ALARM_UID", alarmUid);
         serviceIntent.putExtras(serviceIntent);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            context.startForegroundService(serviceIntent);
+            context.startService(serviceIntent);
         } else {
             context.startService(serviceIntent);
         }
