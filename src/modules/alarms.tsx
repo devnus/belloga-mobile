@@ -6,7 +6,7 @@ import {AlarmType} from '../pages/AlarmSettings';
 
 const AlarmService = NativeModules.AlarmModule;
 
-export async function scheduleAlarm(alarm: AlarmType) {
+export async function scheduleAlarm(alarm: Alarm) {
   if (!(alarm instanceof Alarm)) {
     alarm = new Alarm(alarm);
   }
@@ -17,7 +17,7 @@ export async function scheduleAlarm(alarm: AlarmType) {
   }
 }
 
-export async function enableAlarm(uid) {
+export async function enableAlarm(uid: string) {
   try {
     await AlarmService.enable(uid);
   } catch (e) {
@@ -25,7 +25,18 @@ export async function enableAlarm(uid) {
   }
 }
 
-export async function disableAlarm(uid) {
+export async function showAlarmToastMessage(alarm: Alarm) {
+  if (!(alarm instanceof Alarm)) {
+    alarm = new Alarm(alarm);
+  }
+  try {
+    await AlarmService.showRemainTimeToast(alarm.toAndroid());
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+export async function disableAlarm(uid: string) {
   try {
     await AlarmService.disable(uid);
   } catch (e) {
@@ -49,7 +60,7 @@ export async function snoozeAlarm() {
   }
 }
 
-export async function removeAlarm(uid) {
+export async function removeAlarm(uid: string) {
   try {
     await AlarmService.remove(uid);
   } catch (e) {
@@ -57,7 +68,8 @@ export async function removeAlarm(uid) {
   }
 }
 
-export async function updateAlarm(alarm) {
+export async function updateAlarm(alarm: Alarm) {
+  alarm.active = true;
   if (!(alarm instanceof Alarm)) {
     alarm = new Alarm(alarm);
   }
@@ -103,7 +115,20 @@ export async function getAlarmState() {
 }
 
 export default class Alarm {
-  constructor(params = null) {
+  active: boolean;
+  days: number[];
+  description: string;
+  enabled: boolean;
+  hour: number;
+  minutes: number;
+  repeating: boolean;
+  snoozeInterval: number;
+  title: string;
+  uid: string;
+  isSoundOn: boolean;
+  isVibrateOn: boolean;
+
+  constructor(params: AlarmType) {
     this.uid = getParam(params, 'uid', uuidv4());
     this.enabled = getParam(params, 'enabled', true);
     this.title = getParam(params, 'title', '');
@@ -114,6 +139,8 @@ export default class Alarm {
     this.repeating = getParam(params, 'repeating', false);
     this.active = getParam(params, 'active', true);
     this.days = getParam(params, 'days', []);
+    this.isSoundOn = getParam(params, 'isSoundOn', false);
+    this.isVibrateOn = getParam(params, 'isVibrateOn', false);
   }
 
   static getEmpty() {
@@ -124,6 +151,12 @@ export default class Alarm {
       minutes: 0,
       repeating: false,
       days: [],
+      active: true,
+      enabled: true,
+      snoozeInterval: 0,
+      uid: '',
+      isSoundOn: false,
+      isVibrateOn: false,
     });
   }
 
@@ -153,7 +186,7 @@ export default class Alarm {
   }
 }
 
-function getParam(param, key, defaultValue) {
+function getParam(param, key, defaultValue: any) {
   try {
     if (param && (param[key] !== null || param[key] !== undefined)) {
       return param[key];
@@ -166,9 +199,9 @@ function getParam(param, key, defaultValue) {
 }
 
 export function toAndroidDays(daysArray) {
-  return daysArray.map(day => (day + 1) % 7);
+  return daysArray.map((day: number) => (day + 1) % 7);
 }
 
 export function fromAndroidDays(daysArray) {
-  return daysArray.map(d => (d === 0 ? 6 : d - 1));
+  return daysArray.map((d: number) => (d === 0 ? 6 : d - 1));
 }

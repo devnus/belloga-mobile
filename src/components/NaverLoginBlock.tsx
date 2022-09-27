@@ -17,6 +17,7 @@ import {
 import Config from 'react-native-config';
 import {useAppDispatch} from '../store';
 import userSlice from '../slices/user';
+import axios, {AxiosError} from 'axios';
 
 const iosKeys = {
   kConsumerKey: 'VC5CPfjRigclJV_TFACU',
@@ -45,9 +46,19 @@ const NaverLoginBlock = ({onPress}) => {
         //토큰이 있다면 NaverToken에 값을 할당하고, getUserProfile로 액션을 발생시킨다.
         if (token) {
           setNaverToken(token);
+          getTokenAndRefresh(token.accessToken);
           getUserProfile(token.accessToken);
           onPress();
-          console.log(token);
+
+          // 이후 해결되면 제거
+          console.log('naverlogin', token);
+
+          dispatch(
+            userSlice.actions.setToken({
+              accessToken: token.accessToken,
+              refreshToken: token.refreshToken,
+            }),
+          );
         }
         if (err) {
           reject(err);
@@ -70,19 +81,37 @@ const NaverLoginBlock = ({onPress}) => {
     setNaverToken(undefined);
   };
 
-  //accessToken을 받아서 getProfile 함수를 통해 유저 정보를 가져오고, getUser 액션을 발생시켜 값을 리듀서에 저장한다.
+  const getTokenAndRefresh = async (accessToken: string) => {
+    try {
+      const response = await axios.post(
+        `${Config.API_URL}/api/account/v1/auth/signin/naver/account`,
+        {token: accessToken},
+      );
+      dispatch(
+        userSlice.actions.setToken({
+          accessToken: response.data.accessToken,
+          refreshToken: response.data.refreshToken,
+        }),
+      );
+    } catch (error) {
+      console.error(error);
+      Alert.alert('로그인에 실패했습니다');
+    }
+  };
+
+  /**accessToken을 받아서 getProfile 함수를 통해 유저 정보를 가져오고, getUser 액션을 발생시켜 값을 리듀서에 저장한다.*/
   const getUserProfile = async (accessToken: string) => {
     const profileResult = await getProfile(accessToken);
     if (profileResult.resultcode === '024') {
       Alert.alert('로그인에 실패했습니다', profileResult.message);
       return;
     }
-
     dispatch(
       userSlice.actions.setUser({
         name: profileResult.response.nickname,
         email: profileResult.response.email,
-        userId: profileResult.response.id,
+        birthYear: profileResult.response.birthyear,
+        phoneNumber: profileResult.response.mobile,
       }),
     );
   };
@@ -124,6 +153,7 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 10,
     backgroundColor: '#03c75a',
+    borderRadius: 10,
     display: 'flex',
     justifyContent: 'center',
     flexDirection: 'row',

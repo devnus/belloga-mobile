@@ -1,26 +1,30 @@
+import {NaverLogin} from '@react-native-seoul/naver-login';
 import * as React from 'react';
 import {
   View,
   Text,
   StyleSheet,
   SafeAreaView,
-  Image,
   ScrollView,
   Pressable,
+  Alert,
+  Image,
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useSelector} from 'react-redux';
-import colors from '../assets/colors';
-import Stamp from '../components/Stamp';
-import UserData from '../components/UserData';
-import {RootState} from '../store/reducer';
+import colors from '../../assets/colors';
+import Stamp from '../../components/Stamp';
+import UserData from '../../components/UserData';
+import {useAppDispatch} from '../../store';
+import {RootState} from '../../store/reducer';
 
 Feather.loadFont();
 MaterialCommunityIcons.loadFont();
 
 function UserInfo({route, navigation}) {
   const isLoggedIn = useSelector((state: RootState) => !!state.user.email);
+  const dispatch = useAppDispatch();
   console.log(isLoggedIn);
 
   return (
@@ -31,7 +35,7 @@ function UserInfo({route, navigation}) {
         {/* Header */}
         <SafeAreaView>
           <View style={styles.headerWrapper}>
-            <Text style={styles.titlesSubtitle}>Belloga</Text>
+            <Text style={styles.titlesSubtitle}> </Text>
           </View>
         </SafeAreaView>
 
@@ -43,13 +47,21 @@ function UserInfo({route, navigation}) {
                 <Text style={styles.titlesBoldTitle}>홍길동님</Text>
                 <Text style={styles.titlesSubtitle}>안녕하세요.</Text>
               </View>
-              <Image
-                source={require('../assets/images/profile.png')}
-                style={styles.profileImage}
-              />
+              <Pressable
+                style={styles.loginButton}
+                onPress={() => {
+                  NaverLogin.logout();
+                  dispatch(userSlice.actions.setInitial());
+                  Alert.alert('알림', '로그아웃 되었습니다.');
+                }}>
+                <Text style={styles.loginButtonText}>로그아웃</Text>
+              </Pressable>
             </View>
             {/* User Information */}
-            <UserData isLoggedIn={isLoggedIn} />
+            <UserData
+              isLoggedIn={isLoggedIn}
+              onPress={() => navigation.navigate('LabelingLog')}
+            />
             <Stamp />
           </View>
         ) : (
@@ -68,6 +80,17 @@ function UserInfo({route, navigation}) {
               </Pressable>
             </View>
             <UserData isLoggedIn={isLoggedIn} />
+            <View style={styles.advertisingContainer}>
+              <Text style={styles.titlesBoldTitle}>
+                아침에 일어나기만 해도{' '}
+              </Text>
+              <Text style={styles.titlesBoldTitle}>모닝 커피가 한 잔!</Text>
+              <Image
+                source={require('../../assets/images/coffee.png')}
+                resizeMode="contain"
+                style={styles.coffeeImage}
+              />
+            </View>
           </View>
         )}
       </ScrollView>
@@ -156,6 +179,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginTop: 10,
   },
+  coffeeImage: {
+    width: 200,
+    height: 200,
+  },
   categorySelectWrapper: {
     alignSelf: 'center',
     justifyContent: 'center',
@@ -168,7 +195,10 @@ const styles = StyleSheet.create({
   categorySelectIcon: {
     alignSelf: 'center',
   },
-
+  advertisingContainer: {
+    alignSelf: 'center',
+    justifyContent: 'center',
+  },
   ratingWrapper: {
     flexDirection: 'row',
     alignItems: 'center',

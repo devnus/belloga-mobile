@@ -1,19 +1,20 @@
 import React, {useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import Alarm, {
+  disableAlarm,
   enableAlarm,
   removeAlarm,
   scheduleAlarm,
+  showAlarmToastMessage,
   updateAlarm,
-} from '../modules/alarms';
-import TextInput from '../components/AlarmSetting/TextInput';
-import DayPicker from '../components/AlarmSetting/DayPicker';
-import TimePicker from '../components/AlarmSetting/TimePicker';
-import Button from '../components/Button';
-import AlarmSettingDetail from '../components/AlarmSetting/AlarmSettingDetail';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import SettingTitleText from '../components/AlarmSetting/SettingTitleText';
-import {calcAlarmRingTime} from '../modules/calcAlarmsTime';
+} from 'modules/alarms';
+import TextInput from 'components/AlarmSetting/TextInput';
+import DayPicker from 'components/AlarmSetting/DayPicker';
+import TimePicker from 'components/AlarmSetting/TimePicker';
+import Button from 'components/Button';
+import AlarmSettingDetail from 'components/AlarmSetting/AlarmSettingDetail';
+import SettingTitleText from 'components/AlarmSetting/SettingTitleText';
+import {calcAlarmRingTime} from 'modules/calcAlarmsTime';
 
 export type AlarmType = {
   active: boolean;
@@ -26,11 +27,13 @@ export type AlarmType = {
   snoozeInterval: number;
   title: string;
   uid: string;
+  isSoundOn: boolean;
+  isVibrateOn: boolean;
 };
 
 function AlarmSettings({route, navigation}) {
-  const [alarm, setAlarm] = useState<AlarmType>(null);
-  const [mode, setMode] = useState(null);
+  const [alarm, setAlarm] = useState<Alarm>(null);
+  const [mode, setMode] = useState<string>(null);
 
   useEffect(() => {
     if (route.params && route.params.alarm) {
@@ -54,7 +57,7 @@ function AlarmSettings({route, navigation}) {
    * @param updates : 
    */
   function update(updates) {
-    const a = Object.assign({}, alarm);
+    const a: Alarm = Object.assign({}, alarm);
     for (let u of updates) {
       a[u[0]] = u[1];
     }
@@ -77,10 +80,11 @@ function AlarmSettings({route, navigation}) {
 
     if (mode === 'EDIT') {
       await updateAlarm(alarm);
-      await enableAlarm(alarm.uid);
+      await showAlarmToastMessage(alarm);
     }
     if (mode === 'CREATE') {
       await scheduleAlarm(alarm);
+      await showAlarmToastMessage(alarm);
     }
     console.log('alarmSettings', alarm);
     navigation.goBack();
@@ -125,19 +129,28 @@ function AlarmSettings({route, navigation}) {
             <SettingTitleText text="설정" />
             <View style={styles.settingsDetailContainer}>
               <AlarmSettingDetail
-                detailTitle="공휴일에 알람 끄기"
-                detailDescription="대체 공휴일, 임시 공휴일 미포함"
+                detailTitle="진동"
+                detailDescription="진동을 설정합니다"
+                isActive={alarm.isVibrateOn}
+                onChange={(v: boolean) => update([['isVibrateOn', v]])}
               />
               <AlarmSettingDetail
                 detailTitle="소리"
-                detailDescription="어쩔티비"
+                detailDescription="소리를 설정합니다"
+                isActive={alarm.isSoundOn}
+                onChange={(v: boolean) => update([['isSoundOn', v]])}
               />
-              <AlarmSettingDetail detailTitle="진동" detailDescription="On" />
 
               <AlarmSettingDetail
                 detailTitle="다시 울림"
-                detailDescription="5분 간격으로 다시 울림"
+                detailDescription="알람이 꺼져도 잠시 후 다시 울립니다"
+                isActive={alarm.snoozeInterval > 0}
+                onChange={(v: boolean) =>
+                  update([['snoozeInterval', v ? 1 : 0]])
+                }
               />
+              {/* 
+              snoozeInterval이 0이면 snooze 없음, number type를 boolean 으로 처리해주는 방식이다. */}
             </View>
 
             {mode === 'EDIT' && <Button onPress={onDelete} title={'삭제'} />}
@@ -189,7 +202,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     paddingHorizontal: 13,
-    paddingTop: 24.5,
+    paddingTop: 40,
     borderTopRightRadius: 30,
     borderTopLeftRadius: 30,
     backgroundColor: 'white',

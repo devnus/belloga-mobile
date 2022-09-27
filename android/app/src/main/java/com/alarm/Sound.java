@@ -30,9 +30,12 @@ class Sound {
         this.mediaPlayer = new MediaPlayer();
     }
 
-    void play(String sound) {
+    void playSong(String sound) {
         Uri soundUri = getSoundUri(sound);
         playSound(soundUri);
+    }
+
+    void playVibration() {
         startVibration();
     }
 

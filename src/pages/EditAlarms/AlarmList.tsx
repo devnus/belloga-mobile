@@ -1,19 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import {Animated, ScrollView, StyleSheet, Text, View} from 'react-native';
-import AlarmInfo from '../components/AlarmInfo';
-import AddButton from '../components/AlarmSetting/AddButton';
-import {getDays} from '../components/AlarmSetting/DayPicker';
+import AddButton from 'components/AlarmSetting/AddButton';
+import {getDays} from 'components/AlarmSetting/DayPicker';
 import {
   disableAlarm,
   enableAlarm,
   getAlarmState,
   getAllAlarms,
-} from '../modules/alarms';
-import {
-  calcNextAlarm,
-  calcNoRepeatingAlarmTime,
-} from '../modules/calcAlarmsTime';
+  showAlarmToastMessage,
+} from 'modules/alarms';
+import {calcNextAlarm, calcNoRepeatingAlarmTime} from 'modules/calcAlarmsTime';
 import {AlarmType} from './AlarmSettings';
+import AlarmInfo from '../../components/AlarmInfo';
 
 //움직이는 탭바를 위한 상수
 const Header_Maximum_Height = 200;
@@ -42,7 +40,10 @@ function AlarmList({navigation}: any) {
   async function fetchState() {
     const alarmUid = await getAlarmState(); //알람 state를 가져온다
     if (alarmUid) {
-      navigation.navigate('Ring', {alarmUid});
+      navigation.navigate('Ring', {
+        screen: 'AlarmRing',
+        params: {alarmUid},
+      });
     }
   }
 
@@ -96,6 +97,7 @@ function AlarmList({navigation}: any) {
                 onChange={async (active: Boolean) => {
                   if (active) {
                     await enableAlarm(a.uid);
+                    showAlarmToastMessage(a);
                     setAlarms(await getAllAlarms());
                   } else {
                     await disableAlarm(a.uid);

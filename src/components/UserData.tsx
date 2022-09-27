@@ -1,8 +1,8 @@
 import React from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import colors from '../assets/colors';
 
-function UserData({isLoggedIn}: any) {
+function UserData({isLoggedIn, onPress}: any) {
   return (
     <View style={styles.categoriesWrapper}>
       <View
@@ -39,7 +39,9 @@ function UserData({isLoggedIn}: any) {
       </View>
 
       {isLoggedIn && (
-        <Text style={styles.userInfoDetailButton}>지급 예정 포인트</Text>
+        <TouchableOpacity style={styles.userInfoDetailButton} onPress={onPress}>
+          <Text style={styles.userInfoDetailBtnInside}>기록 보기</Text>
+        </TouchableOpacity>
       )}
     </View>
   );
@@ -102,7 +104,10 @@ const styles = StyleSheet.create({
   categorySelectIcon: {
     alignSelf: 'center',
   },
-
+  userInfoDetailBtnInside: {
+    color: 'white',
+    textAlign: 'center',
+  },
   userInfosDescribe: {
     flexDirection: 'row',
     alignItems: 'center',

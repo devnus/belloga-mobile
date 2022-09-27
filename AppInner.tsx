@@ -1,29 +1,22 @@
 import * as React from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Alarms from './src/pages/Alarms';
-import Setting from './src/pages/Setting';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Setting from './src/pages/ViewUserData/Setting';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-export type LoggedInParamList = {
-  Orders: undefined;
-  Settings: undefined;
-  Delivery: undefined;
-  Complete: {orderId: string};
-};
+import AlarmRingHandle from './src/pages/RingAlarms/AlarmRingHandle';
+import AlarmList from '@/pages/EditAlarms/AlarmList';
+import AlarmSettings from '@/pages/EditAlarms/AlarmSettings';
 
-export type RootStackParamList = {
-  SignIn: undefined;
-  SignUp: undefined;
-};
-
+const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-function AppInner() {
+function AlarmTabs() {
   return (
     <Tab.Navigator>
       <Tab.Screen
         name="알람"
-        component={Alarms}
+        component={AlarmList}
         options={{
           headerShown: false,
           tabBarIcon: () => <Icon name="bell" size={20} color="#000" />,
@@ -38,6 +31,26 @@ function AppInner() {
         }}
       />
     </Tab.Navigator>
+  );
+}
+
+function AppInner() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Alarms"
+        component={AlarmTabs}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="Edit"
+        component={AlarmSettings}
+        options={{title: '알람 시간 지정'}}
+      />
+      <Stack.Screen name="Ring" component={AlarmRingHandle} />
+    </Stack.Navigator>
   );
 }
 

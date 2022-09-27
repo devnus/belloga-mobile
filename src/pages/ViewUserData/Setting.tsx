@@ -22,7 +22,7 @@ function Setting() {
       <Stack.Screen
         name="LabelingLog"
         component={LabelingLog}
-        options={{headerShown: false}}
+        options={{title: '내 기록'}}
       />
     </Stack.Navigator>
   );

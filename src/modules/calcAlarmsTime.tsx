@@ -8,7 +8,7 @@ import {getKoreanDayName} from '../components/AlarmSetting/DayPicker';
  * 반복하지 않는 알람의 경우 언제 울리는지 계산해주는 함수 (오늘 혹은 내일)
  */
 
-export function calcNoRepeatingAlarmTime(alarms) {
+export function calcNoRepeatingAlarmTime(alarms: AlarmType[]) {
   //중복 알람이 아닌 알람들을 추려냄
   const noRepeatingAlarms = alarms.filter(
     (alarm: AlarmType) => alarm.repeating === false,
@@ -27,7 +27,7 @@ export function calcNoRepeatingAlarmTime(alarms) {
  * 가장 빠르게 울리는 알람이 어느 것인지 계산해주는 함수
  */
 
-export function calcNextAlarm(alarms) {
+export function calcNextAlarm(alarms: AlarmType[]) {
   const today = new Date();
 
   const activeAlarms = alarms.filter(
@@ -70,6 +70,11 @@ export function calcNextAlarm(alarms) {
   );
 }
 
+/**
+ *
+ * @param value 숫자를 넣으면
+ * @returns 한자리일 경우 앞에 0을 붙여서 string으로 리턴
+ */
 function leftPad(value: number) {
   if (value >= 10) {
     return value;
@@ -82,16 +87,16 @@ function toStringByFormatting(source: Date) {
   const month = leftPad(source.getMonth() + 1);
   const day = leftPad(source.getDate());
 
-  let hours = leftPad(source.getHours());
+  let hours: number = Number(leftPad(source.getHours()));
   const minutes = leftPad(source.getMinutes());
 
-  const ampm = hours >= 12 ? 'PM' : 'AM';
+  const timeZone = hours >= 12 ? 'PM' : 'AM';
   hours = hours % 12;
   hours = hours ? hours : 12; // the hour '0' should be '12'
-  hours = hours < 10 ? '0' + hours : hours;
+  hours = Number(leftPad(hours));
 
   return `${month}월 ${day}일 ${getKoreanDayName(source.getDay())}요일 ${
-    hours + ':' + minutes + ' ' + ampm
+    String(hours) + ':' + minutes + ' ' + timeZone
   }`;
 }
 
