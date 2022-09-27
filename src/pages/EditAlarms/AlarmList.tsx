@@ -40,7 +40,10 @@ function AlarmList({navigation}: any) {
   async function fetchState() {
     const alarmUid = await getAlarmState(); //알람 state를 가져온다
     if (alarmUid) {
-      navigation.navigate('Ring', {alarmUid});
+      navigation.navigate('Ring', {
+        screen: 'AlarmRing',
+        params: {alarmUid},
+      });
     }
   }
 

@@ -9,7 +9,7 @@ function AlarmRingHandle() {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Ring"
+        name="AlarmRing"
         component={AlarmRing}
         options={{headerShown: false}}
       />
