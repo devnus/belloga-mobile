@@ -113,33 +113,6 @@ class Helper {
             Log.d(TAG, "didn't need to create a notification channel");
         }
     }
-    
-//     static void turnScreenOnAndKeyguardOff(Context context) {
-//         // Create the NotificationChannel, but only on  API 26+ because
-//         // the NotificationChannel class is new and not in the support library
-//         Activity activity = Helper.getMainActivityClass(context);
-//
-//
-//         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
-//             activity.setShowWhenLocked(true);
-//             activity.setTurnScreenOn(true);
-//             activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-//             | WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
-//         } else {
-//             activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED    // deprecated api 27
-//             | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD     // deprecated api 26
-//             | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-//             | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON   // deprecated api 27
-//             | WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
-//         }
-//
-//         KeyguardManager keyguardManager = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
-//
-//         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//             keyguardManager.requestDismissKeyguard(activity, null);
-//         }
-//     }
-//
 
     protected static Notification getNotification(Context context, int id, String alarmUid, String title, String description) {
         Resources res = context.getResources();
