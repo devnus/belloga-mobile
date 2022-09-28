@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.os.Build;
 import android.util.Log;
 
 public class AlarmService extends Service {
@@ -21,6 +22,7 @@ public class AlarmService extends Service {
     public void onCreate() {
         super.onCreate();
         Log.d(TAG, "Creating service");
+
     }
     @Override
     public void onDestroy() {
@@ -34,10 +36,12 @@ public class AlarmService extends Service {
         super.onStartCommand(intent, flags, startId);
         Log.d(TAG, "On start command");
 
+
         String alarmUid = intent.getStringExtra("ALARM_UID");
         Alarm alarm = Storage.getAlarm(getApplicationContext(), alarmUid);
         Notification notification = Helper.getAlarmNotification(this, alarm, 1);
         Manager.start(getApplicationContext(), alarmUid);
+
         startForeground(1, notification);
 
         // service will be explicitly started and stopped

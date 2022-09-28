@@ -4,6 +4,9 @@ import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.KeyguardManager;
+import android.view.WindowManager;
+import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -110,29 +113,6 @@ class Helper {
             Log.d(TAG, "didn't need to create a notification channel");
         }
     }
-    
-    // private void turnScreenOnAndKeyguardOf(Context context) {
-    //     // Create the NotificationChannel, but only on API 26+ because
-    //     // the NotificationChannel class is new and not in the support library
-    //     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
-    //         setShowWhenLocked(true);
-    //         setTurnScreenOn(true);
-    //         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-    //         | WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
-    //     } else {
-    //         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED    // deprecated api 27
-    //         | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD     // deprecated api 26
-    //         | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-    //         | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON   // deprecated api 27
-    //         | WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
-    //     }
-
-    //     KeyguardManager keyguardMgr =(KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
-    //     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-    //         keyguardMgr.requestDismissKeyguard(this, null) ;
-    //     }
-    // }
-    
 
     protected static Notification getNotification(Context context, int id, String alarmUid, String title, String description) {
         Resources res = context.getResources();
