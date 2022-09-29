@@ -149,6 +149,8 @@ class Helper {
 
     private static PendingIntent createOnClickedIntent(Context context, String alarmUid, int notificationID) {
         Intent resultIntent = new Intent(context, Helper.getMainActivityClass(context));
+
+        resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         resultIntent.putExtra("ALARM_UID", alarmUid);
         return PendingIntent.getActivity(
                 context,
