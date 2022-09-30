@@ -11,7 +11,6 @@ import {
   Alert,
   Image,
 } from 'react-native';
-import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useSelector} from 'react-redux';
 import colors from '../../assets/colors';
@@ -19,15 +18,12 @@ import Stamp from '@/components/Stamp';
 import UserData from '@/components/UserData';
 import {useAppDispatch} from '@/store';
 import {RootState} from '@/store/reducer';
-import LabelingLogInfo from '@/components/LabelingLogInfo';
 
-Feather.loadFont();
 MaterialCommunityIcons.loadFont();
 
-function UserInfo({route, navigation}) {
+function PressStamps({route, navigation}) {
   const isLoggedIn = useSelector((state: RootState) => !!state.user.email);
   const dispatch = useAppDispatch();
-  console.log(isLoggedIn);
 
   return (
     <View style={styles.container}>
@@ -44,33 +40,7 @@ function UserInfo({route, navigation}) {
         {/* Titles */}
         {isLoggedIn ? (
           <View>
-            <View style={styles.titlesWrapper}>
-              <View>
-                <Text style={styles.titlesBoldTitle}>홍길동님</Text>
-                <Text style={styles.titlesSubtitle}>안녕하세요.</Text>
-              </View>
-              <Pressable
-                style={styles.loginButton}
-                onPress={() => {
-                  NaverLogin.logout();
-                  dispatch(userSlice.actions.setInitial());
-                  Alert.alert('알림', '로그아웃 되었습니다.');
-                }}>
-                <Text style={styles.loginButtonText}>로그아웃</Text>
-              </Pressable>
-            </View>
-            {/* User Information */}
-            <UserData />
-            <ScrollView
-              contentInsetAdjustmentBehavior="automatic"
-              showsVerticalScrollIndicator={false}>
-              <View>
-                {/* User Information */}
-
-                <Text style={styles.titlesSubtitle}> 라벨링 내역 </Text>
-                <LabelingLogInfo />
-              </View>
-            </ScrollView>
+            <Stamp />
           </View>
         ) : (
           <View>
@@ -89,7 +59,9 @@ function UserInfo({route, navigation}) {
             </View>
             <UserData isLoggedIn={isLoggedIn} />
             <View style={styles.advertisingContainer}>
-              <Text style={styles.titlesBoldTitle}>아침에 일어나기만 해도</Text>
+              <Text style={styles.titlesBoldTitle}>
+                아침에 일어나기만 해도{' '}
+              </Text>
               <Text style={styles.titlesBoldTitle}>모닝 커피가 한 잔!</Text>
               <Image
                 source={require('../../assets/images/coffee.png')}
@@ -104,7 +76,7 @@ function UserInfo({route, navigation}) {
   );
 }
 
-export default UserInfo;
+export default PressStamps;
 
 const styles = StyleSheet.create({
   container: {

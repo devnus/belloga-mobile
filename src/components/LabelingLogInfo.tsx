@@ -27,11 +27,6 @@ function LabelingLogInfo({date, isProcessed, labeledLog}) {
     outputRange: ['0deg', '180deg'],
   });
 
-  const ccwRotating = rotateAnimation.interpolate({
-    inputRange: [0, 1],
-    outputRange: ['180deg', '0deg'],
-  });
-
   const animatedStyle = {
     transform: [
       {

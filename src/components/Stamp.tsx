@@ -24,6 +24,7 @@ function Stamp() {
       if (i < sNums) {
         stampIcons.push(
           <Image
+            key={i}
             style={styles.stampImage}
             source={require('../assets/images/stamp.png')}
           />,
@@ -31,6 +32,7 @@ function Stamp() {
       } else {
         stampIcons.push(
           <TouchableHighlight
+            key={i}
             style={styles.nonCheckedStamp}
             underlayColor="#DDDDDD">
             <Text style={styles.stampInsideText}>{i}</Text>
@@ -81,6 +83,100 @@ function Stamp() {
           <Button title="커피 응모" onPress={() => {}} />
         )}
       </View>
+
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <View
+          style={{
+            borderRadius:
+              Math.round(
+                Dimensions.get('window').width +
+                  Dimensions.get('window').height,
+              ) / 2,
+            width: Dimensions.get('window').width * 0.6,
+            height: Dimensions.get('window').width * 0.6,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Image
+            source={require('@/assets/images/stamp.png')}
+            style={{
+              height: 50,
+              width: 50,
+              position: 'absolute',
+              bottom: Dimensions.get('window').width * 0.525,
+            }}
+          />
+          <Image
+            source={require('@/assets/images/stamp.png')}
+            style={{
+              height: 50,
+              width: 50,
+              position: 'absolute',
+              bottom: Dimensions.get('window').width * 0.45,
+              right: 20,
+            }}
+          />
+          <Image
+            source={require('@/assets/images/stamp.png')}
+            style={{
+              height: 50,
+              width: 50,
+              position: 'absolute',
+              bottom: Dimensions.get('window').width * 0.45,
+              left: 20,
+            }}
+          />
+          <Image
+            source={require('@/assets/images/stamp.png')}
+            style={{
+              height: 50,
+              width: 50,
+              position: 'absolute',
+              top: Dimensions.get('window').width * 0.525,
+            }}
+          />
+          <Image
+            source={require('@/assets/images/stamp.png')}
+            style={{
+              height: 50,
+              width: 50,
+              position: 'absolute',
+              top: Dimensions.get('window').width * 0.45,
+              right: 20,
+            }}
+          />
+          <Image
+            source={require('@/assets/images/stamp.png')}
+            style={{
+              height: 50,
+              width: 50,
+              position: 'absolute',
+              top: Dimensions.get('window').width * 0.45,
+              left: 20,
+            }}
+          />
+          <Image
+            source={require('@/assets/images/stamp.png')}
+            style={{
+              height: 50,
+              width: 50,
+              position: 'absolute',
+              bottom: Dimensions.get('window').width * 0.225,
+              left: -20,
+            }}
+          />
+          <Image
+            source={require('@/assets/images/stamp.png')}
+            style={{
+              height: 50,
+              width: 50,
+              position: 'absolute',
+              bottom: Dimensions.get('window').width * 0.225,
+              right: -20,
+            }}
+          />
+        </View>
+      </View>
     </SafeAreaView>
   );
 }
@@ -98,13 +194,6 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     marginVertical: 30,
     paddingLeft: 20,
-    shadowColor: '#4dd1d1d1',
-    shadowOffset: {
-      width: 10,
-      height: 10,
-    },
-    shadowOpacity: 0.05,
-    elevation: 20,
   },
   popularTopWrapper: {
     flexDirection: 'row',

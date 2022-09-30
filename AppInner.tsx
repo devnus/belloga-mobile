@@ -7,6 +7,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import AlarmRingHandle from './src/pages/RingAlarms/AlarmRingHandle';
 import AlarmList from '@/pages/EditAlarms/AlarmList';
 import AlarmSettings from '@/pages/EditAlarms/AlarmSettings';
+import PressStamps from '@/pages/Stamps/PressStamps';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -23,7 +24,15 @@ function AlarmTabs() {
         }}
       />
       <Tab.Screen
-        name="정보"
+        name="응모"
+        component={PressStamps}
+        options={{
+          headerShown: false,
+          tabBarIcon: () => <Icon name="user" size={20} color="#000" />,
+        }}
+      />
+      <Tab.Screen
+        name="기록"
         component={Setting}
         options={{
           headerShown: false,

@@ -15,8 +15,8 @@ import {
   TokenResponse,
 } from '@react-native-seoul/naver-login';
 import Config from 'react-native-config';
-import {useAppDispatch} from '../store';
-import userSlice from '../slices/user';
+import {useAppDispatch} from '@/store';
+import userSlice from '@/slices/user';
 import axios, {AxiosError} from 'axios';
 
 const iosKeys = {
@@ -95,7 +95,7 @@ const NaverLoginBlock = ({onPress}) => {
       );
     } catch (error) {
       console.error(error);
-      Alert.alert('로그인에 실패했습니다');
+      Alert.alert('보안을 위해 로그인이 만료되었습니다. 다시 로그인해 주세요');
     }
   };
 
@@ -103,7 +103,10 @@ const NaverLoginBlock = ({onPress}) => {
   const getUserProfile = async (accessToken: string) => {
     const profileResult = await getProfile(accessToken);
     if (profileResult.resultcode === '024') {
-      Alert.alert('로그인에 실패했습니다', profileResult.message);
+      Alert.alert(
+        '유저 정보 불러오기에 실패했습니다. 다시 로그인해 주세요',
+        profileResult.message,
+      );
       return;
     }
     dispatch(
