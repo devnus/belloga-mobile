@@ -4,6 +4,8 @@ import {
   Alert,
   Dimensions,
   Image,
+  ImageStyle,
+  StyleProp,
   StyleSheet,
   Text,
   TouchableHighlight,
@@ -14,6 +16,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
 import colors from '../assets/colors';
 import Button from './Button';
+import {CalcCircularView} from '@/modules/calcCircularView';
 
 function Stamp() {
   const [stampNumbers, setStampNumbers] = useState<number>(0);
@@ -22,22 +25,25 @@ function Stamp() {
   const windowHeight = Dimensions.get('window').height * 0.9;
   const imgSize = 60;
 
-  const displayStamps = sNums => {
+  const displayStamps = (sNums: number) => {
+    const stampStyles: StyleProp<ImageStyle>[] = CalcCircularView(
+      windowWidth,
+      imgSize,
+    );
     let stampIcons = [];
-    for (let i = 0; i < 10; ++i) {
+    for (let i = 0; i < 8; ++i) {
       if (i < sNums) {
         stampIcons.push(
           <Image
-            key={i}
-            style={styles.stampImage}
-            source={require('../assets/images/stamp.png')}
+            source={require('@/assets/images/stamp.png')}
+            style={stampStyles[i]}
           />,
         );
       } else {
         stampIcons.push(
           <TouchableHighlight
             key={i}
-            style={styles.nonCheckedStamp}
+            style={stampStyles[i]}
             underlayColor="#DDDDDD">
             <Text style={styles.stampInsideText}>{i}</Text>
           </TouchableHighlight>,
@@ -68,7 +74,6 @@ function Stamp() {
           </Text>
         </View>
         <Text style={styles.popularTopText}>내가 응모한 커피 개수 : 9개 </Text>
-        <View style={styles.stampContainer}>{displayStamps(stampNumbers)}</View>
 
         {stampNumbers < 10 ? (
           <TouchableOpacity
@@ -97,7 +102,8 @@ function Stamp() {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <Image
+          {displayStamps(stampNumbers)}
+          {/* <Image
             source={require('@/assets/images/stamp.png')}
             style={{
               height: imgSize,
@@ -112,12 +118,8 @@ function Stamp() {
               height: imgSize,
               width: imgSize,
               position: 'absolute',
-              bottom:
-                windowWidth * 0.8 -
-                windowWidth * 0.4 * 0.3 -
-                imgSize +
-                (imgSize / 2) * 0.3,
-              right: windowWidth * 0.4 * 0.3 - (imgSize / 2) * 0.3,
+              bottom: diagonalVerticalPosition,
+              right: diagonalHorizontalPosition,
             }}
           />
           <Image
@@ -126,12 +128,8 @@ function Stamp() {
               height: imgSize,
               width: imgSize,
               position: 'absolute',
-              bottom:
-                windowWidth * 0.8 -
-                windowWidth * 0.4 * 0.3 -
-                imgSize +
-                (imgSize / 2) * 0.3,
-              left: windowWidth * 0.4 * 0.3 - (imgSize / 2) * 0.3,
+              bottom: diagonalVerticalPosition,
+              left: diagonalHorizontalPosition,
             }}
           />
           <Image
@@ -149,12 +147,8 @@ function Stamp() {
               height: imgSize,
               width: imgSize,
               position: 'absolute',
-              top:
-                windowWidth * 0.8 -
-                windowWidth * 0.4 * 0.3 -
-                imgSize +
-                (imgSize / 2) * 0.3,
-              right: windowWidth * 0.4 * 0.3 - (imgSize / 2) * 0.3,
+              top: diagonalVerticalPosition,
+              right: diagonalHorizontalPosition,
             }}
           />
           <Image
@@ -163,12 +157,8 @@ function Stamp() {
               height: imgSize,
               width: imgSize,
               position: 'absolute',
-              top:
-                windowWidth * 0.8 -
-                windowWidth * 0.4 * 0.3 -
-                imgSize +
-                (imgSize / 2) * 0.3,
-              left: windowWidth * 0.4 * 0.3 - (imgSize / 2) * 0.3,
+              top: diagonalVerticalPosition,
+              left: diagonalHorizontalPosition,
             }}
           />
           <Image
@@ -190,7 +180,7 @@ function Stamp() {
               bottom: windowWidth * 0.4 - imgSize / 2,
               right: 0,
             }}
-          />
+          /> */}
         </View>
       </View>
     </SafeAreaView>
