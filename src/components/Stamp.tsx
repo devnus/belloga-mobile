@@ -18,6 +18,10 @@ import Button from './Button';
 function Stamp() {
   const [stampNumbers, setStampNumbers] = useState<number>(0);
 
+  const windowWidth = Dimensions.get('window').width * 0.9;
+  const windowHeight = Dimensions.get('window').height * 0.9;
+  const imgSize = 60;
+
   const displayStamps = sNums => {
     let stampIcons = [];
     for (let i = 0; i < 10; ++i) {
@@ -87,92 +91,104 @@ function Stamp() {
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         <View
           style={{
-            borderRadius:
-              Math.round(
-                Dimensions.get('window').width +
-                  Dimensions.get('window').height,
-              ) / 2,
-            width: Dimensions.get('window').width * 0.6,
-            height: Dimensions.get('window').width * 0.6,
+            borderRadius: Math.round(windowWidth + windowHeight) / 2,
+            width: windowWidth * 0.8,
+            height: windowWidth * 0.8,
             justifyContent: 'center',
             alignItems: 'center',
           }}>
           <Image
             source={require('@/assets/images/stamp.png')}
             style={{
-              height: 50,
-              width: 50,
+              height: imgSize,
+              width: imgSize,
               position: 'absolute',
-              bottom: Dimensions.get('window').width * 0.525,
+              bottom: windowWidth * 0.8 - imgSize,
             }}
           />
           <Image
             source={require('@/assets/images/stamp.png')}
             style={{
-              height: 50,
-              width: 50,
+              height: imgSize,
+              width: imgSize,
               position: 'absolute',
-              bottom: Dimensions.get('window').width * 0.45,
-              right: 20,
+              bottom:
+                windowWidth * 0.8 -
+                windowWidth * 0.4 * 0.3 -
+                imgSize +
+                (imgSize / 2) * 0.3,
+              right: windowWidth * 0.4 * 0.3 - (imgSize / 2) * 0.3,
             }}
           />
           <Image
             source={require('@/assets/images/stamp.png')}
             style={{
-              height: 50,
-              width: 50,
+              height: imgSize,
+              width: imgSize,
               position: 'absolute',
-              bottom: Dimensions.get('window').width * 0.45,
-              left: 20,
+              bottom:
+                windowWidth * 0.8 -
+                windowWidth * 0.4 * 0.3 -
+                imgSize +
+                (imgSize / 2) * 0.3,
+              left: windowWidth * 0.4 * 0.3 - (imgSize / 2) * 0.3,
             }}
           />
           <Image
             source={require('@/assets/images/stamp.png')}
             style={{
-              height: 50,
-              width: 50,
+              height: imgSize,
+              width: imgSize,
               position: 'absolute',
-              top: Dimensions.get('window').width * 0.525,
+              top: windowWidth * 0.8 - imgSize,
             }}
           />
           <Image
             source={require('@/assets/images/stamp.png')}
             style={{
-              height: 50,
-              width: 50,
+              height: imgSize,
+              width: imgSize,
               position: 'absolute',
-              top: Dimensions.get('window').width * 0.45,
-              right: 20,
+              top:
+                windowWidth * 0.8 -
+                windowWidth * 0.4 * 0.3 -
+                imgSize +
+                (imgSize / 2) * 0.3,
+              right: windowWidth * 0.4 * 0.3 - (imgSize / 2) * 0.3,
             }}
           />
           <Image
             source={require('@/assets/images/stamp.png')}
             style={{
-              height: 50,
-              width: 50,
+              height: imgSize,
+              width: imgSize,
               position: 'absolute',
-              top: Dimensions.get('window').width * 0.45,
-              left: 20,
+              top:
+                windowWidth * 0.8 -
+                windowWidth * 0.4 * 0.3 -
+                imgSize +
+                (imgSize / 2) * 0.3,
+              left: windowWidth * 0.4 * 0.3 - (imgSize / 2) * 0.3,
             }}
           />
           <Image
             source={require('@/assets/images/stamp.png')}
             style={{
-              height: 50,
-              width: 50,
+              height: imgSize,
+              width: imgSize,
               position: 'absolute',
-              bottom: Dimensions.get('window').width * 0.225,
-              left: -20,
+              bottom: windowWidth * 0.4 - imgSize / 2,
+              left: 0,
             }}
           />
           <Image
             source={require('@/assets/images/stamp.png')}
             style={{
-              height: 50,
-              width: 50,
+              height: imgSize,
+              width: imgSize,
               position: 'absolute',
-              bottom: Dimensions.get('window').width * 0.225,
-              right: -20,
+              bottom: windowWidth * 0.4 - imgSize / 2,
+              right: 0,
             }}
           />
         </View>

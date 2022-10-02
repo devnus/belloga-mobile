@@ -37,16 +37,16 @@ function PressStamps({route, navigation}) {
           </View>
         </SafeAreaView>
 
+        <Stamp />
+
         {/* Titles */}
-        {isLoggedIn ? (
-          <View>
-            <Stamp />
-          </View>
-        ) : (
+        {!isLoggedIn && (
           <View>
             <View style={styles.titlesWrapper}>
               <View>
-                <Text style={styles.titlesBoldTitle}>로그인이 필요합니다.</Text>
+                <Text style={styles.titlesBoldTitle}>
+                  로그인을 통해 도장 응모에 도전하세요~
+                </Text>
               </View>
 
               <Pressable
@@ -56,18 +56,6 @@ function PressStamps({route, navigation}) {
                 }}>
                 <Text style={styles.loginButtonText}>로그인</Text>
               </Pressable>
-            </View>
-            <UserData isLoggedIn={isLoggedIn} />
-            <View style={styles.advertisingContainer}>
-              <Text style={styles.titlesBoldTitle}>
-                아침에 일어나기만 해도{' '}
-              </Text>
-              <Text style={styles.titlesBoldTitle}>모닝 커피가 한 잔!</Text>
-              <Image
-                source={require('../../assets/images/coffee.png')}
-                resizeMode="contain"
-                style={styles.coffeeImage}
-              />
             </View>
           </View>
         )}

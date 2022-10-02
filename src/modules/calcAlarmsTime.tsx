@@ -1,20 +1,19 @@
 import React from 'react';
-import {AlarmType} from '../pages/AlarmSettings';
 import {StyleSheet, Text} from 'react-native';
-import {updateAlarm} from './alarms';
+import Alarm, {updateAlarm} from './alarms';
 import {getKoreanDayName} from '../components/AlarmSetting/DayPicker';
 
 /**
  * 반복하지 않는 알람의 경우 언제 울리는지 계산해주는 함수 (오늘 혹은 내일)
  */
 
-export function calcNoRepeatingAlarmTime(alarms: AlarmType[]) {
+export function calcNoRepeatingAlarmTime(alarms: Alarm[]) {
   //중복 알람이 아닌 알람들을 추려냄
   const noRepeatingAlarms = alarms.filter(
-    (alarm: AlarmType) => alarm.repeating === false,
+    (alarm: Alarm) => alarm.repeating === false,
   );
 
-  noRepeatingAlarms.map((alarm: AlarmType) => {
+  noRepeatingAlarms.map((alarm: Alarm) => {
     if (alarm.active === true) {
       const day: number = calcAlarmRingTime(alarm.hour, alarm.minutes);
       alarm.days = [day];
@@ -27,12 +26,10 @@ export function calcNoRepeatingAlarmTime(alarms: AlarmType[]) {
  * 가장 빠르게 울리는 알람이 어느 것인지 계산해주는 함수
  */
 
-export function calcNextAlarm(alarms: AlarmType[]) {
+export function calcNextAlarm(alarms: Alarm[]) {
   const today = new Date();
 
-  const activeAlarms = alarms.filter(
-    (alarm: AlarmType) => alarm.active === true,
-  );
+  const activeAlarms = alarms.filter((alarm: Alarm) => alarm.active === true);
 
   if (activeAlarms.length === 0) {
     return (
@@ -42,7 +39,7 @@ export function calcNextAlarm(alarms: AlarmType[]) {
     );
   }
 
-  const remainTimes = activeAlarms.map((alarm: AlarmType) => {
+  const remainTimes = activeAlarms.map((alarm: Alarm) => {
     return Math.floor((calcRemainTime(alarm) - today) / (1000 * 60));
   });
 
@@ -83,6 +80,11 @@ function leftPad(value: number) {
   return `0${value}`;
 }
 
+/**
+ *
+ * @param source 날짜
+ * @returns 몇월 몇일 무슨 요일이라고 string으로 리턴
+ */
 function toStringByFormatting(source: Date) {
   const month = leftPad(source.getMonth() + 1);
   const day = leftPad(source.getDate());
@@ -128,7 +130,7 @@ export function calcAlarmRingTime(hour: number, minutes: number) {
    * @returns Date
    알람을 받아 해당 알람이 언제 울릴 건지 리턴해주는 함수
    */
-export function calcRemainTime(alarm: AlarmType) {
+export function calcRemainTime(alarm: Alarm) {
   const alarmHour = alarm.hour;
   const alarmMinutes = alarm.minutes;
   const alarmDays: number[] = alarm.days;

@@ -5,6 +5,7 @@ import axios from 'axios';
 import Button from '../../components/Button';
 import TextInput from '../../components/AlarmSetting/TextInput';
 import Alarm, {getAlarm, snoozeAlarm, stopAlarm} from '../../modules/alarms';
+import {CalcBoundingBoxOnImage} from '@/modules/calcBoundingBox';
 
 function RenderImage({boundingBoxInfo, imageUrl}) {
   const [topPosition, setTopPosition] = useState(0);
@@ -16,22 +17,17 @@ function RenderImage({boundingBoxInfo, imageUrl}) {
     const xArray = boundingBoxInfo.x;
     const yArray = boundingBoxInfo.y;
     Image.getSize(imageUrl, (width, height) => {
-      const imageWidth = width;
-      const imageHeight = height;
-
-      const resizedHeight = (200 * imageHeight) / imageWidth;
-
-      // get the top left position of the image
+      const positionResultArray = CalcBoundingBoxOnImage(
+        xArray,
+        yArray,
+        width,
+        height,
+      );
       //boundingBboxId, 왼쪽 위, 윈쪽아래, 오른쪽위, 오른쪽아래
-      setTopPosition(
-        (200 - resizedHeight) / 2 + (yArray[0] / imageHeight) * resizedHeight,
-      );
-      setBottomPosition(
-        (200 - resizedHeight) / 2 +
-          (1 - yArray[2] / imageHeight) * resizedHeight,
-      );
-      setLeftPosition((xArray[0] / imageWidth) * 200);
-      setRightPosition((1 - xArray[2] / imageWidth) * 200);
+      setTopPosition(positionResultArray[0]);
+      setBottomPosition(positionResultArray[1]);
+      setLeftPosition(positionResultArray[2]);
+      setRightPosition(positionResultArray[3]);
     });
   }, []);
 
@@ -80,7 +76,7 @@ const showBoundingBox = (boundingBoxInfo, imageUrl) => {
 };
 
 function AlarmRing({route, navigation}) {
-  const [alarm, setAlarm] = useState<Alarm | null>(null);
+  const [alarm, setAlarm] = useState<Alarm | undefined>();
   const [imageUrl, setImageUrl] = useState('');
   const [answer, setAnswer] = useState<String>('');
   const [loading, setLoading] = useState(false);
