@@ -1,4 +1,44 @@
-import {ImageStyle, StyleProp} from 'react-native';
+import React from 'react';
+import {
+  Image,
+  ImageStyle,
+  StyleProp,
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+} from 'react-native';
+
+export function displayStamps(
+  sNums: number,
+  windowWidth: number,
+  imgSize: number,
+) {
+  const stampStyles: StyleProp<ImageStyle>[] = CalcCircularView(
+    windowWidth,
+    imgSize,
+  );
+  let stampIcons = [];
+  for (let i = 0; i < 8; ++i) {
+    if (i < sNums) {
+      stampIcons.push(
+        <Image
+          source={require('@/assets/images/stamp.png')}
+          style={stampStyles[i]}
+        />,
+      );
+    } else {
+      stampIcons.push(
+        <TouchableHighlight
+          key={i}
+          style={stampStyles[i]}
+          underlayColor="#DDDDDD">
+          <Text style={styles.stampInsideText}>{i}</Text>
+        </TouchableHighlight>,
+      );
+    }
+  }
+  return stampIcons;
+}
 
 export function CalcCircularView(windowWidth: number, imgSize: number) {
   const diagonalVerticalPosition =
@@ -80,3 +120,12 @@ export function CalcCircularView(windowWidth: number, imgSize: number) {
     eightStamp,
   ];
 }
+
+const styles = StyleSheet.create({
+  stampInsideText: {
+    textAlign: 'center',
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: '#d2e3e1',
+  },
+});

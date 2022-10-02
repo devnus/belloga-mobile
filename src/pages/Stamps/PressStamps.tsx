@@ -1,5 +1,3 @@
-import userSlice from '@/slices/user';
-import {NaverLogin} from '@react-native-seoul/naver-login';
 import * as React from 'react';
 import {
   View,
@@ -14,10 +12,10 @@ import {
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useSelector} from 'react-redux';
 import colors from '../../assets/colors';
-import Stamp from '@/components/Stamp';
-import UserData from '@/components/UserData';
+import Stamp from '@/components/Stamp/Stamp';
 import {useAppDispatch} from '@/store';
 import {RootState} from '@/store/reducer';
+import CurrentPointData from '@/components/Stamp/CurrentPointData';
 
 MaterialCommunityIcons.loadFont();
 
@@ -36,6 +34,7 @@ function PressStamps({route, navigation}) {
             <Text style={styles.titlesSubtitle}> </Text>
           </View>
         </SafeAreaView>
+        <CurrentPointData />
 
         <Stamp />
 

@@ -1,31 +1,20 @@
 import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import colors from '../assets/colors';
+import colors from '@assets/colors';
 
-function UserData() {
+function CurrentPointData() {
   return (
     <View style={styles.categoriesWrapper}>
       <View style={styles.userInfoRoundWrapper}>
         <View style={styles.userInfoRow}>
           <View style={styles.userInfosDescribe}>
             <Image
-              source={require('@/assets/images/label.png')}
+              source={require('@assets/images/coin.png')}
               style={styles.userInfoIcon}
             />
-            <Text style={styles.titlesSubtitle}>검토 중인 라벨링</Text>
+            <Text style={styles.titlesSubtitle}>내 포인트</Text>
           </View>
-          <Text style={styles.titlesSubtitle}>34개</Text>
-        </View>
-
-        <View style={styles.userInfoRow}>
-          <View style={styles.userInfosDescribe}>
-            <Image
-              source={require('../assets/images/point.png')}
-              style={styles.userInfoIcon}
-            />
-            <Text style={styles.titlesSubtitle}>지급 예정 포인트</Text>
-          </View>
-          <Text style={styles.titlesSubtitle}>1000P</Text>
+          <Text style={styles.titlesSubtitle}> 6803P</Text>
         </View>
       </View>
     </View>
@@ -134,4 +123,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default UserData;
+export default CurrentPointData;
