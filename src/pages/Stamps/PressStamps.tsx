@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   Text,
@@ -6,8 +6,6 @@ import {
   SafeAreaView,
   ScrollView,
   Pressable,
-  Alert,
-  Image,
 } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useSelector} from 'react-redux';
@@ -16,12 +14,20 @@ import Stamp from '@/components/Stamp/Stamp';
 import {useAppDispatch} from '@/store';
 import {RootState} from '@/store/reducer';
 import CurrentPointData from '@/components/Stamp/CurrentPointData';
-
+import {getUserStampInfo} from '@/modules/userPointAPIs';
+import ApplyGift from '@/components/Stamp/ApplyGift';
 MaterialCommunityIcons.loadFont();
 
 function PressStamps({route, navigation}) {
   const isLoggedIn = useSelector((state: RootState) => !!state.user.email);
+  const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      getUserStampInfo(accessToken, dispatch);
+    }
+  }, [isLoggedIn, accessToken, dispatch]);
 
   return (
     <View style={styles.container}>
@@ -31,12 +37,31 @@ function PressStamps({route, navigation}) {
         {/* Header */}
         <SafeAreaView>
           <View style={styles.headerWrapper}>
-            <Text style={styles.titlesSubtitle}> </Text>
+            <Text style={styles.titlesSubtitle}> 스탬프 찍기 </Text>
           </View>
         </SafeAreaView>
+        <ApplyGift />
         <CurrentPointData />
 
-        <Stamp />
+        <View
+          style={[
+            {
+              marginTop: 15,
+            },
+          ]}>
+          <Text>스탬프 찍기</Text>
+          <View>
+            <MaterialCommunityIcons
+              name="crown"
+              size={12}
+              color={colors.primary}
+            />
+            <Text>500P를 모으면 스탬프 한개를 받을 수 있어요.</Text>
+          </View>
+          <Text>내가 응모한 커피 개수 : 9개 </Text>
+        </View>
+
+        <Stamp key={'stampView'} />
 
         {/* Titles */}
         {!isLoggedIn && (

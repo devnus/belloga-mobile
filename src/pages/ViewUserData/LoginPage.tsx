@@ -1,22 +1,22 @@
 import React from 'react';
 import {Image, ImageBackground, StyleSheet, Text, View} from 'react-native';
-import NaverLoginBlock from '../../components/NaverLoginBlock';
+import NaverLoginBlock from '@components/NaverLoginBlock';
 
 function LoginPage({route, navigation}) {
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={require('../../assets/images/bg_illust.png')}
+        source={require('@assets/images/bg_illust.png')}
         resizeMode="cover"
         style={styles.backgroundImage}>
         <View style={styles.imageContainer}>
           <Image
-            source={require('../../assets/images/belloga_chracter.png')}
+            source={require('@assets/images/belloga_chracter.png')}
             resizeMode="contain"
             style={styles.iconImage}
           />
           <Image
-            source={require('../../assets/images/logo_blur.png')}
+            source={require('@assets/images/logo_blur.png')}
             resizeMode="contain"
             style={styles.logoImage}
           />

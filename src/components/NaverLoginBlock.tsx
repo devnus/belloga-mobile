@@ -17,7 +17,7 @@ import {
 import Config from 'react-native-config';
 import {useAppDispatch} from '@/store';
 import userSlice from '@/slices/user';
-import axios, {AxiosError} from 'axios';
+import axios from 'axios';
 
 const iosKeys = {
   kConsumerKey: 'VC5CPfjRigclJV_TFACU',
@@ -49,16 +49,6 @@ const NaverLoginBlock = ({onPress}) => {
           getTokenAndRefresh(token.accessToken);
           getUserProfile(token.accessToken);
           onPress();
-
-          // 이후 해결되면 제거
-          console.log('naverlogin', token);
-
-          dispatch(
-            userSlice.actions.setToken({
-              accessToken: token.accessToken,
-              refreshToken: token.refreshToken,
-            }),
-          );
         }
         if (err) {
           reject(err);
@@ -87,10 +77,11 @@ const NaverLoginBlock = ({onPress}) => {
         `${Config.API_URL}/api/account/v1/auth/signin/naver/account`,
         {token: accessToken},
       );
+      console.log(response, 'naver login res');
       dispatch(
         userSlice.actions.setToken({
-          accessToken: response.data.accessToken,
-          refreshToken: response.data.refreshToken,
+          accessToken: response.data.response.accessToken,
+          refreshToken: response.data.response.refreshToken,
         }),
       );
     } catch (error) {
@@ -99,7 +90,7 @@ const NaverLoginBlock = ({onPress}) => {
     }
   };
 
-  /**accessToken을 받아서 getProfile 함수를 통해 유저 정보를 가져오고, getUser 액션을 발생시켜 값을 리듀서에 저장한다.*/
+  /**accessToken을 받아서 getProfile 함수를 통해 유저 정보를 가져오고, setUser 액션을 발생시켜 값을 리듀서에 저장한다.*/
   const getUserProfile = async (accessToken: string) => {
     const profileResult = await getProfile(accessToken);
     if (profileResult.resultcode === '024') {

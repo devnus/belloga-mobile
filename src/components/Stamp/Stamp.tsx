@@ -34,27 +34,6 @@ function Stamp() {
 
   return (
     <SafeAreaView style={styles.popularWrapper}>
-      <View
-        style={[
-          styles.popularCardWrapper,
-          {
-            marginTop: 15,
-          },
-        ]}>
-        <Text style={styles.titlesBoldTitle}>스탬프 찍기</Text>
-        <View style={styles.popularTopWrapper}>
-          <MaterialCommunityIcons
-            name="crown"
-            size={12}
-            color={colors.primary}
-          />
-          <Text style={styles.popularTopText}>
-            500P를 모으면 스탬프 한개를 받을 수 있어요.
-          </Text>
-        </View>
-        <Text style={styles.popularTopText}>내가 응모한 커피 개수 : 9개 </Text>
-      </View>
-
       <View style={styles.pressStampContainer}>
         <View style={stampContainerStyle}>
           {displayStamps(stampNumbers, windowWidth, imgSize)}
