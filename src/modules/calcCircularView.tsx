@@ -5,7 +5,7 @@ import {
   StyleProp,
   StyleSheet,
   Text,
-  TouchableHighlight,
+  TouchableOpacity,
 } from 'react-native';
 
 export function displayStamps(
@@ -28,12 +28,11 @@ export function displayStamps(
       );
     } else {
       stampIcons.push(
-        <TouchableHighlight
+        <TouchableOpacity
           key={i}
-          style={stampStyles[i]}
-          underlayColor="#DDDDDD">
+          style={[stampStyles[i], styles.nonCheckedStamp]}>
           <Text style={styles.stampInsideText}>{i}</Text>
-        </TouchableHighlight>,
+        </TouchableOpacity>,
       );
     }
   }
@@ -127,5 +126,17 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 'bold',
     color: '#d2e3e1',
+  },
+  nonCheckedStamp: {
+    borderRadius: 25,
+    width: 50,
+    height: 50,
+    marginHorizontal: 5,
+    marginVertical: 2,
+    borderColor: '#d2e3e1',
+    borderWidth: 2,
+    backgroundColor: '#ffffff',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

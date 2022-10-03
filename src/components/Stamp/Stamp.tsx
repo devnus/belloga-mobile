@@ -15,6 +15,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import colors from '@assets/colors';
 import Button from '@/components/Button';
 import {displayStamps} from '@/modules/calcCircularView';
+import UserGiftApplyCount from './UserGiftApplyCount';
 
 function Stamp() {
   const [stampNumbers, setStampNumbers] = useState<number>(0);
@@ -30,6 +31,7 @@ function Stamp() {
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
+    marginBottom: 10,
   };
 
   return (
@@ -37,6 +39,7 @@ function Stamp() {
       <View style={styles.pressStampContainer}>
         <View style={stampContainerStyle}>
           {displayStamps(stampNumbers, windowWidth, imgSize)}
+          <UserGiftApplyCount />
         </View>
 
         {stampNumbers < 8 ? (
@@ -64,8 +67,8 @@ export default Stamp;
 
 const styles = StyleSheet.create({
   popularWrapper: {
+    marginTop: 10,
     paddingHorizontal: 20,
-    marginTop: 30,
   },
   popularCardWrapper: {
     backgroundColor: colors.white,
@@ -87,18 +90,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 18,
     color: '#0f5078',
-  },
-  nonCheckedStamp: {
-    borderRadius: 25,
-    width: 50,
-    height: 50,
-    marginHorizontal: 5,
-    marginVertical: 2,
-    borderColor: '#d2e3e1',
-    borderWidth: 2,
-    backgroundColor: '#ffffff',
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   stampInsideText: {
     textAlign: 'center',

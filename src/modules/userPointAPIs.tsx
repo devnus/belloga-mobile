@@ -26,7 +26,7 @@ export const getUserPointInfo = async (
     //     userId: '',
     //   }),
     // );
-    Alert.alert('유저 정보 불러오기에 실패했습니다. 다시 로그인해 주세요');
+    Alert.alert('포인트 정보 불러오기에 실패했습니다. 다시 로그인해 주세요');
   }
 };
 
@@ -57,7 +57,7 @@ export const getUserStampInfo = async (
     //     userId: '',
     //   }),
     // );
-    Alert.alert('유저 정보 불러오기에 실패했습니다. 다시 로그인해 주세요');
+    Alert.alert('스탬프 정보 불러오기에 실패했습니다. 다시 로그인해 주세요');
   }
 };
 
@@ -88,6 +88,6 @@ export const pressStamp = async (
     //     userId: '',
     //   }),
     // );
-    Alert.alert('유저 정보 불러오기에 실패했습니다. 다시 로그인해 주세요');
+    Alert.alert('스탬프 찍기가 잘못 처리되었습니다. 다시 로그인해 주세요');
   }
 };

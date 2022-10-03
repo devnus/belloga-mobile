@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Image, StyleSheet, Text, View} from 'react-native';
 import colors from '@assets/colors';
 
 function ApplyGift() {
@@ -9,7 +9,8 @@ function ApplyGift() {
         <View style={styles.giftInfoRow}>
           <View style={styles.giftDescribe}>
             <Text style={styles.titlesSubtitle}>금주의 응모 상품</Text>
-            <Text style={styles.titlesMaintitle}>스타벅스 아메리카노</Text>
+            <Text style={styles.titlesMainTitle}>스타벅스 아메리카노</Text>
+            <Text style={styles.joiningInfo}>3029명이 참여 중</Text>
           </View>
           <Image
             source={require('@assets/images/sb.png')}
@@ -24,10 +25,14 @@ function ApplyGift() {
 const styles = StyleSheet.create({
   titlesSubtitle: {
     fontFamily: 'Montserrat-Regular',
-    fontSize: 14,
+    fontSize: 12,
     color: colors.textDark,
   },
-  titlesMaintitle: {
+  joiningInfo: {
+    fontSize: 14,
+    color: colors.navy,
+  },
+  titlesMainTitle: {
     fontSize: 16,
     color: colors.textDark,
     fontWeight: 'bold',

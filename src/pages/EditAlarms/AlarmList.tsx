@@ -86,6 +86,7 @@ function AlarmList({navigation}: any) {
       <View style={styles.innerContainer}>
         <ScrollView
           contentContainerStyle={styles.scrollView}
+          showsVerticalScrollIndicator={false}
           scrollEventThrottle={16}
           onScroll={Animated.event(
             [{nativeEvent: {contentOffset: {y: AnimatedHeaderValue}}}],

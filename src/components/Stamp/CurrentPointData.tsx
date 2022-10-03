@@ -4,18 +4,14 @@ import colors from '@assets/colors';
 
 function CurrentPointData() {
   return (
-    <View style={styles.categoriesWrapper}>
-      <View style={styles.userInfoRoundWrapper}>
-        <View style={styles.userInfoRow}>
-          <View style={styles.userInfosDescribe}>
-            <Image
-              source={require('@assets/images/coin.png')}
-              style={styles.userInfoIcon}
-            />
-            <Text style={styles.titlesSubtitle}>내 포인트</Text>
-          </View>
-          <Text style={styles.titlesSubtitle}> 6803P</Text>
-        </View>
+    <View style={styles.pointDataWrapper}>
+      <View style={styles.userInfoRow}>
+        <Text style={styles.titlesSubtitle}> 보유 중 </Text>
+        <Image
+          source={require('@assets/images/coin.png')}
+          style={styles.userInfoIcon}
+        />
+        <Text style={styles.pointValue}> 6803P </Text>
       </View>
     </View>
   );
@@ -27,99 +23,25 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: colors.textDark,
   },
-  categoriesWrapper: {
-    marginTop: 30,
+  pointValue: {
+    fontSize: 20,
+    color: colors.navy,
+    fontWeight: 'bold',
+  },
+  pointDataWrapper: {
     paddingHorizontal: 20,
-  },
-  categoriesTitle: {
-    fontFamily: 'Montserrat-Bold',
-    fontSize: 16,
-    paddingHorizontal: 20,
-  },
-  categoriesListWrapper: {
-    paddingTop: 15,
-    paddingBottom: 20,
-  },
-  categoryItemWrapper: {
-    backgroundColor: '#F5CA48',
-    marginRight: 20,
-    borderRadius: 20,
-    shadowColor: colors.black,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
-    elevation: 2,
-  },
-  categoryItemImage: {
-    width: 60,
-    height: 60,
-    marginTop: 25,
-    alignSelf: 'center',
-    marginHorizontal: 20,
-  },
-  categoryItemTitle: {
-    textAlign: 'center',
-    fontFamily: 'Montserrat-Medium',
-    fontSize: 14,
-    marginTop: 10,
-  },
-  categorySelectWrapper: {
-    alignSelf: 'center',
-    justifyContent: 'center',
-    marginTop: 20,
-    width: 26,
-    height: 26,
-    borderRadius: 26,
-    marginBottom: 20,
-  },
-  categorySelectIcon: {
-    alignSelf: 'center',
-  },
-  userInfoDetailBtnInside: {
-    color: 'white',
-    textAlign: 'center',
-  },
-  userInfosDescribe: {
-    flexDirection: 'row',
-    alignItems: 'center',
   },
   userInfoRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     paddingHorizontal: 20,
     marginVertical: 10,
   },
   userInfoIcon: {
     width: 20,
     height: 20,
-    marginHorizontal: 10,
-  },
-  userInfoRoundWrapper: {
-    backgroundColor: '#f2f6f7',
-    borderRadius: 25,
-    paddingVertical: 20,
-    flexDirection: 'column',
-  },
-  userInfoHalfRoundWrapper: {
-    backgroundColor: '#f2f6f7',
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
-    paddingVertical: 20,
-    flexDirection: 'column',
-  },
-  userInfoDetailButton: {
-    backgroundColor: '#54a5bc',
-    textAlign: 'center',
-    fontWeight: 'bold',
-    color: 'white',
-    paddingHorizontal: 40,
-    paddingVertical: 15,
-    borderBottomLeftRadius: 25,
-    borderBottomRightRadius: 25,
+    marginRight: 10,
   },
 });
 
