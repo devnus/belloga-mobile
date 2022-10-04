@@ -14,18 +14,17 @@ export const getUserPointInfo = async (
         Authorization: accessToken,
       },
     });
-    console.log(response.data.response, 'user point info');
+
+    dispatch(
+      userSlice.actions.setPoints({
+        points: response.data.response.pointValue,
+        tempPoints: response.data.response.tempPointValue,
+      }),
+    );
   } catch (error) {
     console.error(error);
 
-    //에러일 경우 강제 로그아웃
-    // dispatch(
-    //   userSlice.actions.setUser({
-    //     name: '',햣
-    //     email: '',
-    //     userId: '',
-    //   }),
-    // );
+    dispatch(userSlice.actions.setInitial());
     Alert.alert('포인트 정보 불러오기에 실패했습니다. 다시 로그인해 주세요');
   }
 };
@@ -51,13 +50,7 @@ export const getUserStampInfo = async (
   } catch (error) {
     console.error(error);
 
-    dispatch(
-      userSlice.actions.setUser({
-        name: '',
-        email: '',
-        userId: '',
-      }),
-    );
+    dispatch(userSlice.actions.setInitial());
     Alert.alert('스탬프 정보 불러오기에 실패했습니다. 다시 로그인해 주세요');
   }
 };
@@ -92,6 +85,8 @@ export const pressStamp = async (
     //     userId: '',
     //   }),
     // );
+
+    //포인트 적은 경우를 분기
     Alert.alert('스탬프 찍기가 잘못 처리되었습니다. 다시 로그인해 주세요');
   }
 };

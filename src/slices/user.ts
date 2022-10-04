@@ -7,6 +7,8 @@ const initialState = {
   birthYear: '',
   accessToken: '',
   refreshToken: '',
+  points: 0,
+  tempPoints: 0,
 };
 
 const userSlice = createSlice({
@@ -30,6 +32,12 @@ const userSlice = createSlice({
       state.name = '';
       state.birthYear = '';
       state.phoneNumber = '';
+      state.points = 0;
+      state.tempPoints = 0;
+    },
+    setPoints(state, action) {
+      state.points = action.payload.points;
+      state.tempPoints = action.payload.tempPoints;
     },
   },
   extraReducers: builder => {},
