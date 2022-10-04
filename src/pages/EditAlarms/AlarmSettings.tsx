@@ -131,25 +131,30 @@ function AlarmSettings({route, navigation}) {
               {/* {mode === 'EDIT' && <Button onPress={onDelete} title={'Delete'} />} */}
               <View style={styles.buttonBox}>
                 <Button
-                  onPress={() => {
-                    navigation.goBack();
-                  }}
+                  onPress={() => update([['isMissionAlert', true]])}
                   title={'미션 알람'}
+                  custom={true}
+                  borderColor={alarm.isMissionAlert ? '#54a5bc' : '#c1c6c7'}
+                  backgroundColor={alarm.isMissionAlert ? '#54a5bc' : '#ffffff'}
+                  textColor={alarm.isMissionAlert ? '#ffffff' : '#c1c6c7'}
                 />
               </View>
               <View style={styles.buttonBox}>
-                <Button fill={true} onPress={onSave} title={'일반 알람'} />
+                <Button
+                  onPress={() => update([['isMissionAlert', false]])}
+                  title={'일반 알람'}
+                  custom={true}
+                  borderColor={!alarm.isMissionAlert ? '#54a5bc' : '#c1c6c7'}
+                  backgroundColor={
+                    !alarm.isMissionAlert ? '#54a5bc' : '#ffffff'
+                  }
+                  textColor={!alarm.isMissionAlert ? '#ffffff' : '#c1c6c7'}
+                />
               </View>
             </View>
 
             <SettingTitleText text="설정" />
             <View style={styles.settingsDetailContainer}>
-              <AlarmSettingDetail
-                detailTitle="미션 알람"
-                detailDescription="알람 미션을 설정합니다"
-                isActive={alarm.isMissionAlert}
-                onChange={(v: boolean) => update([['isMissionAlert', v]])}
-              />
               <AlarmSettingDetail
                 detailTitle="진동"
                 detailDescription="진동을 설정합니다"
