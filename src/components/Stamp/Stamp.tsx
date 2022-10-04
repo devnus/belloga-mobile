@@ -16,6 +16,8 @@ import colors from '@assets/colors';
 import Button from '@/components/Button';
 import {displayStamps} from '@/modules/calcCircularView';
 import UserGiftApplyCount from './UserGiftApplyCount';
+import {CustomModal} from '@components/CustomModal';
+import ModalCard from '@/components/ModalCard';
 
 function Stamp() {
   const [stampNumbers, setStampNumbers] = useState<number>(0);
@@ -42,19 +44,30 @@ function Stamp() {
           <UserGiftApplyCount />
         </View>
 
+        <View>
+          {/* <Modal>
+        <Text>Hello This is a modal view</Text>
+      </Modal> */}
+        </View>
+
         {stampNumbers < 8 ? (
-          <TouchableOpacity
-            style={styles.pressStampBtn}
-            onPress={() => {
-              setStampNumbers(() => stampNumbers + 1);
-              Alert.alert('알림', '500포인트를 소모하여 스탬프를 찍었습니다');
-            }}>
-            <LinearGradient
-              colors={['#b4eee7', '#b4e2ed', '#b4e1ee']}
-              style={styles.linearGradient}>
-              <Text style={styles.pressBtnInsideText}> STAMP</Text>
-            </LinearGradient>
-          </TouchableOpacity>
+          <CustomModal
+            activator={({handleOpen}) => (
+              <TouchableOpacity
+                style={styles.pressStampBtn}
+                onPress={() => {
+                  setStampNumbers(() => stampNumbers + 1);
+                  handleOpen();
+                }}>
+                <LinearGradient
+                  colors={['#b4eee7', '#b4e2ed', '#b4e1ee']}
+                  style={styles.linearGradient}>
+                  <Text style={styles.pressBtnInsideText}> STAMP</Text>
+                </LinearGradient>
+              </TouchableOpacity>
+            )}>
+            <ModalCard />
+          </CustomModal>
         ) : (
           <Button title="커피 응모" onPress={() => {}} />
         )}
