@@ -75,7 +75,7 @@ const showBoundingBox = (boundingBoxInfo, imageUrl) => {
   }
 };
 
-function AlarmRing({route, navigation}) {
+function LabelingAlarmRing({route, navigation, receivedAlarm}) {
   const [alarm, setAlarm] = useState<Alarm | undefined>();
   const [imageUrl, setImageUrl] = useState('');
   const [answer, setAnswer] = useState<String>('');
@@ -84,12 +84,7 @@ function AlarmRing({route, navigation}) {
   const [boundingBoxIndex, setBoundingBoxIndex] = useState(0);
 
   useEffect(() => {
-    const alarmUid = route.params.alarmUid;
-    (async function () {
-      const alarmInfo = await getAlarm(alarmUid);
-      setAlarm(alarmInfo);
-    })();
-
+    setAlarm(receivedAlarm);
     getAlarmInfo();
   }, []);
 
@@ -179,7 +174,6 @@ function AlarmRing({route, navigation}) {
         <View>
           <TextInput
             description={'answer'}
-            style={styles.textInput}
             onChangeText={(text: String) => setAnswer(text)}
             value={answer}
           />
@@ -221,7 +215,7 @@ function AlarmRing({route, navigation}) {
   );
 }
 
-export default AlarmRing;
+export default LabelingAlarmRing;
 
 const styles = StyleSheet.create({
   container: {

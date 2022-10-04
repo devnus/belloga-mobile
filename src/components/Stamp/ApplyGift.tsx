@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   giftWrapper: {
-    marginTop: 30,
+    marginTop: 20,
     paddingHorizontal: 20,
   },
   giftDescribe: {
