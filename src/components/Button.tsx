@@ -1,7 +1,14 @@
 import {StyleSheet, Text, TouchableHighlight} from 'react-native';
 import React from 'react';
 
-export default function ({onPress, title, fill = false}) {
+export default function ({
+  onPress,
+  title,
+  fill = false,
+  textColor = 'white',
+  backgroundColor = '#0f5078',
+  borderColor = '#0f5078',
+}) {
   return (
     <TouchableHighlight
       style={[

@@ -179,7 +179,6 @@ function AlarmRing({route, navigation}) {
         <View>
           <TextInput
             description={'answer'}
-            style={styles.textInput}
             onChangeText={(text: String) => setAnswer(text)}
             value={answer}
           />

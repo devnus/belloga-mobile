@@ -2,7 +2,7 @@
 import {NativeModules} from 'react-native';
 import 'react-native-get-random-values';
 import {v4 as uuidv4} from 'uuid';
-import {AlarmType} from '../pages/AlarmSettings';
+import {AlarmType} from '@/pages/EditAlarms/AlarmSettings';
 
 const AlarmService = NativeModules.AlarmModule;
 
@@ -127,6 +127,7 @@ export default class Alarm {
   uid: string;
   isSoundOn: boolean;
   isVibrateOn: boolean;
+  isMissionAlert: boolean;
 
   constructor(params: AlarmType) {
     this.uid = getParam(params, 'uid', uuidv4());
@@ -141,6 +142,7 @@ export default class Alarm {
     this.days = getParam(params, 'days', []);
     this.isSoundOn = getParam(params, 'isSoundOn', false);
     this.isVibrateOn = getParam(params, 'isVibrateOn', false);
+    this.isMissionAlert = getParam(params, 'isMissionAlert', false);
   }
 
   static getEmpty() {
@@ -157,6 +159,7 @@ export default class Alarm {
       uid: '',
       isSoundOn: false,
       isVibrateOn: false,
+      isMissionAlert: false,
     });
   }
 

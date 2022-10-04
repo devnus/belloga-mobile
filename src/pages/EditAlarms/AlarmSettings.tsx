@@ -29,6 +29,7 @@ export type AlarmType = {
   uid: string;
   isSoundOn: boolean;
   isVibrateOn: boolean;
+  isMissionAlert: boolean;
 };
 
 function AlarmSettings({route, navigation}) {
@@ -125,9 +126,30 @@ function AlarmSettings({route, navigation}) {
               onChangeText={v => update([['title', v]])}
               value={alarm.title}
             />
+            <SettingTitleText text="알람 모드" />
+            <View style={styles.buttonContainer}>
+              {/* {mode === 'EDIT' && <Button onPress={onDelete} title={'Delete'} />} */}
+              <View style={styles.buttonBox}>
+                <Button
+                  onPress={() => {
+                    navigation.goBack();
+                  }}
+                  title={'미션 알람'}
+                />
+              </View>
+              <View style={styles.buttonBox}>
+                <Button fill={true} onPress={onSave} title={'일반 알람'} />
+              </View>
+            </View>
 
             <SettingTitleText text="설정" />
             <View style={styles.settingsDetailContainer}>
+              <AlarmSettingDetail
+                detailTitle="미션 알람"
+                detailDescription="알람 미션을 설정합니다"
+                isActive={alarm.isMissionAlert}
+                onChange={(v: boolean) => update([['isMissionAlert', v]])}
+              />
               <AlarmSettingDetail
                 detailTitle="진동"
                 detailDescription="진동을 설정합니다"

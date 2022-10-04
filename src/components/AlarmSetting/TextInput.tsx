@@ -30,8 +30,8 @@ const styles = StyleSheet.create({
   textInput: {
     borderRadius: 10,
     padding: 10,
-    paddingTop: 5,
-    paddingBottom: 5,
+    paddingTop: 10,
+    paddingBottom: 10,
     fontWeight: 'bold',
     backgroundColor: '#f2f6f7',
   },

@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {View, Text, StyleSheet, SafeAreaView, ScrollView} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useSelector} from 'react-redux';
-import colors from '../../assets/colors';
+import colors from '@assets/colors';
 import Stamp from '@/components/Stamp/Stamp';
 import {useAppDispatch} from '@/store';
 import {RootState} from '@/store/reducer';
@@ -18,7 +18,7 @@ function PressStamps({route, navigation}) {
 
   useEffect(() => {
     if (isLoggedIn) {
-      // getUserStampInfo(accessToken, dispatch);
+      getUserStampInfo(accessToken, dispatch);
     }
   }, [isLoggedIn, accessToken, dispatch]);
 
@@ -44,13 +44,15 @@ function PressStamps({route, navigation}) {
               </View>
             </View>
 
-            <View style={styles.giftInfoWrapper}>
-              <ApplyGift />
-            </View>
-
             <View style={styles.pressStampContainer}>
               <CurrentPointData />
               <Stamp key={'stampView'} />
+            </View>
+
+            <View style={styles.giftInfoWrapper}>
+              <ApplyGift />
+              <ApplyGift />
+              <ApplyGift />
             </View>
           </View>
         </ScrollView>
