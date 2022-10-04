@@ -62,9 +62,16 @@ export const getUserStampInfo = async (
  */
 export const pressStamp = async (
   accessToken: string,
+  points: number,
   setStampNumbers: Dispatch<SetStateAction<number>>,
   handleOpen: () => void,
 ) => {
+  if (points < 10) {
+    Alert.alert(
+      '포인트가 충분하지 않습니다. 기상 미션을 통해 더 많은 포인트를 모아보세요!',
+    );
+    return;
+  }
   try {
     const response = await axios.get(`${Config.API_URL}/api/stamp/v1/add`, {
       headers: {
@@ -87,6 +94,6 @@ export const pressStamp = async (
     // );
 
     //포인트 적은 경우를 분기
-    Alert.alert('스탬프 찍기가 잘못 처리되었습니다. 다시 로그인해 주세요');
+    Alert.alert('스탬프 찍기가 처리되지 않았어요. 버튼을 다시 눌러 주세요');
   }
 };

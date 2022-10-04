@@ -22,6 +22,7 @@ import {RootState} from '@/store/reducer';
 
 function Stamp({stampNumbers, setStampNumbers}) {
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
+  const points = useSelector((state: RootState) => state.user.points);
 
   const windowWidth = Dimensions.get('window').width * 0.9;
   const windowHeight = Dimensions.get('window').height * 0.9;
@@ -51,7 +52,7 @@ function Stamp({stampNumbers, setStampNumbers}) {
               <TouchableOpacity
                 style={styles.pressStampBtn}
                 onPress={() => {
-                  pressStamp(accessToken, setStampNumbers, handleOpen);
+                  pressStamp(accessToken, points, setStampNumbers, handleOpen);
                 }}>
                 <LinearGradient
                   colors={['#b4eee7', '#b4e2ed', '#b4e1ee']}
