@@ -2,47 +2,32 @@ import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import colors from '../assets/colors';
 
-function UserData({isLoggedIn, onPress}: any) {
+function UserData() {
   return (
     <View style={styles.categoriesWrapper}>
-      <View
-        style={
-          isLoggedIn
-            ? styles.userInfoHalfRoundWrapper
-            : styles.userInfoRoundWrapper
-        }>
+      <View style={styles.userInfoRoundWrapper}>
         <View style={styles.userInfoRow}>
           <View style={styles.userInfosDescribe}>
             <Image
-              source={require('../assets/images/coin.png')}
+              source={require('@/assets/images/label.png')}
               style={styles.userInfoIcon}
             />
-            <Text style={styles.titlesSubtitle}>
-              {isLoggedIn ? '내 포인트' : '받을 수 있는 포인트'}
-            </Text>
+            <Text style={styles.titlesSubtitle}>검토 중인 라벨링</Text>
           </View>
-          <Text style={styles.titlesSubtitle}> 6803P</Text>
+          <Text style={styles.titlesSubtitle}>34개</Text>
         </View>
 
-        {isLoggedIn && (
-          <View style={styles.userInfoRow}>
-            <View style={styles.userInfosDescribe}>
-              <Image
-                source={require('../assets/images/point.png')}
-                style={styles.userInfoIcon}
-              />
-              <Text style={styles.titlesSubtitle}>지급 예정 포인트</Text>
-            </View>
-            <Text style={styles.titlesSubtitle}>1000P</Text>
+        <View style={styles.userInfoRow}>
+          <View style={styles.userInfosDescribe}>
+            <Image
+              source={require('../assets/images/point.png')}
+              style={styles.userInfoIcon}
+            />
+            <Text style={styles.titlesSubtitle}>지급 예정 포인트</Text>
           </View>
-        )}
+          <Text style={styles.titlesSubtitle}>1000P</Text>
+        </View>
       </View>
-
-      {isLoggedIn && (
-        <TouchableOpacity style={styles.userInfoDetailButton} onPress={onPress}>
-          <Text style={styles.userInfoDetailBtnInside}>기록 보기</Text>
-        </TouchableOpacity>
-      )}
     </View>
   );
 }
@@ -117,7 +102,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
-    marginVertical: 5,
+    marginVertical: 10,
   },
   userInfoIcon: {
     width: 20,

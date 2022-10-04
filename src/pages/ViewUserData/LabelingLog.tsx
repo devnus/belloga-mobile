@@ -26,31 +26,6 @@ function LabelingLog() {
 
         <View>
           {/* User Information */}
-          <View style={styles.categoriesWrapper}>
-            <View style={styles.userInfoHalfRoundWrapper}>
-              <View style={styles.userInfoRow}>
-                <View style={styles.userInfosDescribe}>
-                  <Image
-                    source={require('../../assets/images/label.png')}
-                    style={styles.userInfoIcon}
-                  />
-                  <Text style={styles.titlesSubtitle}>검토 중인 라벨링</Text>
-                </View>
-                <Text style={styles.titlesSubtitle}>34개</Text>
-              </View>
-
-              <View style={styles.userInfoRow}>
-                <View style={styles.userInfosDescribe}>
-                  <Image
-                    source={require('../../assets/images/point.png')}
-                    style={styles.userInfoIcon}
-                  />
-                  <Text style={styles.titlesSubtitle}>지급 예정 포인트</Text>
-                </View>
-                <Text style={styles.titlesSubtitle}>1000P</Text>
-              </View>
-            </View>
-          </View>
 
           <Text style={styles.titlesSubtitle}> 라벨링 내역 </Text>
           <LabelingLogInfo />

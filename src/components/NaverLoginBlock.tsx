@@ -15,9 +15,9 @@ import {
   TokenResponse,
 } from '@react-native-seoul/naver-login';
 import Config from 'react-native-config';
-import {useAppDispatch} from '../store';
-import userSlice from '../slices/user';
-import axios, {AxiosError} from 'axios';
+import {useAppDispatch} from '@/store';
+import userSlice from '@/slices/user';
+import axios from 'axios';
 
 const iosKeys = {
   kConsumerKey: 'VC5CPfjRigclJV_TFACU',
@@ -49,16 +49,6 @@ const NaverLoginBlock = ({onPress}) => {
           getTokenAndRefresh(token.accessToken);
           getUserProfile(token.accessToken);
           onPress();
-
-          // 이후 해결되면 제거
-          console.log('naverlogin', token);
-
-          dispatch(
-            userSlice.actions.setToken({
-              accessToken: token.accessToken,
-              refreshToken: token.refreshToken,
-            }),
-          );
         }
         if (err) {
           reject(err);
@@ -87,23 +77,27 @@ const NaverLoginBlock = ({onPress}) => {
         `${Config.API_URL}/api/account/v1/auth/signin/naver/account`,
         {token: accessToken},
       );
+      console.log(response, 'naver login res');
       dispatch(
         userSlice.actions.setToken({
-          accessToken: response.data.accessToken,
-          refreshToken: response.data.refreshToken,
+          accessToken: response.data.response.accessToken,
+          refreshToken: response.data.response.refreshToken,
         }),
       );
     } catch (error) {
       console.error(error);
-      Alert.alert('로그인에 실패했습니다');
+      Alert.alert('보안을 위해 로그인이 만료되었습니다. 다시 로그인해 주세요');
     }
   };
 
-  /**accessToken을 받아서 getProfile 함수를 통해 유저 정보를 가져오고, getUser 액션을 발생시켜 값을 리듀서에 저장한다.*/
+  /**accessToken을 받아서 getProfile 함수를 통해 유저 정보를 가져오고, setUser 액션을 발생시켜 값을 리듀서에 저장한다.*/
   const getUserProfile = async (accessToken: string) => {
     const profileResult = await getProfile(accessToken);
     if (profileResult.resultcode === '024') {
-      Alert.alert('로그인에 실패했습니다', profileResult.message);
+      Alert.alert(
+        '유저 정보 불러오기에 실패했습니다. 다시 로그인해 주세요',
+        profileResult.message,
+      );
       return;
     }
     dispatch(

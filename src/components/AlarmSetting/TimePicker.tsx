@@ -16,9 +16,6 @@ export default function ({
 }: timePickerProps) {
   const [date, setDate] = useState(getDate(hour, minutes));
 
-  console.log(getDate(hour, minutes));
-  console.log(date);
-
   return (
     <View>
       <TouchableOpacity style={styles.container}>

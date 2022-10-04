@@ -1,12 +1,5 @@
 import React, {useState} from 'react';
-import {
-  Animated,
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Animated, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Collapsible from 'react-native-collapsible';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -25,11 +18,6 @@ function LabelingLogInfo({date, isProcessed, labeledLog}) {
   const cwRotating = rotateAnimation.interpolate({
     inputRange: [0, 1],
     outputRange: ['0deg', '180deg'],
-  });
-
-  const ccwRotating = rotateAnimation.interpolate({
-    inputRange: [0, 1],
-    outputRange: ['180deg', '0deg'],
   });
 
   const animatedStyle = {

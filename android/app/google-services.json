@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "306539925185",
+    "project_id": "belloga-b75e5",
+    "storage_bucket": "belloga-b75e5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:306539925185:android:a5fbbaa3684d64251cce40",
+        "android_client_info": {
+          "package_name": "com.bellogamobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "306539925185-k7hdvf9m4gvjlh49k47ff4p3686tlsk9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5_SNIL9bb7DkIqT5chW4oyNJj_PUaGP4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "306539925185-k7hdvf9m4gvjlh49k47ff4p3686tlsk9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

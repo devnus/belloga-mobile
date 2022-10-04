@@ -1,5 +1,6 @@
+import userSlice from '@/slices/user';
 import {NaverLogin} from '@react-native-seoul/naver-login';
-import * as React from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   Text,
@@ -14,18 +15,27 @@ import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useSelector} from 'react-redux';
 import colors from '../../assets/colors';
-import Stamp from '../../components/Stamp';
-import UserData from '../../components/UserData';
-import {useAppDispatch} from '../../store';
-import {RootState} from '../../store/reducer';
+import UserData from '@/components/UserData';
+import {useAppDispatch} from '@/store';
+import {RootState} from '@/store/reducer';
+import LabelingLogInfo from '@/components/LabelingLogInfo';
+import Config from 'react-native-config';
+import {getUserPointInfo} from '@/modules/userPointAPIs';
 
 Feather.loadFont();
 MaterialCommunityIcons.loadFont();
 
 function UserInfo({route, navigation}) {
   const isLoggedIn = useSelector((state: RootState) => !!state.user.email);
+  const userName = useSelector((state: RootState) => state.user.name);
+  const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const dispatch = useAppDispatch();
-  console.log(isLoggedIn);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      // getUserPointInfo(accessToken, dispatch);
+    }
+  }, [isLoggedIn, accessToken, dispatch]);
 
   return (
     <View style={styles.container}>
@@ -44,7 +54,7 @@ function UserInfo({route, navigation}) {
           <View>
             <View style={styles.titlesWrapper}>
               <View>
-                <Text style={styles.titlesBoldTitle}>홍길동님</Text>
+                <Text style={styles.titlesBoldTitle}>{userName}님</Text>
                 <Text style={styles.titlesSubtitle}>안녕하세요.</Text>
               </View>
               <Pressable
@@ -58,11 +68,17 @@ function UserInfo({route, navigation}) {
               </Pressable>
             </View>
             {/* User Information */}
-            <UserData
-              isLoggedIn={isLoggedIn}
-              onPress={() => navigation.navigate('LabelingLog')}
-            />
-            <Stamp />
+            <UserData />
+            <ScrollView
+              contentInsetAdjustmentBehavior="automatic"
+              showsVerticalScrollIndicator={false}>
+              <View>
+                {/* User Information */}
+
+                <Text style={styles.titlesSubtitle}> 라벨링 내역 </Text>
+                <LabelingLogInfo />
+              </View>
+            </ScrollView>
           </View>
         ) : (
           <View>
@@ -81,12 +97,10 @@ function UserInfo({route, navigation}) {
             </View>
             <UserData isLoggedIn={isLoggedIn} />
             <View style={styles.advertisingContainer}>
-              <Text style={styles.titlesBoldTitle}>
-                아침에 일어나기만 해도{' '}
-              </Text>
+              <Text style={styles.titlesBoldTitle}>아침에 일어나기만 해도</Text>
               <Text style={styles.titlesBoldTitle}>모닝 커피가 한 잔!</Text>
               <Image
-                source={require('../../assets/images/coffee.png')}
+                source={require('@assets/images/coffee.png')}
                 resizeMode="contain"
                 style={styles.coffeeImage}
               />

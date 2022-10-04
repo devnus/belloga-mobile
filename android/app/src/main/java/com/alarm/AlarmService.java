@@ -36,7 +36,6 @@ public class AlarmService extends Service {
         super.onStartCommand(intent, flags, startId);
         Log.d(TAG, "On start command");
 
-
         String alarmUid = intent.getStringExtra("ALARM_UID");
         Alarm alarm = Storage.getAlarm(getApplicationContext(), alarmUid);
         Notification notification = Helper.getAlarmNotification(this, alarm, 1);
