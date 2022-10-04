@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import Alarm, {
-  disableAlarm,
-  enableAlarm,
   removeAlarm,
   scheduleAlarm,
   showAlarmToastMessage,
@@ -29,6 +27,7 @@ export type AlarmType = {
   uid: string;
   isSoundOn: boolean;
   isVibrateOn: boolean;
+  isMissionAlert: boolean;
 };
 
 function AlarmSettings({route, navigation}) {
@@ -40,7 +39,6 @@ function AlarmSettings({route, navigation}) {
       const deliveredAlarm = route.params.alarm;
 
       if (deliveredAlarm.repeating === false) {
-        console.log('123');
         deliveredAlarm.days = [];
       }
 
@@ -125,6 +123,32 @@ function AlarmSettings({route, navigation}) {
               onChangeText={v => update([['title', v]])}
               value={alarm.title}
             />
+            <SettingTitleText text="알람 모드" />
+            <View style={styles.buttonContainer}>
+              {/* {mode === 'EDIT' && <Button onPress={onDelete} title={'Delete'} />} */}
+              <View style={styles.buttonBox}>
+                <Button
+                  onPress={() => update([['isMissionAlert', true]])}
+                  title={'미션 알람'}
+                  custom={true}
+                  borderColor={alarm.isMissionAlert ? '#54a5bc' : '#c1c6c7'}
+                  backgroundColor={alarm.isMissionAlert ? '#54a5bc' : '#ffffff'}
+                  textColor={alarm.isMissionAlert ? '#ffffff' : '#c1c6c7'}
+                />
+              </View>
+              <View style={styles.buttonBox}>
+                <Button
+                  onPress={() => update([['isMissionAlert', false]])}
+                  title={'일반 알람'}
+                  custom={true}
+                  borderColor={!alarm.isMissionAlert ? '#54a5bc' : '#c1c6c7'}
+                  backgroundColor={
+                    !alarm.isMissionAlert ? '#54a5bc' : '#ffffff'
+                  }
+                  textColor={!alarm.isMissionAlert ? '#ffffff' : '#c1c6c7'}
+                />
+              </View>
+            </View>
 
             <SettingTitleText text="설정" />
             <View style={styles.settingsDetailContainer}>

@@ -11,7 +11,7 @@ import {
 } from 'modules/alarms';
 import {calcNextAlarm, calcNoRepeatingAlarmTime} from 'modules/calcAlarmsTime';
 import {AlarmType} from './AlarmSettings';
-import AlarmInfo from '../../components/AlarmInfo';
+import AlarmInfo from '@components/AlarmInfo';
 
 //움직이는 탭바를 위한 상수
 const Header_Maximum_Height = 200;
@@ -43,7 +43,7 @@ function AlarmList({navigation}: any) {
     console.log('alarmUid is Here');
     if (alarmUid) {
       navigation.navigate('Ring', {
-        screen: 'AlarmRing',
+        screen: 'SelectAlarmRingMode',
         params: {alarmUid},
       });
     }
