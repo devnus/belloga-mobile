@@ -3,8 +3,21 @@ import {NavigationContainer} from '@react-navigation/native';
 import {Provider} from 'react-redux';
 import store from './src/store';
 import AppInner from './AppInner';
+import messaging from '@react-native-firebase/messaging';
+import {Alert} from 'react-native';
 
 function App() {
+  messaging().setBackgroundMessageHandler(async remoteMessage => {
+    console.log('Message handled in the background!', remoteMessage);
+  });
+
+  React.useEffect(() => {
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+    });
+    return unsubscribe;
+  });
+
   return (
     <Provider store={store}>
       <NavigationContainer>

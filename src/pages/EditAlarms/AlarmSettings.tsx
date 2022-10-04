@@ -164,7 +164,6 @@ function AlarmSettings({route, navigation}) {
                 isActive={alarm.isSoundOn}
                 onChange={(v: boolean) => update([['isSoundOn', v]])}
               />
-
               <AlarmSettingDetail
                 detailTitle="다시 울림"
                 detailDescription="알람이 꺼져도 잠시 후 다시 울립니다"

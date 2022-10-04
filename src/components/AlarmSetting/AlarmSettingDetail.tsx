@@ -2,12 +2,19 @@ import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import SwitcherInput from '../SwitcherInput';
 
+type alarmSettingDetailPropsType = {
+  detailTitle: string;
+  detailDescription: string;
+  isActive: boolean;
+  onChange: (v: boolean) => void;
+};
+
 function AlarmSettingDetail({
   detailTitle = '',
   detailDescription = '',
   isActive = false,
-  onChange = () => null,
-}) {
+  onChange,
+}: alarmSettingDetailPropsType) {
   return (
     <View style={styles.container}>
       <View style={styles.leftInnerContainer}>

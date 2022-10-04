@@ -21,7 +21,7 @@ export const getUserPointInfo = async (
     //에러일 경우 강제 로그아웃
     // dispatch(
     //   userSlice.actions.setUser({
-    //     name: '',
+    //     name: '',햣
     //     email: '',
     //     userId: '',
     //   }),
