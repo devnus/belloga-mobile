@@ -21,6 +21,7 @@ import {RootState} from '@/store/reducer';
 import LabelingLogInfo from '@/components/LabelingLogInfo';
 import Config from 'react-native-config';
 import {getUserPointInfo} from '@/modules/userPointAPIs';
+import UserAlarmLogInfo from '@/components/UserAlarmLogInfo';
 
 Feather.loadFont();
 MaterialCommunityIcons.loadFont();
@@ -84,7 +85,9 @@ function UserInfo({route, navigation}) {
           <View>
             <View style={styles.titlesWrapper}>
               <View>
-                <Text style={styles.titlesBoldTitle}>로그인이 필요합니다.</Text>
+                <Text style={styles.titlesBoldTitle}>
+                  로그인으로 하루를 기록해요
+                </Text>
               </View>
 
               <Pressable
@@ -95,7 +98,12 @@ function UserInfo({route, navigation}) {
                 <Text style={styles.loginButtonText}>로그인</Text>
               </Pressable>
             </View>
-            <UserData isLoggedIn={isLoggedIn} />
+
+            <UserAlarmLogInfo />
+            <UserAlarmLogInfo />
+            <UserAlarmLogInfo />
+            <UserAlarmLogInfo />
+
             <View style={styles.advertisingContainer}>
               <Text style={styles.titlesBoldTitle}>아침에 일어나기만 해도</Text>
               <Text style={styles.titlesBoldTitle}>모닝 커피가 한 잔!</Text>
