@@ -1,7 +1,5 @@
-import {MaterialCommunityIcons} from '@expo/vector-icons';
 import React, {useState} from 'react';
 import {
-  Alert,
   Dimensions,
   ImageStyle,
   StyleProp,
@@ -18,9 +16,12 @@ import {displayStamps} from '@/modules/calcCircularView';
 import UserGiftApplyCount from './UserGiftApplyCount';
 import {CustomModal} from '@components/CustomModal';
 import ModalCard from '@/components/ModalCard';
+import {pressStamp} from '@/modules/userPointAPIs';
+import {useSelector} from 'react-redux';
+import {RootState} from '@/store/reducer';
 
-function Stamp() {
-  const [stampNumbers, setStampNumbers] = useState<number>(0);
+function Stamp({stampNumbers, setStampNumbers}) {
+  const accessToken = useSelector((state: RootState) => state.user.accessToken);
 
   const windowWidth = Dimensions.get('window').width * 0.9;
   const windowHeight = Dimensions.get('window').height * 0.9;
@@ -44,20 +45,13 @@ function Stamp() {
           <UserGiftApplyCount />
         </View>
 
-        <View>
-          {/* <Modal>
-        <Text>Hello This is a modal view</Text>
-      </Modal> */}
-        </View>
-
         {stampNumbers < 8 ? (
           <CustomModal
             activator={({handleOpen}) => (
               <TouchableOpacity
                 style={styles.pressStampBtn}
                 onPress={() => {
-                  setStampNumbers(() => stampNumbers + 1);
-                  handleOpen();
+                  pressStamp(accessToken, setStampNumbers, handleOpen);
                 }}>
                 <LinearGradient
                   colors={['#b4eee7', '#b4e2ed', '#b4e1ee']}

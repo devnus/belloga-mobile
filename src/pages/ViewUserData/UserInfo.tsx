@@ -33,7 +33,7 @@ function UserInfo({route, navigation}) {
 
   useEffect(() => {
     if (isLoggedIn) {
-      // getUserPointInfo(accessToken, dispatch);
+      getUserPointInfo(accessToken, dispatch);
     }
   }, [isLoggedIn, accessToken, dispatch]);
 

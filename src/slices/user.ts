@@ -8,6 +8,7 @@ const initialState = {
   accessToken: '',
   refreshToken: '',
 };
+
 const userSlice = createSlice({
   name: 'user',
   initialState,

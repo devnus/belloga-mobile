@@ -1,6 +1,6 @@
 import userSlice from '@/slices/user';
 import axios from 'axios';
-import {Dispatch} from 'react';
+import {Dispatch, SetStateAction} from 'react';
 import {Alert} from 'react-native';
 import Config from 'react-native-config';
 
@@ -14,7 +14,7 @@ export const getUserPointInfo = async (
         Authorization: accessToken,
       },
     });
-    console.log(response, 'user point info');
+    console.log(response.data.response, 'user point info');
   } catch (error) {
     console.error(error);
 
@@ -38,6 +38,7 @@ export const getUserPointInfo = async (
 export const getUserStampInfo = async (
   accessToken: string,
   dispatch: Dispatch<any>,
+  setStampNumbers: Dispatch<SetStateAction<number>>,
 ) => {
   try {
     const response = await axios.get(`${Config.API_URL}/api/stamp/v1/info`, {
@@ -45,18 +46,18 @@ export const getUserStampInfo = async (
         Authorization: accessToken,
       },
     });
-    console.log(response, 'user stamp info');
+
+    setStampNumbers(() => response.data.response.stampValue);
   } catch (error) {
     console.error(error);
 
-    //에러일 경우 강제 로그아웃
-    // dispatch(
-    //   userSlice.actions.setUser({
-    //     name: '',
-    //     email: '',
-    //     userId: '',
-    //   }),
-    // );
+    dispatch(
+      userSlice.actions.setUser({
+        name: '',
+        email: '',
+        userId: '',
+      }),
+    );
     Alert.alert('스탬프 정보 불러오기에 실패했습니다. 다시 로그인해 주세요');
   }
 };
@@ -68,7 +69,8 @@ export const getUserStampInfo = async (
  */
 export const pressStamp = async (
   accessToken: string,
-  dispatch: Dispatch<any>,
+  setStampNumbers: Dispatch<SetStateAction<number>>,
+  handleOpen: () => void,
 ) => {
   try {
     const response = await axios.get(`${Config.API_URL}/api/stamp/v1/add`, {
@@ -77,6 +79,8 @@ export const pressStamp = async (
       },
     });
     console.log(response, 'press a stamp');
+    setStampNumbers(prev => prev + 1);
+    handleOpen();
   } catch (error) {
     console.error(error);
 

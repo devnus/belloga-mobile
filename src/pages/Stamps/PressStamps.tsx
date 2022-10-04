@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, SafeAreaView, ScrollView} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useSelector} from 'react-redux';
@@ -14,11 +14,12 @@ MaterialCommunityIcons.loadFont();
 function PressStamps({route, navigation}) {
   const isLoggedIn = useSelector((state: RootState) => !!state.user.email);
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
+  const [stampNumbers, setStampNumbers] = useState<number>(0);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (isLoggedIn) {
-      getUserStampInfo(accessToken, dispatch);
+    if (accessToken) {
+      getUserStampInfo(accessToken, dispatch, setStampNumbers);
     }
   }, [isLoggedIn, accessToken, dispatch]);
 
@@ -46,7 +47,11 @@ function PressStamps({route, navigation}) {
 
             <View style={styles.pressStampContainer}>
               <CurrentPointData />
-              <Stamp key={'stampView'} />
+              <Stamp
+                setStampNumbers={setStampNumbers}
+                stampNumbers={stampNumbers}
+                key={'stampView'}
+              />
             </View>
 
             <View style={styles.giftInfoWrapper}>
