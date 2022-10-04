@@ -45,31 +45,29 @@ function Stamp() {
         </View>
 
         <View>
-          <CustomModal
-            activator={({handleOpen}) => (
-              <Button onPress={handleOpen} title="Open"></Button>
-            )}>
-            <ModalCard />
-          </CustomModal>
-
           {/* <Modal>
         <Text>Hello This is a modal view</Text>
       </Modal> */}
         </View>
 
         {stampNumbers < 8 ? (
-          <TouchableOpacity
-            style={styles.pressStampBtn}
-            onPress={() => {
-              setStampNumbers(() => stampNumbers + 1);
-              Alert.alert('알림', '500포인트를 소모하여 스탬프를 찍었습니다');
-            }}>
-            <LinearGradient
-              colors={['#b4eee7', '#b4e2ed', '#b4e1ee']}
-              style={styles.linearGradient}>
-              <Text style={styles.pressBtnInsideText}> STAMP</Text>
-            </LinearGradient>
-          </TouchableOpacity>
+          <CustomModal
+            activator={({handleOpen}) => (
+              <TouchableOpacity
+                style={styles.pressStampBtn}
+                onPress={() => {
+                  setStampNumbers(() => stampNumbers + 1);
+                  handleOpen();
+                }}>
+                <LinearGradient
+                  colors={['#b4eee7', '#b4e2ed', '#b4e1ee']}
+                  style={styles.linearGradient}>
+                  <Text style={styles.pressBtnInsideText}> STAMP</Text>
+                </LinearGradient>
+              </TouchableOpacity>
+            )}>
+            <ModalCard />
+          </CustomModal>
         ) : (
           <Button title="커피 응모" onPress={() => {}} />
         )}
