@@ -1,44 +1,67 @@
-import axios from 'axios';
-import React from 'react';
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
+import Button from '@components/Button';
+import Alarm, {snoozeAlarm, stopAlarm} from '@modules/alarms';
 
-function AlarmSuccess({route, navigation}) {
-  const onPressSendButton = () => {};
+function CommonAlarmRing({route, navigation, receivedAlarm}) {
+  const [alarm, setAlarm] = useState<Alarm | undefined>();
+
+  useEffect(() => {
+    setAlarm(receivedAlarm);
+  }, []);
+
+  const finishAlarm = async () => {
+    await stopAlarm();
+    navigation.navigate('AlarmSuccess');
+  };
+
+  if (!alarm) {
+    return <View />;
+  }
 
   return (
     <View style={globalStyles.container}>
       <View style={[globalStyles.innerContainer, styles.container]}>
-        <View style={styles.card}>
-          <Text style={styles.clockText}>라벨링 완료!</Text>
-          <Text style={styles.title}>총 지급 예정 포인트</Text>
-          <Text style={styles.title}> +20 p</Text>
-          <Image style={styles.image} source={require('@assets/coin.png')} />
+        <View style={styles.textContainer}>
+          <Text style={styles.clockText}>
+            {alarm.getTimeString().hour} : {alarm.getTimeString().minutes}
+          </Text>
+          <Text style={styles.title}>{alarm.title}</Text>
         </View>
         <View style={styles.buttonContainer}>
-          <Pressable style={styles.loginButton} onPress={onPressSendButton}>
-            <Text> 확인 </Text>
-          </Pressable>
+          {alarm.snoozeInterval > 0 && (
+            <Button
+              title={'Snooze'}
+              onPress={async () => {
+                await snoozeAlarm();
+                navigation.goBack();
+              }}
+            />
+          )}
+
+          <Button
+            title={'Cancel'}
+            onPress={async () => {
+              finishAlarm();
+            }}
+          />
         </View>
       </View>
     </View>
   );
 }
 
-export default AlarmSuccess;
+export default CommonAlarmRing;
 
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'space-around',
     alignItems: 'center',
   },
-  image: {
-    padding: 30,
-  },
   clockText: {
     color: 'black',
     fontWeight: 'bold',
-    fontSize: 30,
-    padding: 25,
+    fontSize: 50,
   },
   textContainer: {
     display: 'flex',
@@ -53,8 +76,7 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: 'bold',
     fontSize: 20,
-    color: 'black',
-    padding: 10,
+    color: '#d0d5dc',
   },
   loginButton: {
     padding: 10,
@@ -64,7 +86,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#1992fe',
     borderRadius: 25,
-    backgroundColor: 'white',
   },
   loginButtonActive: {
     backgroundColor: 'whited',
@@ -74,17 +95,6 @@ const styles = StyleSheet.create({
     borderColor: 'red',
     position: 'absolute',
   },
-  card: {
-    width: '100%',
-    height: 400,
-    backgroundColor: '#fff',
-    justifyContent: 'center', //Centered vertically
-    alignItems: 'center', // Centered horizontally
-    borderTopLeftRadius: 10, // to provide rounded corners
-    borderTopRightRadius: 10, // to provide rounded corners,
-    borderBottomRightRadius: 10, // to provide rounded corners,
-    borderBottomLeftRadius: 10, // to provide rounded corners,
-  },
 });
 const globalStyles = StyleSheet.create({
   container: {
@@ -93,7 +103,7 @@ const globalStyles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#BDE0EC',
+    backgroundColor: 'white',
   },
   innerContainer: {
     width: '90%',

@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import Alarm, {
-  disableAlarm,
-  enableAlarm,
   removeAlarm,
   scheduleAlarm,
   showAlarmToastMessage,
@@ -41,7 +39,6 @@ function AlarmSettings({route, navigation}) {
       const deliveredAlarm = route.params.alarm;
 
       if (deliveredAlarm.repeating === false) {
-        console.log('123');
         deliveredAlarm.days = [];
       }
 
