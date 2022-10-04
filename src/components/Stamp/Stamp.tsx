@@ -16,7 +16,8 @@ import colors from '@assets/colors';
 import Button from '@/components/Button';
 import {displayStamps} from '@/modules/calcCircularView';
 import UserGiftApplyCount from './UserGiftApplyCount';
-import {Modal} from '../Modal';
+import {CustomModal} from '@components/CustomModal';
+import ModalCard from '@/components/ModalCard';
 
 function Stamp() {
   const [stampNumbers, setStampNumbers] = useState<number>(0);
@@ -44,12 +45,12 @@ function Stamp() {
         </View>
 
         <View>
-          <Modal
+          <CustomModal
             activator={({handleOpen}) => (
               <Button onPress={handleOpen} title="Open"></Button>
             )}>
-            <Text>Hello This is a activator modal view</Text>
-          </Modal>
+            <ModalCard />
+          </CustomModal>
 
           {/* <Modal>
         <Text>Hello This is a modal view</Text>

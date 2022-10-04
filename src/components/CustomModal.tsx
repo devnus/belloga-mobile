@@ -1,36 +1,25 @@
 import React from 'react';
 import {FunctionComponent, useState} from 'react';
-import {
-  StyleSheet,
-  View,
-  Modal as DefaultModal,
-  Button,
-  Text,
-} from 'react-native';
+import {StyleSheet, View, Button, Text} from 'react-native';
+
+import Modal from 'react-native-modal';
 
 type ModalProps = {
   activator?: FunctionComponent<{handleOpen: () => void}>;
   children: React.ReactNode;
 };
 
-export function Modal({activator: Activator, children}: ModalProps) {
+export function CustomModal({activator: Activator, children}: ModalProps) {
   const [isVisible, setVisible] = useState(false);
 
   return (
     <View>
-      <DefaultModal transparent={true} visible={isVisible} animationType="fade">
-        <View
-          style={{
-            backgroundColor: '#00000099',
-            flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
+      <Modal isVisible={isVisible} onBackdropPress={() => setVisible(false)}>
+        <View style={styles.contentView}>
           {children}
-          <Text> 어쩔디비 </Text>
-          <Button onPress={() => setVisible(false)} title="Close" />
+          <Button title="Hide modal" onPress={() => setVisible(false)} />
         </View>
-      </DefaultModal>
+      </Modal>
       {Activator ? (
         <Activator handleOpen={() => setVisible(true)} />
       ) : (
