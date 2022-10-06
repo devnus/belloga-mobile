@@ -1,8 +1,9 @@
 import React from 'react';
 import {FunctionComponent, useState} from 'react';
-import {StyleSheet, View, Button} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
 import Modal from 'react-native-modal';
+import Button from '@components/Button';
 
 type ModalProps = {
   activator?: FunctionComponent<{handleOpen: () => void}>;
@@ -16,8 +17,14 @@ export function CustomModal({activator: Activator, children}: ModalProps) {
     <View>
       <Modal isVisible={isVisible} onBackdropPress={() => setVisible(false)}>
         <View style={styles.contentView}>
-          {children}
-          <Button title="Hide modal" onPress={() => setVisible(false)} />
+          <View style={styles.modalRoundWrapper}>
+            {children}
+            <Button
+              title="창닫기"
+              fill={true}
+              onPress={() => setVisible(false)}
+            />
+          </View>
         </View>
       </Modal>
       {Activator ? (
@@ -33,6 +40,13 @@ const styles = StyleSheet.create({
   contentView: {
     flex: 1,
     justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalRoundWrapper: {
+    backgroundColor: '#f2f6f7',
+    padding: 40,
+    borderRadius: 25,
+    flexDirection: 'column',
     alignItems: 'center',
   },
 });

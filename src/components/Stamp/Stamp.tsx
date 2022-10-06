@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Dimensions,
   ImageStyle,
@@ -23,7 +23,9 @@ import {RootState} from '@/store/reducer';
 function Stamp({stampNumbers, setStampNumbers}) {
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const points = useSelector((state: RootState) => state.user.points);
+  const [isFullStamps, setIsFullStamps] = useState<boolean>(false);
 
+  //원형 UI 구현을 위한 스탬프들
   const windowWidth = Dimensions.get('window').width * 0.9;
   const windowHeight = Dimensions.get('window').height * 0.9;
   const imgSize = 60;
@@ -38,6 +40,13 @@ function Stamp({stampNumbers, setStampNumbers}) {
     marginBottom: 10,
   };
 
+  useEffect(() => {
+    console.log('스탬프 개수,', stampNumbers);
+    if (stampNumbers === 8) {
+      setIsFullStamps(() => true);
+    }
+  }, [stampNumbers]);
+
   return (
     <SafeAreaView style={styles.popularWrapper}>
       <View style={styles.pressStampContainer}>
@@ -46,7 +55,9 @@ function Stamp({stampNumbers, setStampNumbers}) {
           <UserGiftApplyCount />
         </View>
 
-        {stampNumbers < 8 ? (
+        {isFullStamps ? (
+          <Button title="커피 응모" onPress={() => {}} />
+        ) : (
           <CustomModal
             activator={({handleOpen}) => (
               <TouchableOpacity
@@ -63,8 +74,6 @@ function Stamp({stampNumbers, setStampNumbers}) {
             )}>
             <ModalCard />
           </CustomModal>
-        ) : (
-          <Button title="커피 응모" onPress={() => {}} />
         )}
       </View>
     </SafeAreaView>

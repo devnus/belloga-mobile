@@ -66,21 +66,22 @@ export const pressStamp = async (
   setStampNumbers: Dispatch<SetStateAction<number>>,
   handleOpen: () => void,
 ) => {
-  if (points < 10) {
-    Alert.alert(
-      '포인트가 충분하지 않습니다. 기상 미션을 통해 더 많은 포인트를 모아보세요!',
-    );
-    return;
-  }
+  console.log('알람 누름');
+  // if (points < 10) {
+  //   Alert.alert(
+  //     '포인트가 충분하지 않습니다. 기상 미션을 통해 더 많은 포인트를 모아보세요!',
+  //   );
+  //   return;
+  // }
   try {
-    const response = await axios.get(`${Config.API_URL}/api/stamp/v1/add`, {
-      headers: {
-        Authorization: accessToken,
-      },
-    });
-    console.log(response, 'press a stamp');
-    setStampNumbers(prev => prev + 1);
+    // const response = await axios.get(`${Config.API_URL}/api/stamp/v1/add`, {
+    //   headers: {
+    //     Authorization: accessToken,
+    //   },
+    // });
+    // console.log(response, 'press a stamp');
     handleOpen();
+    setStampNumbers(prev => prev + 1);
   } catch (error) {
     console.error(error);
 
