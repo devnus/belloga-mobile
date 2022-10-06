@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useEffect} from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Setting from './src/pages/ViewUserData/Setting';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -8,11 +8,33 @@ import AlarmRingHandle from './src/pages/RingAlarms/AlarmRingHandle';
 import AlarmList from '@/pages/EditAlarms/AlarmList';
 import AlarmSettings from '@/pages/EditAlarms/AlarmSettings';
 import PressStamps from '@/pages/Stamps/PressStamps';
+import {Alert, BackHandler} from 'react-native';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 function AlarmTabs() {
+  //뒤로가기 버튼 누를 때 핸들링
+  useEffect(() => {
+    const backAction = () => {
+      Alert.alert('알림', '정말 앱을 종료하시겠습니까?', [
+        {
+          text: '더 둘러보기',
+          onPress: () => null,
+          style: 'cancel',
+        },
+        {text: '종료', onPress: () => BackHandler.exitApp()},
+      ]);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
+  }, []);
   return (
     <Tab.Navigator>
       <Tab.Screen

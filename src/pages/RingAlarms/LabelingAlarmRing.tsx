@@ -1,5 +1,12 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import {
+  BackHandler,
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 
 import axios from 'axios';
 import Button from '../../components/Button';

@@ -99,11 +99,6 @@ function UserInfo({route, navigation}) {
               </Pressable>
             </View>
 
-            <UserAlarmLogInfo />
-            <UserAlarmLogInfo />
-            <UserAlarmLogInfo />
-            <UserAlarmLogInfo />
-
             <View style={styles.advertisingContainer}>
               <Text style={styles.titlesBoldTitle}>아침에 일어나기만 해도</Text>
               <Text style={styles.titlesBoldTitle}>모닝 커피가 한 잔!</Text>
@@ -113,6 +108,11 @@ function UserInfo({route, navigation}) {
                 style={styles.coffeeImage}
               />
             </View>
+
+            {/* <UserAlarmLogInfo />
+            <UserAlarmLogInfo />
+            <UserAlarmLogInfo />
+            <UserAlarmLogInfo /> */}
           </View>
         )}
       </ScrollView>
@@ -220,6 +220,7 @@ const styles = StyleSheet.create({
   advertisingContainer: {
     alignSelf: 'center',
     justifyContent: 'center',
+    flex: 2,
   },
   ratingWrapper: {
     flexDirection: 'row',

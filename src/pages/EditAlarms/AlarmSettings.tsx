@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {ScrollView, StyleSheet, View} from 'react-native';
+import {BackHandler, ScrollView, StyleSheet, View} from 'react-native';
 import Alarm, {
   removeAlarm,
   scheduleAlarm,
@@ -31,6 +31,16 @@ export type AlarmType = {
 };
 
 function AlarmSettings({route, navigation}) {
+  //뒤로가기 버튼 누를 때 핸들링, 덮어쓴다
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      navigation.goBack,
+    );
+
+    return () => backHandler.remove();
+  });
+
   const [alarm, setAlarm] = useState<Alarm>(null);
   const [mode, setMode] = useState<string>(null);
 
