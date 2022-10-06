@@ -9,6 +9,7 @@ import {RootState} from '@/store/reducer';
 import CurrentPointData from '@/components/Stamp/CurrentPointData';
 import {getUserStampInfo} from '@/modules/userPointAPIs';
 import ApplyGift from '@/components/Stamp/ApplyGift';
+import useAskExitSure from '@/hooks/useAskExitSure';
 MaterialCommunityIcons.loadFont();
 
 function PressStamps({route, navigation}) {
@@ -16,6 +17,8 @@ function PressStamps({route, navigation}) {
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const [stampNumbers, setStampNumbers] = useState<number>(0);
   const dispatch = useAppDispatch();
+
+  useAskExitSure();
 
   useEffect(() => {
     if (accessToken) {

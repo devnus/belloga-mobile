@@ -12,6 +12,7 @@ import {
 import {calcNextAlarm, calcNoRepeatingAlarmTime} from 'modules/calcAlarmsTime';
 import {AlarmType} from './AlarmSettings';
 import AlarmInfo from '@components/AlarmInfo';
+import useAskExitSure from '@/hooks/useAskExitSure';
 
 //움직이는 탭바를 위한 상수
 const Header_Maximum_Height = 200;
@@ -22,6 +23,8 @@ const Header_Minimum_Height = 50;
 function AlarmList({navigation}: any) {
   const [alarms, setAlarms] = useState<Array<AlarmType>>([]);
   const [scheduler, setScheduler] = useState(null);
+
+  useAskExitSure();
 
   useEffect(() => {
     navigation.addListener('focus', async () => {
