@@ -7,7 +7,7 @@ import Stamp from '@/components/Stamp/Stamp';
 import {useAppDispatch} from '@/store';
 import {RootState} from '@/store/reducer';
 import CurrentPointData from '@/components/Stamp/CurrentPointData';
-import {getUserStampInfo} from '@/modules/userPointAPIs';
+import {getGiftInfo, getUserStampInfo} from '@modules/userPointAPIs';
 import ApplyGift from '@/components/Stamp/ApplyGift';
 import useAskExitSure from '@/hooks/useAskExitSure';
 MaterialCommunityIcons.loadFont();
@@ -18,11 +18,31 @@ function PressStamps({route, navigation}) {
   const [stampNumbers, setStampNumbers] = useState<number>(0);
   const dispatch = useAppDispatch();
 
+  const giftInfoJSONArray = [
+    {
+      id: 1,
+      title: '바나나 기프티콘 이벤트',
+      giftType: 'GIFTICON',
+      expectedDrawDate: '2022-11-11',
+      giftStatus: null,
+      odds: 1,
+    },
+    {
+      id: 2,
+      title: '초콜릿 기프티콘 이벤트',
+      giftType: 'GIFTICON',
+      expectedDrawDate: '2022-12-12',
+      giftStatus: null,
+      odds: 0.25,
+    },
+  ];
+
   useAskExitSure();
 
   useEffect(() => {
     if (accessToken) {
-      getUserStampInfo(accessToken, dispatch, setStampNumbers);
+      // getUserStampInfo(accessToken, dispatch, setStampNumbers);
+      getGiftInfo(accessToken);
     }
   }, [isLoggedIn, accessToken, dispatch]);
 
@@ -58,9 +78,9 @@ function PressStamps({route, navigation}) {
             </View>
 
             <View style={styles.giftInfoWrapper}>
-              <ApplyGift />
-              <ApplyGift />
-              <ApplyGift />
+              {giftInfoJSONArray.map((gift: any) => (
+                <ApplyGift giftInfo={gift} />
+              ))}
             </View>
           </View>
         </ScrollView>

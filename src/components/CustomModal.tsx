@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {FunctionComponent, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 
@@ -22,7 +22,9 @@ export function CustomModal({activator: Activator, children}: ModalProps) {
             <Button
               title="창닫기"
               fill={true}
-              onPress={() => setVisible(false)}
+              onPress={() => {
+                setVisible(false);
+              }}
             />
           </View>
         </View>

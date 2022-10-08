@@ -1,15 +1,33 @@
 import React from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import colors from '@assets/colors';
+import {applyGift} from '@/modules/userPointAPIs';
+import {RootState} from '@/store/reducer';
+import {useSelector} from 'react-redux';
 
-function ApplyGift() {
+type GiftInfoProps = {
+  id: number;
+  title: string;
+  giftType: string;
+  expectedDrawDate: string;
+  giftStatus: any;
+  odds: number;
+};
+
+function ApplyGift({giftInfo}: any) {
+  const accessToken = useSelector((state: RootState) => state.user.accessToken);
+
   return (
-    <View style={styles.giftWrapper}>
+    <TouchableOpacity
+      onPress={() => applyGift(accessToken, giftInfo.id)}
+      style={styles.giftWrapper}>
       <View style={styles.giftRoundWrapper}>
         <View style={styles.giftInfoRow}>
           <View style={styles.giftDescribe}>
-            <Text style={styles.titlesSubtitle}>금주의 응모 상품</Text>
-            <Text style={styles.titlesMainTitle}>스타벅스 아메리카노</Text>
+            <Text style={styles.titlesSubtitle}>
+              {giftInfo.expectedDrawDate} 마감
+            </Text>
+            <Text style={styles.titlesMainTitle}>{giftInfo.title}</Text>
             <Text style={styles.joiningInfo}>3029명이 참여 중</Text>
           </View>
           <Image
@@ -18,7 +36,7 @@ function ApplyGift() {
           />
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 

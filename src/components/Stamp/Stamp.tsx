@@ -16,14 +16,16 @@ import {displayStamps} from '@/modules/calcCircularView';
 import UserGiftApplyCount from './UserGiftApplyCount';
 import {CustomModal} from '@components/CustomModal';
 import ModalCard from '@/components/ModalCard';
-import {pressStamp} from '@/modules/userPointAPIs';
+import {getUserStampInfo, pressStamp} from '@/modules/userPointAPIs';
 import {useSelector} from 'react-redux';
 import {RootState} from '@/store/reducer';
+import {useAppDispatch} from '@/store';
 
 function Stamp({stampNumbers, setStampNumbers}) {
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const points = useSelector((state: RootState) => state.user.points);
   const [isFullStamps, setIsFullStamps] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
 
   //원형 UI 구현을 위한 스탬프들
   const windowWidth = Dimensions.get('window').width * 0.9;
@@ -45,6 +47,7 @@ function Stamp({stampNumbers, setStampNumbers}) {
     if (stampNumbers === 8) {
       setIsFullStamps(() => true);
     }
+    getUserStampInfo(accessToken, dispatch, setStampNumbers);
   }, [stampNumbers]);
 
   return (
@@ -55,26 +58,24 @@ function Stamp({stampNumbers, setStampNumbers}) {
           <UserGiftApplyCount />
         </View>
 
-        {isFullStamps ? (
-          <Button title="커피 응모" onPress={() => {}} />
-        ) : (
-          <CustomModal
-            activator={({handleOpen}) => (
-              <TouchableOpacity
-                style={styles.pressStampBtn}
-                onPress={() => {
-                  pressStamp(accessToken, points, setStampNumbers, handleOpen);
-                }}>
-                <LinearGradient
-                  colors={['#b4eee7', '#b4e2ed', '#b4e1ee']}
-                  style={styles.linearGradient}>
-                  <Text style={styles.pressBtnInsideText}> STAMP</Text>
-                </LinearGradient>
-              </TouchableOpacity>
-            )}>
-            <ModalCard />
-          </CustomModal>
-        )}
+        <CustomModal
+          activator={({handleOpen}) => (
+            <TouchableOpacity
+              style={styles.pressStampBtn}
+              onPress={() => {
+                pressStamp(accessToken, points, setStampNumbers, handleOpen);
+              }}>
+              <LinearGradient
+                colors={['#b4eee7', '#b4e2ed', '#b4e1ee']}
+                style={styles.linearGradient}>
+                <Text style={styles.pressBtnInsideText}> STAMP</Text>
+              </LinearGradient>
+            </TouchableOpacity>
+          )}>
+          <ModalCard />
+        </CustomModal>
+
+        {isFullStamps && <Button title="커피 응모" onPress={() => {}} />}
       </View>
     </SafeAreaView>
   );

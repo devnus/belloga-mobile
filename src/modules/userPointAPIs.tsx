@@ -50,6 +50,7 @@ export const getUserStampInfo = async (
   } catch (error) {
     console.error(error);
 
+    //로그아웃
     dispatch(userSlice.actions.setInitial());
     Alert.alert('스탬프 정보 불러오기에 실패했습니다. 다시 로그인해 주세요');
   }
@@ -74,12 +75,16 @@ export const pressStamp = async (
   //   return;
   // }
   try {
-    // const response = await axios.get(`${Config.API_URL}/api/stamp/v1/add`, {
-    //   headers: {
-    //     Authorization: accessToken,
-    //   },
-    // });
-    // console.log(response, 'press a stamp');
+    const response = await axios.post(
+      `${Config.API_URL}/api/stamp/v1/add`,
+      {},
+      {
+        headers: {
+          Authorization: accessToken,
+        },
+      },
+    );
+    console.log(response, 'press a stamp');
     handleOpen();
     setStampNumbers(prev => prev + 1);
   } catch (error) {
@@ -96,5 +101,51 @@ export const pressStamp = async (
 
     //포인트 적은 경우를 분기
     Alert.alert('스탬프 찍기가 처리되지 않았어요. 버튼을 다시 눌러 주세요');
+  }
+};
+
+/**
+ * gift 정보를 받아오는 함수
+ * @param accessToken header에 넣을 accessToken을 보낸다
+ */
+export const getGiftInfo = async (accessToken: string) => {
+  try {
+    const response = await axios.get(`${Config.API_URL}/api/gift/v1/apply`, {
+      headers: {
+        Authorization: accessToken,
+      },
+    });
+
+    console.log('선물정보', response.data.content);
+  } catch (error) {
+    console.error(error);
+
+    Alert.alert('선물 정보 불러오기에 실패했습니다. 다시 로그인해 주세요');
+  }
+};
+
+/**
+ * gift 정보를 받아오는 함수
+ * @param accessToken header에 넣을 accessToken을 보낸다
+ * @param giftID : gift ID, number
+ */
+export const applyGift = async (accessToken: string, giftId: number) => {
+  try {
+    const response = await axios.post(
+      `${Config.API_URL}/api/gift/v1/apply`,
+      {
+        giftId: giftId,
+      },
+      {
+        headers: {
+          Authorization: accessToken,
+        },
+      },
+    );
+    console.log(response.data);
+  } catch (error) {
+    console.error(error);
+
+    Alert.alert('선물 정보 불러오기에 실패했습니다. 다시 로그인해 주세요');
   }
 };
