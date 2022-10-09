@@ -4,6 +4,8 @@ import colors from '@assets/colors';
 import {applyGift} from '@/modules/userPointAPIs';
 import {RootState} from '@/store/reducer';
 import {useSelector} from 'react-redux';
+import {CustomModal} from '../CustomModal';
+import ModalCard from '../ModalCard';
 
 type GiftInfo = {
   id: number;
@@ -23,28 +25,38 @@ function ApplyGift({giftInfo, setStampNumbers}: ApplyGiftProps) {
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
 
   return (
-    <TouchableOpacity
-      onPress={() => applyGift(accessToken, giftInfo.id, setStampNumbers)}
-      style={styles.giftWrapper}>
-      <View style={styles.giftRoundWrapper}>
-        <View style={styles.giftInfoRow}>
-          <View style={styles.giftDescribe}>
-            <Text style={styles.titlesSubtitle}>
-              {giftInfo.expectedDrawDate} 마감
-            </Text>
-            <Text style={styles.titlesMainTitle}>{giftInfo.title}</Text>
-            <Text style={styles.joiningInfo}>3029명이 참여 중</Text>
+    <CustomModal
+      activator={({handleOpen}) => (
+        <TouchableOpacity
+          onPress={() =>
+            applyGift(accessToken, giftInfo.id, setStampNumbers, handleOpen)
+          }
+          style={styles.giftWrapper}>
+          <View style={styles.giftRoundWrapper}>
+            <View style={styles.giftInfoRow}>
+              <View style={styles.giftDescribe}>
+                <Text style={styles.titlesSubtitle}>
+                  {giftInfo.expectedDrawDate} 마감
+                </Text>
+                <Text style={styles.titlesMainTitle}>{giftInfo.title}</Text>
+                <Text style={styles.joiningInfo}>3029명이 참여 중</Text>
+              </View>
+              <Image
+                source={{
+                  uri: `${giftInfo.imageUrl}`,
+                }}
+                style={styles.giftIcon}
+                resizeMode="contain"
+              />
+            </View>
           </View>
-          <Image
-            source={{
-              uri: `${giftInfo.imageUrl}`,
-            }}
-            style={styles.giftIcon}
-            resizeMode="contain"
-          />
-        </View>
-      </View>
-    </TouchableOpacity>
+        </TouchableOpacity>
+      )}>
+      <ModalCard
+        titleText="경품 응모가 왼료되었습니다!"
+        middleText="참여해 주셔서 감사드립니다"
+      />
+    </CustomModal>
   );
 }
 

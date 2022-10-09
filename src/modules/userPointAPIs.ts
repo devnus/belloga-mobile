@@ -137,6 +137,7 @@ export const applyGift = async (
   accessToken: string,
   giftId: number,
   setStampNumbers: Dispatch<SetStateAction<number>>,
+  handleOpen: () => void,
 ) => {
   try {
     const response = await axios.post(
@@ -151,6 +152,7 @@ export const applyGift = async (
       },
     );
     setStampNumbers(() => 0);
+    handleOpen();
   } catch (error) {
     console.error(error);
 

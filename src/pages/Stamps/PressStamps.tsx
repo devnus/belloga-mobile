@@ -67,7 +67,7 @@ function PressStamps({route, navigation}) {
               <View>
                 <Text style={styles.titlesBoldTitle}>경품 응모 스탬프판</Text>
                 <Text style={styles.titlesSubtitle}>
-                  500P로 스탬프 한 개를 받을 수 있어요
+                  매일 일어나서 도장 찍고 선물 받아가세요!
                 </Text>
               </View>
             </View>

@@ -3,12 +3,12 @@ import {StyleSheet, Text, View} from 'react-native';
 import colors from '@assets/colors';
 import CheckAnimation from '@components/LottieAnimations/PressStampAnimation';
 
-function ModalCard() {
+function ModalCard({titleText, middleText}: any) {
   return (
     <View style={styles.giftWrapper}>
       <View style={styles.checkAnimationWrapper}>{CheckAnimation()}</View>
-      <Text style={styles.titlesMainTitle}>스탬프판에 도장을 찍었습니다!</Text>
-      <Text style={styles.joiningInfo}>참여해 주셔서 감사드립니다. </Text>
+      <Text style={styles.titlesMainTitle}>{titleText}</Text>
+      <Text style={styles.joiningInfo}>{middleText}</Text>
     </View>
   );
 }

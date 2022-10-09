@@ -24,7 +24,6 @@ import {useAppDispatch} from '@/store';
 function Stamp({stampNumbers, setStampNumbers}) {
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const points = useSelector((state: RootState) => state.user.points);
-  const [isFullStamps, setIsFullStamps] = useState<boolean>(false);
   const dispatch = useAppDispatch();
 
   //원형 UI 구현을 위한 스탬프들
@@ -72,7 +71,10 @@ function Stamp({stampNumbers, setStampNumbers}) {
               </LinearGradient>
             </TouchableOpacity>
           )}>
-          <ModalCard />
+          <ModalCard
+            titleText="스탬프판에 도장을 찍었습니다!"
+            middleText="이용해 주셔서 감사드립니다"
+          />
         </CustomModal>
       </View>
     </SafeAreaView>
@@ -124,6 +126,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   pressStampBtn: {
+    marginTop: 20,
     width: 300,
   },
   pressBtnInsideText: {

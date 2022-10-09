@@ -20,7 +20,7 @@ export function CustomModal({activator: Activator, children}: ModalProps) {
           <View style={styles.modalRoundWrapper}>
             {children}
             <Button
-              title="창닫기"
+              title="닫기"
               fill={true}
               onPress={() => {
                 setVisible(false);
