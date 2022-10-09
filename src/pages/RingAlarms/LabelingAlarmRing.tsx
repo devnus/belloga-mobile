@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {ImageBackground, Pressable, StyleSheet, Text, View} from 'react-native';
 
 import Button from '@components/Button';
 import TextInput from '@components/AlarmSetting/TextInput';
@@ -57,54 +57,59 @@ function LabelingAlarmRing({route, navigation, receivedAlarm}) {
 
   return (
     <View style={globalStyles.container}>
-      <View style={[globalStyles.innerContainer, styles.container]}>
-        <View style={styles.textContainer}>
-          <Text style={styles.clockText}>
-            {alarm.getTimeString().hour} : {alarm.getTimeString().minutes}
-          </Text>
-          <Text style={styles.title}>{alarm.title}</Text>
-        </View>
-        {loading ? loadBoundingBox : <Text> Loading </Text>}
-        <View>
-          <TextInput
-            description={'answer'}
-            onChangeText={(text: String) => setAnswer(text)}
-            value={answer}
-          />
-        </View>
-        <View style={styles.buttonContainer}>
-          <Pressable
-            style={
-              answer
-                ? StyleSheet.compose(
-                    styles.loginButton,
-                    styles.loginButtonActive,
-                  )
-                : styles.loginButton
-            }
-            disabled={!answer}
-            onPress={onPressSendButton}>
-            <Text>Stop</Text>
-          </Pressable>
+      <ImageBackground
+        source={require('@assets/images/bg_illust.png')}
+        resizeMode="cover"
+        style={styles.backgroundImage}>
+        <View style={[globalStyles.innerContainer, styles.container]}>
+          <View style={styles.textContainer}>
+            <Text style={styles.clockText}>
+              {alarm.getTimeString().hour} : {alarm.getTimeString().minutes}
+            </Text>
+            <Text style={styles.title}>{alarm.title}</Text>
+          </View>
+          {loading ? loadBoundingBox : <Text> Loading </Text>}
+          <View>
+            <TextInput
+              description={'answer'}
+              onChangeText={(text: String) => setAnswer(text)}
+              value={answer}
+            />
+          </View>
+          <View style={styles.buttonContainer}>
+            <Pressable
+              style={
+                answer
+                  ? StyleSheet.compose(
+                      styles.loginButton,
+                      styles.loginButtonActive,
+                    )
+                  : styles.loginButton
+              }
+              disabled={!answer}
+              onPress={onPressSendButton}>
+              <Text>Stop</Text>
+            </Pressable>
 
-          {alarm.snoozeInterval > 0 && (
+            {alarm.snoozeInterval > 0 && (
+              <Button
+                title={'Snooze'}
+                onPress={async () => {
+                  await snoozeAlarm();
+                  navigation.goBack();
+                }}
+              />
+            )}
+
             <Button
-              title={'Snooze'}
+              title={'Cancel'}
               onPress={async () => {
-                await snoozeAlarm();
-                navigation.goBack();
+                finishAlarm();
               }}
             />
-          )}
-
-          <Button
-            title={'Cancel'}
-            onPress={async () => {
-              finishAlarm();
-            }}
-          />
+          </View>
         </View>
-      </View>
+      </ImageBackground>
     </View>
   );
 }
@@ -148,18 +153,19 @@ const styles = StyleSheet.create({
   loginButtonActive: {
     backgroundColor: 'whited',
   },
+  backgroundImage: {
+    flex: 1,
+    justifyContent: 'center',
+  },
 });
 const globalStyles = StyleSheet.create({
   container: {
     height: '100%',
     width: '100%',
-    display: 'flex',
-    alignItems: 'center',
+    flex: 1,
     justifyContent: 'center',
-    backgroundColor: 'white',
   },
   innerContainer: {
-    width: '90%',
     height: '90%',
     display: 'flex',
     alignItems: 'center',
