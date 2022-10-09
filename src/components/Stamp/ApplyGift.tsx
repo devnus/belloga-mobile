@@ -5,7 +5,7 @@ import {applyGift} from '@/modules/userPointAPIs';
 import {RootState} from '@/store/reducer';
 import {useSelector} from 'react-redux';
 
-type GiftInfoProps = {
+type GiftInfo = {
   id: number;
   title: string;
   giftType: string;
@@ -14,12 +14,12 @@ type GiftInfoProps = {
   odds: number;
 };
 
-function ApplyGift({giftInfo}: any) {
+function ApplyGift({giftInfo, setStampNumbers}: any) {
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
 
   return (
     <TouchableOpacity
-      onPress={() => applyGift(accessToken, giftInfo.id)}
+      onPress={() => applyGift(accessToken, giftInfo.id, setStampNumbers)}
       style={styles.giftWrapper}>
       <View style={styles.giftRoundWrapper}>
         <View style={styles.giftInfoRow}>

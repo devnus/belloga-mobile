@@ -133,7 +133,11 @@ export const getGiftInfo = async (accessToken: string) => {
  * @param accessToken header에 넣을 accessToken을 보낸다
  * @param giftID : gift ID, number
  */
-export const applyGift = async (accessToken: string, giftId: number) => {
+export const applyGift = async (
+  accessToken: string,
+  giftId: number,
+  setStampNumbers: Dispatch<SetStateAction<number>>,
+) => {
   try {
     const response = await axios.post(
       `${Config.API_URL}/api/gift/v1/apply`,
@@ -146,7 +150,7 @@ export const applyGift = async (accessToken: string, giftId: number) => {
         },
       },
     );
-    console.log(response.data);
+    setStampNumbers(() => 0);
   } catch (error) {
     console.error(error);
 

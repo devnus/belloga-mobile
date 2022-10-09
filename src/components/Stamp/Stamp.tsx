@@ -44,9 +44,6 @@ function Stamp({stampNumbers, setStampNumbers}) {
 
   useEffect(() => {
     console.log('스탬프 개수,', stampNumbers);
-    if (stampNumbers === 8) {
-      setIsFullStamps(() => true);
-    }
     getUserStampInfo(accessToken, dispatch, setStampNumbers);
   }, [stampNumbers]);
 
@@ -55,7 +52,7 @@ function Stamp({stampNumbers, setStampNumbers}) {
       <View style={styles.pressStampContainer}>
         <View style={stampContainerStyle}>
           {displayStamps(stampNumbers, windowWidth, imgSize)}
-          <UserGiftApplyCount />
+          <UserGiftApplyCount stampNumbers={stampNumbers} />
         </View>
 
         <CustomModal
@@ -63,19 +60,20 @@ function Stamp({stampNumbers, setStampNumbers}) {
             <TouchableOpacity
               style={styles.pressStampBtn}
               onPress={() => {
-                pressStamp(accessToken, points, setStampNumbers, handleOpen);
+                stampNumbers < 10 &&
+                  pressStamp(accessToken, points, setStampNumbers, handleOpen);
               }}>
               <LinearGradient
                 colors={['#b4eee7', '#b4e2ed', '#b4e1ee']}
                 style={styles.linearGradient}>
-                <Text style={styles.pressBtnInsideText}> STAMP</Text>
+                <Text style={styles.pressBtnInsideText}>
+                  {stampNumbers < 10 ? 'STAMP' : '경품 응모하기'}
+                </Text>
               </LinearGradient>
             </TouchableOpacity>
           )}>
           <ModalCard />
         </CustomModal>
-
-        {isFullStamps && <Button title="커피 응모" onPress={() => {}} />}
       </View>
     </SafeAreaView>
   );

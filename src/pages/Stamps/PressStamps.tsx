@@ -41,7 +41,7 @@ function PressStamps({route, navigation}) {
 
   useEffect(() => {
     if (accessToken) {
-      // getUserStampInfo(accessToken, dispatch, setStampNumbers);
+      getUserStampInfo(accessToken, dispatch, setStampNumbers);
       getGiftInfo(accessToken);
     }
   }, [isLoggedIn, accessToken, dispatch]);
@@ -79,7 +79,7 @@ function PressStamps({route, navigation}) {
 
             <View style={styles.giftInfoWrapper}>
               {giftInfoJSONArray.map((gift: any) => (
-                <ApplyGift giftInfo={gift} />
+                <ApplyGift giftInfo={gift} setStampNumbers={setStampNumbers} />
               ))}
             </View>
           </View>

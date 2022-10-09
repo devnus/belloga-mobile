@@ -33,10 +33,10 @@ function UserInfo({route, navigation}) {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (isLoggedIn) {
+    if (accessToken) {
       getUserPointInfo(accessToken, dispatch);
     }
-  }, [isLoggedIn, accessToken, dispatch]);
+  }, [accessToken, dispatch]);
 
   return (
     <View style={styles.container}>
