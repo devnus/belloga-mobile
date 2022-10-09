@@ -1,3 +1,4 @@
+import alertSlice from '@/slices/alert';
 import userSlice from '@/slices/user';
 import axios from 'axios';
 import {Dispatch, SetStateAction} from 'react';
@@ -136,6 +137,7 @@ export const getGiftInfo = async (accessToken: string) => {
 export const applyGift = async (
   accessToken: string,
   giftId: number,
+  dispatch,
   setStampNumbers: Dispatch<SetStateAction<number>>,
   handleOpen: () => void,
 ) => {
@@ -157,11 +159,22 @@ export const applyGift = async (
     console.error(error);
 
     if (error.response.data.message === 'Unauthorized') {
-      Alert.alert('선물 응모를 위해서 로그인이 필요합니다');
+      // Alert.alert('선물 응모를 위해서 로그인이 필요합니다');
+      dispatch(
+        alertSlice.actions.setAlert({
+          isOpen: true,
+          titleMessage: '선물 응모를 위해서 로그인이 필요해요',
+        }),
+      );
     }
 
     if (error.response.data.error.code === 'STAMP_001') {
-      Alert.alert('스탬프가 부족합니다');
+      dispatch(
+        alertSlice.actions.setAlert({
+          isOpen: true,
+          titleMessage: '스탬프가 부족합니다',
+        }),
+      );
     }
   }
 };

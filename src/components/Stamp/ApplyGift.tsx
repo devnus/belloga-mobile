@@ -6,6 +6,7 @@ import {RootState} from '@/store/reducer';
 import {useSelector} from 'react-redux';
 import {CustomModal} from '../Modals/CustomModal';
 import ModalCard from '../Modals/ModalCard';
+import {useAppDispatch} from '@/store';
 
 type GiftInfo = {
   id: number;
@@ -23,13 +24,20 @@ type ApplyGiftProps = {
 };
 function ApplyGift({giftInfo, setStampNumbers}: ApplyGiftProps) {
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
+  const dispatch = useAppDispatch();
 
   return (
     <CustomModal
       activator={({handleOpen}) => (
         <TouchableOpacity
           onPress={() =>
-            applyGift(accessToken, giftInfo.id, setStampNumbers, handleOpen)
+            applyGift(
+              accessToken,
+              giftInfo.id,
+              dispatch,
+              setStampNumbers,
+              handleOpen,
+            )
           }
           style={styles.giftWrapper}>
           <View style={styles.giftRoundWrapper}>

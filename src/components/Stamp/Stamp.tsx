@@ -43,7 +43,9 @@ function Stamp({stampNumbers, setStampNumbers}) {
 
   useEffect(() => {
     console.log('스탬프 개수,', stampNumbers);
-    getUserStampInfo(accessToken, dispatch, setStampNumbers);
+    if (accessToken) {
+      getUserStampInfo(accessToken, dispatch, setStampNumbers);
+    }
   }, [stampNumbers]);
 
   return (

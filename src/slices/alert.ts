@@ -12,7 +12,7 @@ const alertSlice = createSlice({
   reducers: {
     setAlert(state, action) {
       state.isOpen = action.payload.isOpen;
-      state.middleMessage = action.payload.titleMessage;
+      state.titleMessage = action.payload.titleMessage;
       state.middleMessage = action.payload.middleMessage;
     },
   },
