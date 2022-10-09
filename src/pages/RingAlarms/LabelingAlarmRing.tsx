@@ -1,18 +1,12 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {
-  BackHandler,
-  Image,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 
 import axios from 'axios';
 import Button from '../../components/Button';
 import TextInput from '../../components/AlarmSetting/TextInput';
 import Alarm, {getAlarm, snoozeAlarm, stopAlarm} from '../../modules/alarms';
 import {CalcBoundingBoxOnImage} from '@/modules/calcBoundingBox';
+import Config from 'react-native-config';
 
 function RenderImage({boundingBoxInfo, imageUrl}) {
   const [topPosition, setTopPosition] = useState(0);
@@ -122,16 +116,18 @@ function LabelingAlarmRing({route, navigation, receivedAlarm}) {
 
   const getAlarmInfo = async () => {
     try {
-      await axios.get(`http://webcode.me/`).then(res => {
-        console.log('got response', res.data);
-        const boundingBoxData = {
-          boundingBoxId: res.data.response.boundingBoxId,
-          x: res.data.response.x,
-          y: res.data.response.y,
-        };
-        setboundingBoxList(() => [boundingBoxData]);
-        setImageUrl(() => res.data.response.imageUrl);
-      });
+      await axios
+        .get(`${Config.API_URL}/api/labeled-data/v1/ocr-data`)
+        .then(res => {
+          console.log('got response', res.data);
+          const boundingBoxData = {
+            boundingBoxId: res.data.response.boundingBoxId,
+            x: res.data.response.x,
+            y: res.data.response.y,
+          };
+          setboundingBoxList(() => [boundingBoxData]);
+          setImageUrl(() => res.data.response.imageUrl);
+        });
     } catch (error) {
       console.log(error);
     } finally {
@@ -143,7 +139,7 @@ function LabelingAlarmRing({route, navigation, receivedAlarm}) {
     try {
       await axios
         .post(
-          'http://a138b0b67de234557afc8eaf29aa97b6-1258302528.ap-northeast-2.elb.amazonaws.com/api/labeled-data/v1/ocr-data',
+          `${Config.API_URL}/api/labeled-data/v1/ocr-data`,
           {
             boundingBoxId: boundingBoxId,
             label: labelText,
@@ -174,6 +170,7 @@ function LabelingAlarmRing({route, navigation, receivedAlarm}) {
         <View style={styles.textContainer}>
           <Text style={styles.clockText}>
             {alarm.getTimeString().hour} : {alarm.getTimeString().minutes}
+            라벨링알람
           </Text>
           <Text style={styles.title}>{alarm.title}</Text>
         </View>

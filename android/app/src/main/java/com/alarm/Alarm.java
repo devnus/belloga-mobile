@@ -20,8 +20,9 @@ public class Alarm implements Cloneable {
     boolean active;
     boolean isSoundOn;
     boolean isVibrateOn;
+    boolean isMissionAlert;
 
-    Alarm(String uid, ArrayList<Integer> days, int hour, int minutes, int snoozeInterval, String title, String description, boolean repeating, boolean active, boolean isSoundOn, boolean isVibrateOn) {
+    Alarm(String uid, ArrayList<Integer> days, int hour, int minutes, int snoozeInterval, String title, String description, boolean repeating, boolean active, boolean isSoundOn, boolean isVibrateOn, boolean isMissionAlert) {
         this.uid = uid;
         this.days = days;
         this.hour = hour;
@@ -33,6 +34,7 @@ public class Alarm implements Cloneable {
         this.active = active;
         this.isSoundOn = isSoundOn;
         this.isVibrateOn = isVibrateOn;
+        this.isMissionAlert = isMissionAlert;
     }
 
     Date[] getDates() {

@@ -11,6 +11,7 @@ function SelectAlarmRingMode({route, navigation}) {
     const alarmUid = route.params.alarmUid;
     (async function () {
       const alarmInfo = await getAlarm(alarmUid);
+      console.log('불러온 알람', alarm);
       setAlarm(alarmInfo);
     })();
   }, []);
@@ -21,7 +22,7 @@ function SelectAlarmRingMode({route, navigation}) {
 
   return (
     <>
-      {alarm?.isMissionAlert ? (
+      {alarm?.isMissionAlert === true ? (
         <LabelingAlarmRing
           route={route}
           navigation={navigation}

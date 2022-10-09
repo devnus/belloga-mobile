@@ -3,7 +3,9 @@ import React from 'react';
 import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 
 function AlarmSuccess({route, navigation}) {
-  const onPressSendButton = () => {};
+  const onPressSendButton = () => {
+    navigation.navigate('Alarms');
+  };
 
   return (
     <View style={globalStyles.container}>
