@@ -4,6 +4,11 @@ import {Dispatch, SetStateAction} from 'react';
 import {Alert} from 'react-native';
 import Config from 'react-native-config';
 
+/**
+ * 유저의 포인트와 현재 보유 중인 포인트를 확인할수 있다
+ * @param accessToken accessToken을 넣어주자
+ * @param dispatch 액션을 발생해서 스토어에 있는 유저 정보를 수정
+ */
 export const getUserPointInfo = async (
   accessToken: string,
   dispatch: Dispatch<any>,
@@ -124,7 +129,7 @@ export const getGiftInfo = async (accessToken: string) => {
 };
 
 /**
- * gift 정보를 받아오는 함수
+ * gift를 응모하는 함수
  * @param accessToken header에 넣을 accessToken을 보낸다
  * @param giftID : gift ID, number
  */
@@ -146,7 +151,7 @@ export const applyGift = async (accessToken: string, giftId: number) => {
     console.error(error);
 
     if (error.response.data.message === 'Unauthorized') {
-      Alert.alert('선물 응모 기능을 위해서 로그인이 필요합니다');
+      Alert.alert('선물 응모를 위해서 로그인이 필요합니다');
     }
 
     if (error.response.data.error.code === 'STAMP_001') {

@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Animated, ScrollView, StyleSheet, Text, View} from 'react-native';
 import AddButton from 'components/AlarmSetting/AddButton';
-import {getDays} from 'components/AlarmSetting/DayPicker';
 import {
   disableAlarm,
   enableAlarm,
@@ -25,7 +24,6 @@ function AlarmList({navigation}: any) {
   const [scheduler, setScheduler] = useState(null);
 
   useAskExitSure();
-
   useEffect(() => {
     navigation.addListener('focus', async () => {
       setAlarms(await getAllAlarms()); //저장된 모든 알람 목록을 불러온다.
@@ -43,7 +41,6 @@ function AlarmList({navigation}: any) {
 
   async function fetchState() {
     const alarmUid = await getAlarmState(); //알람 state를 가져온다
-    console.log('alarmUid is Here');
     if (alarmUid) {
       navigation.navigate('Ring', {
         screen: 'SelectAlarmRingMode',

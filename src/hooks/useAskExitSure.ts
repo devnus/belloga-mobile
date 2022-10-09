@@ -1,6 +1,9 @@
 import {useEffect} from 'react';
 import {Alert, BackHandler} from 'react-native';
 
+/**
+ * 뒤로가기 버튼을 누를때 종료하겠냐고 물어봄
+ */
 function useAskExitSure() {
   useEffect(() => {
     const backAction = () => {
