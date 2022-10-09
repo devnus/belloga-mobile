@@ -26,6 +26,8 @@ function PressStamps({route, navigation}) {
       expectedDrawDate: '2022-11-11',
       giftStatus: null,
       odds: 1,
+      imageUrl:
+        'https://www.freepnglogos.com/uploads/banana-png/banana-school-council-drapers-mills-primary-academy-little-0.png',
     },
     {
       id: 2,
@@ -34,6 +36,8 @@ function PressStamps({route, navigation}) {
       expectedDrawDate: '2022-12-12',
       giftStatus: null,
       odds: 0.25,
+      imageUrl:
+        'https://www.maltesers.co.uk/sites/g/files/fnmzdf601/files/migrate-product-files/aal391kpuxkfxoyhji5k.png',
     },
   ];
 

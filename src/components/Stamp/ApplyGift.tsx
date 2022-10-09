@@ -12,9 +12,14 @@ type GiftInfo = {
   expectedDrawDate: string;
   giftStatus: any;
   odds: number;
+  imageUrl: string;
 };
 
-function ApplyGift({giftInfo, setStampNumbers}: any) {
+type ApplyGiftProps = {
+  giftInfo: GiftInfo;
+  setStampNumbers: any;
+};
+function ApplyGift({giftInfo, setStampNumbers}: ApplyGiftProps) {
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
 
   return (
@@ -31,8 +36,11 @@ function ApplyGift({giftInfo, setStampNumbers}: any) {
             <Text style={styles.joiningInfo}>3029명이 참여 중</Text>
           </View>
           <Image
-            source={require('@assets/images/sb.png')}
+            source={{
+              uri: `${giftInfo.imageUrl}`,
+            }}
             style={styles.giftIcon}
+            resizeMode="contain"
           />
         </View>
       </View>
