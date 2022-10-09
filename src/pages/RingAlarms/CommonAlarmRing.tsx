@@ -24,7 +24,7 @@ function CommonAlarmRing({route, navigation, receivedAlarm}) {
       <View style={[globalStyles.innerContainer, styles.container]}>
         <View style={styles.textContainer}>
           <Text style={styles.clockText}>
-            {alarm.getTimeString().hour} : {alarm.getTimeString().minutes}
+            {alarm.getTimeString().hour} : {alarm.getTimeString().minutes} 일반
           </Text>
           <Text style={styles.title}>{alarm.title}</Text>
         </View>

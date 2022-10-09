@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {ScrollView, StyleSheet, View} from 'react-native';
+import {BackHandler, ScrollView, StyleSheet, View} from 'react-native';
 import Alarm, {
   removeAlarm,
   scheduleAlarm,
@@ -31,6 +31,8 @@ export type AlarmType = {
 };
 
 function AlarmSettings({route, navigation}) {
+  //뒤로가기 버튼 누를 때 핸들링, 덮어쓴다
+
   const [alarm, setAlarm] = useState<Alarm>(null);
   const [mode, setMode] = useState<string>(null);
 
@@ -164,7 +166,6 @@ function AlarmSettings({route, navigation}) {
                 isActive={alarm.isSoundOn}
                 onChange={(v: boolean) => update([['isSoundOn', v]])}
               />
-
               <AlarmSettingDetail
                 detailTitle="다시 울림"
                 detailDescription="알람이 꺼져도 잠시 후 다시 울립니다"

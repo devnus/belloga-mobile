@@ -2,11 +2,20 @@ import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import colors from '@assets/colors';
 
-function UserGiftApplyCount() {
+function UserGiftApplyCount({stampNumbers}) {
   return (
     <View style={styles.userInfoRow}>
-      <Text style={styles.titlesSubtitle}> 응모 횟수 </Text>
-      <Text style={styles.pointValue}> 16 </Text>
+      {stampNumbers >= 10 ? (
+        <>
+          <Text style={styles.titlesSubtitle}> 내 응모 횟수 </Text>
+          <Text style={styles.pointValue}> 10회 </Text>
+        </>
+      ) : (
+        <>
+          <Text style={styles.titlesSubtitle}> 응모까지 </Text>
+          <Text style={styles.pointValue}> {10 - stampNumbers}개 </Text>
+        </>
+      )}
     </View>
   );
 }

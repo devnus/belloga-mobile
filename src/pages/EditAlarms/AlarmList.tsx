@@ -1,17 +1,22 @@
 import React, {useEffect, useState} from 'react';
 import {Animated, ScrollView, StyleSheet, Text, View} from 'react-native';
 import AddButton from 'components/AlarmSetting/AddButton';
-import {getDays} from 'components/AlarmSetting/DayPicker';
-import {
+import Alarm, {
   disableAlarm,
   enableAlarm,
   getAlarmState,
   getAllAlarms,
   showAlarmToastMessage,
 } from 'modules/alarms';
-import {calcNextAlarm, calcNoRepeatingAlarmTime} from 'modules/calcAlarmsTime';
+import {
+  calcNextAlarm,
+  calcNoRepeatingAlarmTime,
+  calcRemainTime,
+  sortAlarm,
+} from 'modules/calcAlarmsTime';
 import {AlarmType} from './AlarmSettings';
 import AlarmInfo from '@components/AlarmInfo';
+import useAskExitSure from '@/hooks/useAskExitSure';
 
 //움직이는 탭바를 위한 상수
 const Header_Maximum_Height = 200;
@@ -23,9 +28,11 @@ function AlarmList({navigation}: any) {
   const [alarms, setAlarms] = useState<Array<AlarmType>>([]);
   const [scheduler, setScheduler] = useState(null);
 
+  useAskExitSure();
   useEffect(() => {
     navigation.addListener('focus', async () => {
-      setAlarms(await getAllAlarms()); //저장된 모든 알람 목록을 불러온다.
+      const alarmLists = await getAllAlarms(); //저장된 모든 알람 목록을 불러온다.
+      setAlarms(() => alarmLists);
       await fetchState();
       // setScheduler(setInterval(fetchState, 10000)); //1초마다 fetchState 하도록 설정, 알람 새로 생겼는지 체크
     });
@@ -40,7 +47,7 @@ function AlarmList({navigation}: any) {
 
   async function fetchState() {
     const alarmUid = await getAlarmState(); //알람 state를 가져온다
-    console.log('alarmUid is Here');
+
     if (alarmUid) {
       navigation.navigate('Ring', {
         screen: 'SelectAlarmRingMode',
@@ -114,6 +121,7 @@ function AlarmList({navigation}: any) {
                 minutes={a.minutes}
                 days={a.days}
                 isActive={a.active}
+                alarm={a}
               />
             ))}
         </ScrollView>

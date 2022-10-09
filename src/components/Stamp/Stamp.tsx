@@ -1,7 +1,5 @@
-import {MaterialCommunityIcons} from '@expo/vector-icons';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
-  Alert,
   Dimensions,
   ImageStyle,
   StyleProp,
@@ -16,12 +14,19 @@ import colors from '@assets/colors';
 import Button from '@/components/Button';
 import {displayStamps} from '@/modules/calcCircularView';
 import UserGiftApplyCount from './UserGiftApplyCount';
-import {CustomModal} from '@components/CustomModal';
-import ModalCard from '@/components/ModalCard';
+import {CustomModal} from '@/components/Modals/CustomModal';
+import ModalCard from '@/components/Modals/ModalCard';
+import {getUserStampInfo, pressStamp} from '@/modules/userPointAPIs';
+import {useSelector} from 'react-redux';
+import {RootState} from '@/store/reducer';
+import {useAppDispatch} from '@/store';
 
-function Stamp() {
-  const [stampNumbers, setStampNumbers] = useState<number>(0);
+function Stamp({stampNumbers, setStampNumbers}) {
+  const accessToken = useSelector((state: RootState) => state.user.accessToken);
+  const points = useSelector((state: RootState) => state.user.points);
+  const dispatch = useAppDispatch();
 
+  //원형 UI 구현을 위한 스탬프들
   const windowWidth = Dimensions.get('window').width * 0.9;
   const windowHeight = Dimensions.get('window').height * 0.9;
   const imgSize = 60;
@@ -36,41 +41,43 @@ function Stamp() {
     marginBottom: 10,
   };
 
+  useEffect(() => {
+    console.log('스탬프 개수,', stampNumbers);
+    if (accessToken) {
+      getUserStampInfo(accessToken, dispatch, setStampNumbers);
+    }
+  }, [stampNumbers]);
+
   return (
     <SafeAreaView style={styles.popularWrapper}>
       <View style={styles.pressStampContainer}>
         <View style={stampContainerStyle}>
           {displayStamps(stampNumbers, windowWidth, imgSize)}
-          <UserGiftApplyCount />
+          <UserGiftApplyCount stampNumbers={stampNumbers} />
         </View>
 
-        <View>
-          {/* <Modal>
-        <Text>Hello This is a modal view</Text>
-      </Modal> */}
-        </View>
-
-        {stampNumbers < 8 ? (
-          <CustomModal
-            activator={({handleOpen}) => (
-              <TouchableOpacity
-                style={styles.pressStampBtn}
-                onPress={() => {
-                  setStampNumbers(() => stampNumbers + 1);
-                  handleOpen();
-                }}>
-                <LinearGradient
-                  colors={['#b4eee7', '#b4e2ed', '#b4e1ee']}
-                  style={styles.linearGradient}>
-                  <Text style={styles.pressBtnInsideText}> STAMP</Text>
-                </LinearGradient>
-              </TouchableOpacity>
-            )}>
-            <ModalCard />
-          </CustomModal>
-        ) : (
-          <Button title="커피 응모" onPress={() => {}} />
-        )}
+        <CustomModal
+          activator={({handleOpen}) => (
+            <TouchableOpacity
+              style={styles.pressStampBtn}
+              onPress={() => {
+                stampNumbers < 10 &&
+                  pressStamp(accessToken, points, setStampNumbers, handleOpen);
+              }}>
+              <LinearGradient
+                colors={['#b4eee7', '#b4e2ed', '#b4e1ee']}
+                style={styles.linearGradient}>
+                <Text style={styles.pressBtnInsideText}>
+                  {stampNumbers < 10 ? 'STAMP' : '경품 응모하기'}
+                </Text>
+              </LinearGradient>
+            </TouchableOpacity>
+          )}>
+          <ModalCard
+            titleText="스탬프판에 도장을 찍었습니다!"
+            middleText="이용해 주셔서 감사드립니다"
+          />
+        </CustomModal>
       </View>
     </SafeAreaView>
   );
@@ -121,6 +128,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   pressStampBtn: {
+    marginTop: 20,
     width: 300,
   },
   pressBtnInsideText: {

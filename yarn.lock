@@ -1975,10 +1975,10 @@
   dependencies:
     "dooboolab-welcome" "^1.3.2"
 
-"@react-native-seoul/naver-login@^2.3.0":
-  "integrity" "sha512-TXblGB4jN2Rr8v5ynwLXl0ZJSO8M8oXS+aTltjtu1sAZJXnbue0pXp75O8gyF92hMu4LsyuGAWOaPhvOxZd+bw=="
-  "resolved" "https://registry.npmjs.org/@react-native-seoul/naver-login/-/naver-login-2.3.0.tgz"
-  "version" "2.3.0"
+"@react-native-seoul/naver-login@^2.3.1":
+  "integrity" "sha512-Rd79fEfKhHPZvaMXLjTZq1/ynkWae75uhgKR3uqmvuR/Zrf2iDmJRATX3z40Uv2OkY9i/BZRccc3uYUkRH9How=="
+  "resolved" "https://registry.npmjs.org/@react-native-seoul/naver-login/-/naver-login-2.3.1.tgz"
+  "version" "2.3.1"
   dependencies:
     "dooboolab-welcome" "^1.1.1"
 

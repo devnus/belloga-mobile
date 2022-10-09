@@ -21,21 +21,22 @@ import {RootState} from '@/store/reducer';
 import LabelingLogInfo from '@/components/LabelingLogInfo';
 import Config from 'react-native-config';
 import {getUserPointInfo} from '@/modules/userPointAPIs';
+import {useGetAccessToken, useIsLoggedIn} from '@/hooks/useAuthInfo';
 
 Feather.loadFont();
 MaterialCommunityIcons.loadFont();
 
 function UserInfo({route, navigation}) {
-  const isLoggedIn = useSelector((state: RootState) => !!state.user.email);
+  const isLoggedIn = useIsLoggedIn();
   const userName = useSelector((state: RootState) => state.user.name);
-  const accessToken = useSelector((state: RootState) => state.user.accessToken);
+  const accessToken = useGetAccessToken();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (isLoggedIn) {
-      // getUserPointInfo(accessToken, dispatch);
+    if (accessToken) {
+      getUserPointInfo(accessToken, dispatch);
     }
-  }, [isLoggedIn, accessToken, dispatch]);
+  }, [accessToken, dispatch]);
 
   return (
     <View style={styles.container}>
@@ -84,7 +85,9 @@ function UserInfo({route, navigation}) {
           <View>
             <View style={styles.titlesWrapper}>
               <View>
-                <Text style={styles.titlesBoldTitle}>로그인이 필요합니다.</Text>
+                <Text style={styles.titlesBoldTitle}>
+                  로그인으로 하루를 기록해요
+                </Text>
               </View>
 
               <Pressable
@@ -95,7 +98,7 @@ function UserInfo({route, navigation}) {
                 <Text style={styles.loginButtonText}>로그인</Text>
               </Pressable>
             </View>
-            <UserData isLoggedIn={isLoggedIn} />
+
             <View style={styles.advertisingContainer}>
               <Text style={styles.titlesBoldTitle}>아침에 일어나기만 해도</Text>
               <Text style={styles.titlesBoldTitle}>모닝 커피가 한 잔!</Text>
@@ -105,6 +108,11 @@ function UserInfo({route, navigation}) {
                 style={styles.coffeeImage}
               />
             </View>
+
+            {/* <UserAlarmLogInfo />
+            <UserAlarmLogInfo />
+            <UserAlarmLogInfo />
+            <UserAlarmLogInfo /> */}
           </View>
         )}
       </ScrollView>
@@ -212,6 +220,7 @@ const styles = StyleSheet.create({
   advertisingContainer: {
     alignSelf: 'center',
     justifyContent: 'center',
+    flex: 2,
   },
   ratingWrapper: {
     flexDirection: 'row',

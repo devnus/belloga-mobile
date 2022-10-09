@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, SafeAreaView, ScrollView} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useSelector} from 'react-redux';
@@ -7,18 +7,46 @@ import Stamp from '@/components/Stamp/Stamp';
 import {useAppDispatch} from '@/store';
 import {RootState} from '@/store/reducer';
 import CurrentPointData from '@/components/Stamp/CurrentPointData';
-import {getUserStampInfo} from '@/modules/userPointAPIs';
+import {getGiftInfo, getUserStampInfo} from '@modules/userPointAPIs';
 import ApplyGift from '@/components/Stamp/ApplyGift';
+import useAskExitSure from '@/hooks/useAskExitSure';
 MaterialCommunityIcons.loadFont();
 
 function PressStamps({route, navigation}) {
   const isLoggedIn = useSelector((state: RootState) => !!state.user.email);
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
+  const [stampNumbers, setStampNumbers] = useState<number>(0);
   const dispatch = useAppDispatch();
 
+  const giftInfoJSONArray = [
+    {
+      id: 1,
+      title: '바나나 기프티콘 이벤트',
+      giftType: 'GIFTICON',
+      expectedDrawDate: '2022-11-11',
+      giftStatus: null,
+      odds: 1,
+      imageUrl:
+        'https://www.freepnglogos.com/uploads/banana-png/banana-school-council-drapers-mills-primary-academy-little-0.png',
+    },
+    {
+      id: 2,
+      title: '초콜릿 기프티콘 이벤트',
+      giftType: 'GIFTICON',
+      expectedDrawDate: '2022-12-12',
+      giftStatus: null,
+      odds: 0.25,
+      imageUrl:
+        'https://www.maltesers.co.uk/sites/g/files/fnmzdf601/files/migrate-product-files/aal391kpuxkfxoyhji5k.png',
+    },
+  ];
+
+  useAskExitSure();
+
   useEffect(() => {
-    if (isLoggedIn) {
-      getUserStampInfo(accessToken, dispatch);
+    if (accessToken) {
+      getUserStampInfo(accessToken, dispatch, setStampNumbers);
+      getGiftInfo(accessToken);
     }
   }, [isLoggedIn, accessToken, dispatch]);
 
@@ -39,20 +67,33 @@ function PressStamps({route, navigation}) {
               <View>
                 <Text style={styles.titlesBoldTitle}>경품 응모 스탬프판</Text>
                 <Text style={styles.titlesSubtitle}>
-                  500P로 스탬프 한 개를 받을 수 있어요
+                  매일 일어나서 도장 찍고 선물 받아가세요!
                 </Text>
               </View>
             </View>
 
             <View style={styles.pressStampContainer}>
               <CurrentPointData />
-              <Stamp key={'stampView'} />
+              <Stamp
+                setStampNumbers={setStampNumbers}
+                stampNumbers={stampNumbers}
+                key={'stampView'}
+              />
+            </View>
+
+            <View style={styles.titlesWrapper}>
+              <View>
+                <Text style={styles.titlesBoldTitle}>경품 목록</Text>
+                <Text style={styles.titlesSubtitle}>
+                  응모하고 싶은 블럭을 눌러 응모하세요
+                </Text>
+              </View>
             </View>
 
             <View style={styles.giftInfoWrapper}>
-              <ApplyGift />
-              <ApplyGift />
-              <ApplyGift />
+              {giftInfoJSONArray.map((gift: any) => (
+                <ApplyGift giftInfo={gift} setStampNumbers={setStampNumbers} />
+              ))}
             </View>
           </View>
         </ScrollView>

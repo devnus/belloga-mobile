@@ -1,8 +1,11 @@
 import React from 'react';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Image, StyleSheet, Text, View} from 'react-native';
 import colors from '@assets/colors';
+import {useSelector} from 'react-redux';
+import {RootState} from '@/store/reducer';
 
 function CurrentPointData() {
+  const points = useSelector((state: RootState) => state.user.points);
   return (
     <View style={styles.pointDataWrapper}>
       <View style={styles.userInfoRow}>
@@ -11,7 +14,7 @@ function CurrentPointData() {
           source={require('@assets/images/coin.png')}
           style={styles.userInfoIcon}
         />
-        <Text style={styles.pointValue}> 6803P </Text>
+        <Text style={styles.pointValue}> {points} </Text>
       </View>
     </View>
   );

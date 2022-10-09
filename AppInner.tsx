@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Setting from './src/pages/ViewUserData/Setting';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -8,6 +8,7 @@ import AlarmRingHandle from './src/pages/RingAlarms/AlarmRingHandle';
 import AlarmList from '@/pages/EditAlarms/AlarmList';
 import AlarmSettings from '@/pages/EditAlarms/AlarmSettings';
 import PressStamps from '@/pages/Stamps/PressStamps';
+import {WarningModal} from '@/components/Modals/WarningModal';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -43,7 +44,7 @@ function AlarmTabs() {
   );
 }
 
-function AppInner() {
+function AlarmAppStacks() {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -58,9 +59,19 @@ function AppInner() {
         component={AlarmSettings}
         options={{title: '알람 시간 지정'}}
       />
-      <Stack.Screen name="Ring" component={AlarmRingHandle} />
+      <Stack.Screen
+        name="Ring"
+        component={AlarmRingHandle}
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack.Navigator>
   );
+}
+
+function AppInner() {
+  return <AlarmAppStacks />;
 }
 
 export default AppInner;

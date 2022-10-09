@@ -1,91 +1,29 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
 
-import axios from 'axios';
-import Button from '../../components/Button';
-import TextInput from '../../components/AlarmSetting/TextInput';
-import Alarm, {getAlarm, snoozeAlarm, stopAlarm} from '../../modules/alarms';
-import {CalcBoundingBoxOnImage} from '@/modules/calcBoundingBox';
-
-function RenderImage({boundingBoxInfo, imageUrl}) {
-  const [topPosition, setTopPosition] = useState(0);
-  const [bottomPosition, setBottomPosition] = useState(0);
-  const [leftPosition, setLeftPosition] = useState(0);
-  const [rightPosition, setRightPosition] = useState(0);
-
-  useEffect(() => {
-    const xArray = boundingBoxInfo.x;
-    const yArray = boundingBoxInfo.y;
-    Image.getSize(imageUrl, (width, height) => {
-      const positionResultArray = CalcBoundingBoxOnImage(
-        xArray,
-        yArray,
-        width,
-        height,
-      );
-      //boundingBboxId, 왼쪽 위, 윈쪽아래, 오른쪽위, 오른쪽아래
-      setTopPosition(positionResultArray[0]);
-      setBottomPosition(positionResultArray[1]);
-      setLeftPosition(positionResultArray[2]);
-      setRightPosition(positionResultArray[3]);
-    });
-  }, []);
-
-  return (
-    <View
-      style={[
-        styles.rectangle,
-        {
-          top: topPosition,
-          bottom: bottomPosition,
-          left: leftPosition,
-          right: rightPosition,
-        },
-      ]}
-    />
-  );
-}
-
-const showBoundingBox = (boundingBoxInfo, imageUrl) => {
-  console.log('showBoundingBox called');
-
-  if (boundingBoxInfo && imageUrl) {
-    return (
-      <>
-        <View style={{height: 200, width: 200}}>
-          {imageUrl && boundingBoxInfo ? (
-            <>
-              <Image
-                source={{
-                  uri: `${imageUrl}`,
-                }}
-                style={{height: 200, width: 200, resizeMode: 'contain'}}
-              />
-              <RenderImage
-                boundingBoxInfo={boundingBoxInfo}
-                imageUrl={imageUrl}
-              />
-            </>
-          ) : (
-            <Text>로딩중</Text>
-          )}
-        </View>
-      </>
-    );
-  }
-};
+import Button from '@components/Button';
+import TextInput from '@components/AlarmSetting/TextInput';
+import Alarm, {snoozeAlarm, stopAlarm} from '@/modules/alarms';
+import {useGetAccessToken} from '@/hooks/useAuthInfo';
+import {showBoundingBox} from '@/components/AlarmRing/RenderImage';
+import {
+  boundingBoxTypes,
+  getAlarmInfo,
+  sendLabelingResult,
+} from '@/modules/labelingAPIs';
 
 function LabelingAlarmRing({route, navigation, receivedAlarm}) {
   const [alarm, setAlarm] = useState<Alarm | undefined>();
-  const [imageUrl, setImageUrl] = useState('');
-  const [answer, setAnswer] = useState<String>('');
-  const [loading, setLoading] = useState(false);
-  const [boundingBoxList, setboundingBoxList] = useState([]);
-  const [boundingBoxIndex, setBoundingBoxIndex] = useState(0);
+  const [imageUrl, setImageUrl] = useState<string>('');
+  const [answer, setAnswer] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+  const [boundingBoxList, setBoundingBoxList] = useState<boundingBoxTypes>([]);
+  const [boundingBoxIndex, setBoundingBoxIndex] = useState<number>(0);
+  const accessToken = useGetAccessToken();
 
   useEffect(() => {
     setAlarm(receivedAlarm);
-    getAlarmInfo();
+    getAlarmInfo(accessToken, setBoundingBoxList, setImageUrl, setLoading);
   }, []);
 
   const onPressSendButton = useCallback(() => {
@@ -93,7 +31,7 @@ function LabelingAlarmRing({route, navigation, receivedAlarm}) {
     const maxIndex = boundingBoxList.length - 1;
     const boundingBoxId = boundingBoxList[boundingBoxIndex].boundingBoxId;
 
-    sendLabelingResult(boundingBoxId, answer);
+    sendLabelingResult(boundingBoxId, answer, accessToken);
 
     if (currentIndex < maxIndex) {
       setBoundingBoxIndex(() => boundingBoxIndex + 1);
@@ -111,50 +49,6 @@ function LabelingAlarmRing({route, navigation, receivedAlarm}) {
   const finishAlarm = async () => {
     await stopAlarm();
     navigation.navigate('AlarmSuccess');
-  };
-
-  const getAlarmInfo = async () => {
-    try {
-      await axios.get(`http://webcode.me/`).then(res => {
-        console.log('got response', res.data);
-        const boundingBoxData = {
-          boundingBoxId: res.data.response.boundingBoxId,
-          x: res.data.response.x,
-          y: res.data.response.y,
-        };
-        setboundingBoxList(() => [boundingBoxData]);
-        setImageUrl(() => res.data.response.imageUrl);
-      });
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(() => true);
-    }
-  };
-
-  const sendLabelingResult = async (boundingBoxId, labelText) => {
-    try {
-      await axios
-        .post(
-          'http://a138b0b67de234557afc8eaf29aa97b6-1258302528.ap-northeast-2.elb.amazonaws.com/api/labeled-data/v1/ocr-data',
-          {
-            boundingBoxId: boundingBoxId,
-            label: labelText,
-          },
-          {
-            headers: {
-              'labeler-id': 'gildong',
-            },
-          },
-        )
-        .then(res => {
-          console.log(res.data.success);
-        });
-    } catch (error) {
-      console.log(error);
-    } finally {
-      // setLoading(() => true);
-    }
   };
 
   if (!alarm) {
@@ -253,11 +147,6 @@ const styles = StyleSheet.create({
   },
   loginButtonActive: {
     backgroundColor: 'whited',
-  },
-  rectangle: {
-    borderWidth: 3,
-    borderColor: 'red',
-    position: 'absolute',
   },
 });
 const globalStyles = StyleSheet.create({

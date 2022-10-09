@@ -1,18 +1,8 @@
+import {calcRemainTime} from '@/modules/calcAlarmsTime';
 import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import DayPicker, {getKoreanDayName} from './AlarmSetting/DayPicker';
 import SwitcherInput from './SwitcherInput';
-
-// // type alarmInfoProps = {
-//   uid,
-//   hour,
-//   minutes,
-//   days,
-//   title,
-//   onPress,
-//   isActive,
-//   onChange,
-// // };
 
 function AlarmInfo({
   uid,
@@ -24,6 +14,7 @@ function AlarmInfo({
   isActive,
   onChange,
   repeating,
+  alarm,
 }: any) {
   /**
    24시간 포맷으로 된 시간 정보를 넣으면 AM, PM 이 붙어 12시간 포맷으로 가공되는 함수다
@@ -56,14 +47,17 @@ function AlarmInfo({
           <Text style={styles.title}>{title}</Text>
         </View>
         <View style={styles.rightInnerContainer}>
+          {!repeating && (
+            <Text>
+              {calcRemainTime(alarm).getMonth() + 1}/
+              {calcRemainTime(alarm).getDate()} ({getKoreanDayName(days[0])})
+              {'  '}
+            </Text>
+          )}
           <SwitcherInput isActive={isActive} onToggle={onChange} />
         </View>
       </View>
-      {repeating ? (
-        <DayPicker activeDays={days} isDisabled={true} />
-      ) : (
-        <Text> {getKoreanDayName(days[0])} </Text>
-      )}
+      {repeating && <DayPicker activeDays={days} isDisabled={true} />}
     </TouchableOpacity>
   );
 }
@@ -101,7 +95,9 @@ const styles = StyleSheet.create({
   },
   rightInnerContainer: {
     flex: 1,
-    alignItems: 'flex-end',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    flexDirection: 'row',
   },
   timeRange: {
     color: '#0f5078',
