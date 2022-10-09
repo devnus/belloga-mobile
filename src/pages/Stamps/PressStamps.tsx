@@ -81,6 +81,15 @@ function PressStamps({route, navigation}) {
               />
             </View>
 
+            <View style={styles.titlesWrapper}>
+              <View>
+                <Text style={styles.titlesBoldTitle}>경품 목록</Text>
+                <Text style={styles.titlesSubtitle}>
+                  응모하고 싶은 블럭을 눌러 응모하세요
+                </Text>
+              </View>
+            </View>
+
             <View style={styles.giftInfoWrapper}>
               {giftInfoJSONArray.map((gift: any) => (
                 <ApplyGift giftInfo={gift} setStampNumbers={setStampNumbers} />
