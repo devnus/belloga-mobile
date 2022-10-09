@@ -22,6 +22,7 @@ import LabelingLogInfo from '@/components/LabelingLogInfo';
 import Config from 'react-native-config';
 import {getUserPointInfo} from '@/modules/userPointAPIs';
 import {useGetAccessToken, useIsLoggedIn} from '@/hooks/useAuthInfo';
+import {getMyLabelingLogInfo} from '@/modules/labelingAPIs';
 
 Feather.loadFont();
 MaterialCommunityIcons.loadFont();
@@ -35,6 +36,7 @@ function UserInfo({route, navigation}) {
   useEffect(() => {
     if (accessToken) {
       getUserPointInfo(accessToken, dispatch);
+      getMyLabelingLogInfo(accessToken);
     }
   }, [accessToken, dispatch]);
 

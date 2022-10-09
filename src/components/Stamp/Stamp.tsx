@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {
   Dimensions,
   ImageStyle,
@@ -11,7 +11,6 @@ import {
 import {SafeAreaView} from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
 import colors from '@assets/colors';
-import Button from '@/components/Button';
 import {displayStamps} from '@/modules/calcCircularView';
 import UserGiftApplyCount from './UserGiftApplyCount';
 import {CustomModal} from '@/components/Modals/CustomModal';
