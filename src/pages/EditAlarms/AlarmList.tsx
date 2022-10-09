@@ -114,6 +114,7 @@ function AlarmList({navigation}: any) {
                 minutes={a.minutes}
                 days={a.days}
                 isActive={a.active}
+                alarm={a}
               />
             ))}
         </ScrollView>
