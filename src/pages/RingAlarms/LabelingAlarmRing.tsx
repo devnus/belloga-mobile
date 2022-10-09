@@ -7,6 +7,7 @@ import TextInput from '../../components/AlarmSetting/TextInput';
 import Alarm, {getAlarm, snoozeAlarm, stopAlarm} from '../../modules/alarms';
 import {CalcBoundingBoxOnImage} from '@/modules/calcBoundingBox';
 import Config from 'react-native-config';
+import {useGetAccessToken, useGetUserID} from '@/hooks/useAuthInfo';
 
 function RenderImage({boundingBoxInfo, imageUrl}) {
   const [topPosition, setTopPosition] = useState(0);
@@ -83,6 +84,8 @@ function LabelingAlarmRing({route, navigation, receivedAlarm}) {
   const [loading, setLoading] = useState(false);
   const [boundingBoxList, setboundingBoxList] = useState([]);
   const [boundingBoxIndex, setBoundingBoxIndex] = useState(0);
+  const accessToken = useGetAccessToken();
+  const userID = useGetUserID();
 
   useEffect(() => {
     setAlarm(receivedAlarm);
@@ -117,7 +120,11 @@ function LabelingAlarmRing({route, navigation, receivedAlarm}) {
   const getAlarmInfo = async () => {
     try {
       await axios
-        .get(`${Config.API_URL}/api/labeled-data/v1/ocr-data`)
+        .get(`${Config.API_URL}/api/data/v1/target/OCR`, {
+          headers: {
+            Authorization: accessToken,
+          },
+        })
         .then(res => {
           console.log('got response', res.data);
           const boundingBoxData = {
@@ -146,7 +153,7 @@ function LabelingAlarmRing({route, navigation, receivedAlarm}) {
           },
           {
             headers: {
-              'labeler-id': 'gildong',
+              Authorization: accessToken,
             },
           },
         )

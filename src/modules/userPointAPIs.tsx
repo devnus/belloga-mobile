@@ -84,7 +84,6 @@ export const pressStamp = async (
         },
       },
     );
-    console.log(response, 'press a stamp');
     handleOpen();
     setStampNumbers(prev => prev + 1);
   } catch (error) {
@@ -146,6 +145,12 @@ export const applyGift = async (accessToken: string, giftId: number) => {
   } catch (error) {
     console.error(error);
 
-    Alert.alert('선물 정보 불러오기에 실패했습니다. 다시 로그인해 주세요');
+    if (error.response.data.message === 'Unauthorized') {
+      Alert.alert('선물 응모 기능을 위해서 로그인이 필요합니다');
+    }
+
+    if (error.response.data.error.code === 'STAMP_001') {
+      Alert.alert('스탬프가 부족합니다');
+    }
   }
 };

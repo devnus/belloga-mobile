@@ -12,3 +12,9 @@ export function useIsLoggedIn() {
 
   return isLoggedIn;
 }
+
+export function useGetUserID() {
+  const userEmail = useSelector((state: RootState) => state.user.email);
+
+  return userEmail;
+}
