@@ -1,5 +1,12 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {ImageBackground, Pressable, StyleSheet, Text, View} from 'react-native';
+import {
+  ImageBackground,
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  View,
+} from 'react-native';
 
 import Button from '@components/Button';
 import TextInput from '@components/AlarmSetting/TextInput';
@@ -68,6 +75,19 @@ function LabelingAlarmRing({route, navigation, receivedAlarm}) {
             </Text>
             <Text style={styles.title}>{alarm.title}</Text>
           </View>
+          <TouchableHighlight
+            style={styles.button}
+            onPress={() =>
+              getAlarmInfo(
+                accessToken,
+                setBoundingBoxList,
+                setImageUrl,
+                setLoading,
+              )
+            }
+            underlayColor="#fff">
+            <Text style={styles.buttonText}>새로고침티비</Text>
+          </TouchableHighlight>
           {loading ? loadBoundingBox : <Text> Loading </Text>}
           <View>
             <TextInput
