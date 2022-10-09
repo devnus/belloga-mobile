@@ -170,7 +170,6 @@ function LabelingAlarmRing({route, navigation, receivedAlarm}) {
         <View style={styles.textContainer}>
           <Text style={styles.clockText}>
             {alarm.getTimeString().hour} : {alarm.getTimeString().minutes}
-            라벨링알람
           </Text>
           <Text style={styles.title}>{alarm.title}</Text>
         </View>

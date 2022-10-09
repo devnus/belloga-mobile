@@ -21,15 +21,15 @@ import {RootState} from '@/store/reducer';
 import LabelingLogInfo from '@/components/LabelingLogInfo';
 import Config from 'react-native-config';
 import {getUserPointInfo} from '@/modules/userPointAPIs';
-import UserAlarmLogInfo from '@/components/UserAlarmLogInfo';
+import {useGetAccessToken, useIsLoggedIn} from '@/hooks/useAuthInfo';
 
 Feather.loadFont();
 MaterialCommunityIcons.loadFont();
 
 function UserInfo({route, navigation}) {
-  const isLoggedIn = useSelector((state: RootState) => !!state.user.email);
+  const isLoggedIn = useIsLoggedIn();
   const userName = useSelector((state: RootState) => state.user.name);
-  const accessToken = useSelector((state: RootState) => state.user.accessToken);
+  const accessToken = useGetAccessToken();
   const dispatch = useAppDispatch();
 
   useEffect(() => {

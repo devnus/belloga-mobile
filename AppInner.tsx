@@ -58,7 +58,13 @@ function AppInner() {
         component={AlarmSettings}
         options={{title: '알람 시간 지정'}}
       />
-      <Stack.Screen name="Ring" component={AlarmRingHandle} />
+      <Stack.Screen
+        name="Ring"
+        component={AlarmRingHandle}
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack.Navigator>
   );
 }
