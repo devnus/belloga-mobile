@@ -68,6 +68,23 @@ export function calcNextAlarm(alarms: Alarm[]) {
 }
 
 /**
+ * Alarm Array를 넣으면 시간 순, 켜진 순으로 소트되어 나온다
+ * @param alarmList Alarm Array
+ * @returns 정렬된 Alarm Array
+ */
+export function sortAlarm(alarmList: []) {
+  alarmList.sort((a: Alarm, b: Alarm) => {
+    return calcRemainTime(b).valueOf() - calcRemainTime(a).valueOf();
+  });
+
+  alarmList.sort((a: Alarm, b: Alarm) => {
+    return Number(b.enabled) - Number(a.enabled);
+  });
+
+  return alarmList;
+}
+
+/**
  *
  * @param value 숫자를 넣으면
  * @returns 한자리일 경우 앞에 0을 붙여서 string으로 리턴
@@ -85,7 +102,7 @@ function leftPad(value: number) {
  * @param source 날짜
  * @returns 몇월 몇일 무슨 요일이라고 string으로 리턴
  */
-function toStringByFormatting(source: Date) {
+export function toStringByFormatting(source: Date) {
   const month = leftPad(source.getMonth() + 1);
   const day = leftPad(source.getDate());
 

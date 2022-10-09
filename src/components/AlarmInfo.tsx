@@ -49,7 +49,7 @@ function AlarmInfo({
         <View style={styles.rightInnerContainer}>
           {!repeating && (
             <Text>
-              {calcRemainTime(alarm).getMonth()}/
+              {calcRemainTime(alarm).getMonth() + 1}/
               {calcRemainTime(alarm).getDate()} ({getKoreanDayName(days[0])})
               {'  '}
             </Text>
