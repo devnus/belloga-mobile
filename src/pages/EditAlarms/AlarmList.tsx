@@ -14,7 +14,6 @@ import {
   calcRemainTime,
   sortAlarm,
 } from 'modules/calcAlarmsTime';
-import {AlarmType} from './AlarmSettings';
 import AlarmInfo from '@components/AlarmInfo';
 import useAskExitSure from '@/hooks/useAskExitSure';
 
@@ -25,7 +24,7 @@ const Header_Minimum_Height = 50;
 //Min Height of the Header
 
 function AlarmList({navigation}: any) {
-  const [alarms, setAlarms] = useState<Array<AlarmType>>([]);
+  const [alarms, setAlarms] = useState<Array<Alarm>>([]);
   const [scheduler, setScheduler] = useState(null);
 
   useAskExitSure();
@@ -100,7 +99,7 @@ function AlarmList({navigation}: any) {
             {useNativeDriver: false},
           )}>
           {alarms &&
-            alarms.map(a => (
+            alarms.map((a: Alarm) => (
               <AlarmInfo
                 key={a.uid}
                 uid={a.uid}

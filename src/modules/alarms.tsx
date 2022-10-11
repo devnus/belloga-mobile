@@ -68,8 +68,10 @@ export async function removeAlarm(uid: string) {
   }
 }
 
-export async function updateAlarm(alarm: Alarm) {
-  alarm.active = true;
+export async function updateAlarm(alarm: Alarm, autoEnable = true) {
+  if (autoEnable) {
+    alarm.active = true;
+  }
   if (!(alarm instanceof Alarm)) {
     alarm = new Alarm(alarm);
   }

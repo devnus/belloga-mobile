@@ -86,7 +86,7 @@ function LabelingAlarmRing({route, navigation, receivedAlarm}) {
               )
             }
             underlayColor="#fff">
-            <Text style={styles.buttonText}>새로고침티비</Text>
+            <Text style={styles.buttonText}>새로고침</Text>
           </TouchableHighlight>
           {loading ? loadBoundingBox : <Text> Loading </Text>}
           <View>

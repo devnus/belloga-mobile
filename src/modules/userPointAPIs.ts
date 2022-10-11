@@ -57,7 +57,7 @@ export const getUserStampInfo = async (
     console.error(error);
 
     //로그아웃
-    dispatch(userSlice.actions.setInitial());
+    // dispatch(userSlice.actions.setInitial());
     Alert.alert('스탬프 정보 불러오기에 실패했습니다. 다시 로그인해 주세요');
   }
 };
@@ -115,7 +115,7 @@ export const pressStamp = async (
  */
 export const getGiftInfo = async (accessToken: string) => {
   try {
-    const response = await axios.get(`${Config.API_URL}/api/gift/v1/apply`, {
+    const response = await axios.get(`${Config.API_URL}/api/gift/v1`, {
       headers: {
         Authorization: accessToken,
       },
