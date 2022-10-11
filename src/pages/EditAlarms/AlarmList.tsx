@@ -16,6 +16,7 @@ import {
 } from 'modules/calcAlarmsTime';
 import AlarmInfo from '@components/AlarmInfo';
 import useAskExitSure from '@/hooks/useAskExitSure';
+import DisplayAlarmTimeInfo from '@/components/DisplayAlarmTimeInfo';
 
 //움직이는 탭바를 위한 상수
 const Header_Maximum_Height = 200;
@@ -77,7 +78,7 @@ function AlarmList({navigation}: any) {
             <Text> 알람이 없습니다 </Text>
           ) : (
             <View style={styles.nextAlarmTextContainer}>
-              {calcNextAlarm(alarms)}
+              <DisplayAlarmTimeInfo alarms={alarms} />
             </View>
           )}
           <View style={styles.addButtonContainer}>

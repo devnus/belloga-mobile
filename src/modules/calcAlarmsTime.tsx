@@ -1,5 +1,4 @@
-import React from 'react';
-import {StyleSheet, Text} from 'react-native';
+import {StyleSheet} from 'react-native';
 import Alarm, {updateAlarm} from './alarms';
 import {getKoreanDayName} from '../components/AlarmSetting/DayPicker';
 
@@ -26,18 +25,8 @@ export function calcNoRepeatingAlarmTime(alarms: Alarm[]) {
  * 가장 빠르게 울리는 알람이 어느 것인지 계산해주는 함수
  */
 
-export function calcNextAlarm(alarms: Alarm[]) {
+export function calcNextAlarm(activeAlarms: Alarm[]) {
   const today = new Date();
-
-  const activeAlarms = alarms.filter((alarm: Alarm) => alarm.active === true);
-
-  if (activeAlarms.length === 0) {
-    return (
-      <>
-        <Text style={styles.nextAlarmInfo}> 예정된 알람이 없습니다 </Text>
-      </>
-    );
-  }
 
   const remainTimes = activeAlarms.map((alarm: Alarm) => {
     return Math.floor((calcRemainTime(alarm) - today) / (1000 * 60));
@@ -46,25 +35,7 @@ export function calcNextAlarm(alarms: Alarm[]) {
   const min = Math.min(...remainTimes);
   const index = remainTimes.indexOf(min);
 
-  return (
-    <>
-      <Text style={styles.nextAlarmGuideText}> 다음 알람까지 </Text>
-
-      {min / 60 < 24 ? (
-        <Text style={styles.nextAlarmLeftTime}>
-          {`${Math.floor((min / 60) % 24)} : ${leftPad(Math.floor(min % 60))}`}
-        </Text>
-      ) : (
-        <Text style={styles.nextAlarmLeftTime}>
-          {`${Math.floor(min / 60 / 24)} 일`}
-        </Text>
-      )}
-
-      <Text style={styles.nextAlarmInfo}>
-        {toStringByFormatting(calcRemainTime(activeAlarms[index]))}{' '}
-      </Text>
-    </>
-  );
+  return [min, activeAlarms[index]];
 }
 
 /**
@@ -89,7 +60,7 @@ export function sortAlarm(alarmList: []) {
  * @param value 숫자를 넣으면
  * @returns 한자리일 경우 앞에 0을 붙여서 string으로 리턴
  */
-function leftPad(value: number) {
+export function leftPad(value: number) {
   if (value >= 10) {
     return value;
   }
@@ -179,19 +150,3 @@ export function calcRemainTime(alarm: Alarm) {
 
   return closeDate;
 }
-
-const styles = StyleSheet.create({
-  nextAlarmGuideText: {
-    color: '#8abccb',
-    fontSize: 14,
-  },
-  nextAlarmLeftTime: {
-    color: '#0f5078',
-    fontSize: 50,
-    fontWeight: 'bold',
-  },
-  nextAlarmInfo: {
-    color: '#0f5078',
-    fontSize: 18,
-  },
-});
