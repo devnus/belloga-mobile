@@ -74,9 +74,6 @@ export function leftPad(value: number) {
  * @returns 몇월 몇일 무슨 요일이라고 string으로 리턴
  */
 export function toStringByFormatting(source: Date) {
-  const month = leftPad(source.getMonth() + 1);
-  const day = leftPad(source.getDate());
-
   let hours: number = Number(leftPad(source.getHours()));
   const minutes = leftPad(source.getMinutes());
 
@@ -85,9 +82,21 @@ export function toStringByFormatting(source: Date) {
   hours = hours ? hours : 12; // the hour '0' should be '12'
   hours = Number(leftPad(hours));
 
-  return `${month}월 ${day}일 ${getKoreanDayName(source.getDay())}요일 ${
+  return `${toStringOnlyDates(source)} ${
     String(hours) + ':' + minutes + ' ' + timeZone
   }`;
+}
+
+/**
+ *Date를 받아 string format로 한글로 된 걸 돌려주는 함수
+ * @param source Date 날짜
+ * @returns 몇월 몇일 무슨 요일이라고 string으로 리턴
+ */
+export function toStringOnlyDates(source: Date) {
+  const month = leftPad(source.getMonth() + 1);
+  const day = leftPad(source.getDate());
+
+  return `${month}월 ${day}일 ${getKoreanDayName(source.getDay())}요일 `;
 }
 
 /**

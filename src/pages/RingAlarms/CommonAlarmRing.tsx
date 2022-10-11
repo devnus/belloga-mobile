@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {ImageBackground, Pressable, StyleSheet, Text, View} from 'react-native';
+import {ImageBackground, StyleSheet, Text, View} from 'react-native';
 import Button from '@components/Button';
 import Alarm, {snoozeAlarm, stopAlarm} from '@modules/alarms';
-import {calcNextAlarm} from '@/modules/calcAlarmsTime';
+import {toStringOnlyDates} from '@/modules/calcAlarmsTime';
+import styled from 'styled-components/native';
 
 function CommonAlarmRing({route, navigation, receivedAlarm}) {
   const [alarm, setAlarm] = useState<Alarm | undefined>();
@@ -28,9 +29,12 @@ function CommonAlarmRing({route, navigation, receivedAlarm}) {
         style={styles.backgroundImage}>
         <View style={[globalStyles.innerContainer, styles.container]}>
           <View style={styles.textContainer}>
-            <Text style={styles.clockText}>
+            <StyledText style={styles.clockText}>
               {alarm.getTimeString().hour} : {alarm.getTimeString().minutes}{' '}
-            </Text>
+            </StyledText>
+            <StyledText style={styles.clockDateText}>
+              {toStringOnlyDates(new Date())}{' '}
+            </StyledText>
             <Text style={styles.title}>{alarm.title}</Text>
           </View>
           <View style={styles.buttonContainer}>
@@ -61,6 +65,13 @@ function CommonAlarmRing({route, navigation, receivedAlarm}) {
 
 export default CommonAlarmRing;
 
+const StyledText = styled.Text`
+  text-shadow-color: rgba(0, 0, 0, 0.25);
+  text-shadow-offset: 0px 0px;
+  text-shadow-radius: 10px;
+  text-shadow-opacity: 0.5;
+`;
+
 const styles = StyleSheet.create({
   backgroundImage: {
     flex: 1,
@@ -81,6 +92,11 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 1,
   },
+  clockDateText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 20,
+  },
   textContainer: {
     display: 'flex',
     alignItems: 'center',
@@ -95,18 +111,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 20,
     color: '#d0d5dc',
-  },
-  loginButton: {
-    padding: 10,
-    margin: 10,
-    paddingLeft: 20,
-    paddingRight: 20,
-    borderWidth: 2,
-    borderColor: '#1992fe',
-    borderRadius: 25,
-  },
-  loginButtonActive: {
-    backgroundColor: 'whited',
   },
   rectangle: {
     borderWidth: 3,
