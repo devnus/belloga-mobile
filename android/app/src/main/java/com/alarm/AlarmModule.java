@@ -57,6 +57,13 @@ public class AlarmModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void updateOffAlarm (ReadableMap details, Promise promise) {
+        Alarm alarm = parseAlarmObject(details);
+        Manager.updateOffAlarm(reactContext, alarm);
+        promise.resolve(null);
+    }
+
+    @ReactMethod
     public void remove (String alarmUid, Promise promise) {
         Manager.remove(reactContext, alarmUid);
         promise.resolve(null);

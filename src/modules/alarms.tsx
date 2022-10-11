@@ -82,6 +82,17 @@ export async function updateAlarm(alarm: Alarm, autoEnable = true) {
   }
 }
 
+export async function updateOffAlarm(alarm: Alarm) {
+  if (!(alarm instanceof Alarm)) {
+    alarm = new Alarm(alarm);
+  }
+  try {
+    await AlarmService.updateOffAlarm(alarm.toAndroid());
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 export async function removeAllAlarms() {
   try {
     await AlarmService.removeAll();

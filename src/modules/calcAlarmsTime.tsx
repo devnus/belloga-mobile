@@ -14,9 +14,11 @@ export function calcNoRepeatingAlarmTime(alarms: Alarm[]) {
   );
 
   noRepeatingAlarms.map((alarm: Alarm) => {
-    const day: number = calcAlarmRingTime(alarm.hour, alarm.minutes);
-    alarm.days = [day];
-    updateAlarm(alarm, false);
+    if (alarm.active === true) {
+      const day: number = calcAlarmRingTime(alarm.hour, alarm.minutes);
+      alarm.days = [day];
+      updateAlarm(alarm, false);
+    }
   });
 }
 
