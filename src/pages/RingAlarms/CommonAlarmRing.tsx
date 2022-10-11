@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {ImageBackground, Pressable, StyleSheet, Text, View} from 'react-native';
 import Button from '@components/Button';
 import Alarm, {snoozeAlarm, stopAlarm} from '@modules/alarms';
+import {calcNextAlarm} from '@/modules/calcAlarmsTime';
 
 function CommonAlarmRing({route, navigation, receivedAlarm}) {
   const [alarm, setAlarm] = useState<Alarm | undefined>();
@@ -21,32 +22,39 @@ function CommonAlarmRing({route, navigation, receivedAlarm}) {
 
   return (
     <View style={globalStyles.container}>
-      <View style={[globalStyles.innerContainer, styles.container]}>
-        <View style={styles.textContainer}>
-          <Text style={styles.clockText}>
-            {alarm.getTimeString().hour} : {alarm.getTimeString().minutes} 일반
-          </Text>
-          <Text style={styles.title}>{alarm.title}</Text>
-        </View>
-        <View style={styles.buttonContainer}>
-          {alarm.snoozeInterval > 0 && (
+      <ImageBackground
+        source={require('@assets/images/bg_illust.png')}
+        resizeMode="cover"
+        style={styles.backgroundImage}>
+        <View style={[globalStyles.innerContainer, styles.container]}>
+          <View style={styles.textContainer}>
+            <Text style={styles.clockText}>
+              {alarm.getTimeString().hour} : {alarm.getTimeString().minutes}{' '}
+            </Text>
+            <Text style={styles.title}>{alarm.title}</Text>
+          </View>
+          <View style={styles.buttonContainer}>
+            {alarm.snoozeInterval > 0 && (
+              <Button
+                title={'Snooze'}
+                fill={true}
+                onPress={async () => {
+                  await snoozeAlarm();
+                  navigation.goBack();
+                }}
+              />
+            )}
+
             <Button
-              title={'Snooze'}
+              title={'Cancel'}
+              fill={true}
               onPress={async () => {
-                await snoozeAlarm();
-                navigation.goBack();
+                finishAlarm();
               }}
             />
-          )}
-
-          <Button
-            title={'Cancel'}
-            onPress={async () => {
-              finishAlarm();
-            }}
-          />
+          </View>
         </View>
-      </View>
+      </ImageBackground>
     </View>
   );
 }
@@ -54,14 +62,24 @@ function CommonAlarmRing({route, navigation, receivedAlarm}) {
 export default CommonAlarmRing;
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    flex: 1,
+    justifyContent: 'center',
+  },
   container: {
     justifyContent: 'space-around',
     alignItems: 'center',
   },
   clockText: {
-    color: 'black',
+    color: 'white',
     fontWeight: 'bold',
     fontSize: 50,
+    shadowColor: '#bcbcbc',
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 1,
   },
   textContainer: {
     display: 'flex',
@@ -100,13 +118,10 @@ const globalStyles = StyleSheet.create({
   container: {
     height: '100%',
     width: '100%',
-    display: 'flex',
-    alignItems: 'center',
+    flex: 1,
     justifyContent: 'center',
-    backgroundColor: 'white',
   },
   innerContainer: {
-    width: '90%',
     height: '90%',
     display: 'flex',
     alignItems: 'center',
