@@ -121,7 +121,7 @@ export const pressStamp = async (
  * gift 정보를 받아오는 함수
  * @param accessToken header에 넣을 accessToken을 보낸다
  */
-export const getGiftInfo = async (accessToken: string) => {
+export const getGiftInfo = async (accessToken: string, setGiftList) => {
   try {
     const response = await axios.get(`${Config.API_URL}/api/gift/v1`, {
       headers: {
@@ -129,7 +129,42 @@ export const getGiftInfo = async (accessToken: string) => {
       },
     });
 
-    console.log('선물정보', response.data.content);
+    console.log('선물정보', response.data.response.content);
+    setGiftList(() => response.data.response.content);
+  } catch (error) {
+    console.error(error);
+
+    Alert.alert('선물 정보 불러오기에 실패했습니다. 다시 로그인해 주세요');
+  }
+};
+
+/**
+ * gift 정보를 받아오는 함수
+ * @param accessToken header에 넣을 accessToken을 보낸다
+ */
+export const getAppliedGiftInfo = async (
+  accessToken: string,
+  setGiftAppliedInfo,
+) => {
+  try {
+    const response = await axios.get(`${Config.API_URL}/api/gift/v1/apply`, {
+      headers: {
+        Authorization: accessToken,
+      },
+    });
+
+    console.log('응모한 정보', response.data.response.content);
+    const appliedInfo = response.data.response.content;
+    const appliedInfoIdArray = appliedInfo.map(info => info.id);
+    console.log(appliedInfoIdArray);
+
+    const giftAppliedInfo = appliedInfoIdArray.reduce(
+      (ac, v) => ({...ac, [v]: (ac[v] || 0) + 1}),
+      {},
+    );
+    console.log('가공된 어레이', giftAppliedInfo);
+
+    setGiftAppliedInfo(giftAppliedInfo);
   } catch (error) {
     console.error(error);
 
@@ -145,7 +180,7 @@ export const getGiftInfo = async (accessToken: string) => {
 export const applyGift = async (
   accessToken: string,
   giftId: number,
-  dispatch,
+  dispatch: Dispatch<any>,
   setStampNumbers: Dispatch<SetStateAction<number>>,
   handleOpen: () => void,
 ) => {

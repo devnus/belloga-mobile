@@ -47,12 +47,15 @@ function ApplyGift({giftInfo, setStampNumbers}: ApplyGiftProps) {
                   {giftInfo.expectedDrawDate} 마감
                 </Text>
                 <Text style={styles.titlesMainTitle}>{giftInfo.title}</Text>
-                <Text style={styles.joiningInfo}>3029명이 참여 중</Text>
+                <Text style={styles.joiningInfo}>
+                  {giftInfo.odds} 명이 참여 중
+                </Text>
               </View>
               <Image
-                source={{
-                  uri: `${giftInfo.imageUrl}`,
-                }}
+                // source={{
+                //   uri: `${giftInfo.imageUrl}`,
+                // }}
+                source={require('@/assets/images/myGift.png')}
                 style={styles.giftIcon}
                 resizeMode="contain"
               />
@@ -97,7 +100,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   giftIcon: {
-    width: 75,
+    // width: 75,
+    // height: 100,
+    width: 50,
     height: 100,
     marginHorizontal: 10,
   },

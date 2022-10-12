@@ -7,7 +7,11 @@ import Stamp from '@/components/Stamp/Stamp';
 import {useAppDispatch} from '@/store';
 import {RootState} from '@/store/reducer';
 import CurrentPointData from '@/components/Stamp/CurrentPointData';
-import {getGiftInfo, getUserStampInfo} from '@modules/userPointAPIs';
+import {
+  getAppliedGiftInfo,
+  getGiftInfo,
+  getUserStampInfo,
+} from '@modules/userPointAPIs';
 import ApplyGift from '@/components/Stamp/ApplyGift';
 import useAskExitSure from '@/hooks/useAskExitSure';
 MaterialCommunityIcons.loadFont();
@@ -16,37 +20,17 @@ function PressStamps({route, navigation}) {
   const isLoggedIn = useSelector((state: RootState) => !!state.user.email);
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const [stampNumbers, setStampNumbers] = useState<number>(0);
+  const [giftList, setGiftList] = useState<any>([]);
+  const [giftAppliedInfo, setGiftAppliedInfo] = useState<any>([]);
   const dispatch = useAppDispatch();
-
-  const giftInfoJSONArray = [
-    {
-      id: 1,
-      title: '바나나 기프티콘 이벤트',
-      giftType: 'GIFTICON',
-      expectedDrawDate: '2022-11-11',
-      giftStatus: null,
-      odds: 1,
-      imageUrl:
-        'https://www.freepnglogos.com/uploads/banana-png/banana-school-council-drapers-mills-primary-academy-little-0.png',
-    },
-    {
-      id: 2,
-      title: '초콜릿 기프티콘 이벤트',
-      giftType: 'GIFTICON',
-      expectedDrawDate: '2022-12-12',
-      giftStatus: null,
-      odds: 0.25,
-      imageUrl:
-        'https://www.maltesers.co.uk/sites/g/files/fnmzdf601/files/migrate-product-files/aal391kpuxkfxoyhji5k.png',
-    },
-  ];
 
   useAskExitSure();
 
   useEffect(() => {
     if (accessToken) {
       getUserStampInfo(accessToken, dispatch, setStampNumbers);
-      getGiftInfo(accessToken);
+      getGiftInfo(accessToken, setGiftList);
+      getAppliedGiftInfo(accessToken, setGiftAppliedInfo);
     }
   }, [isLoggedIn, accessToken, dispatch]);
 
@@ -91,7 +75,7 @@ function PressStamps({route, navigation}) {
             </View>
 
             <View style={styles.giftInfoWrapper}>
-              {giftInfoJSONArray.map((gift: any) => (
+              {giftList.map((gift: any) => (
                 <ApplyGift giftInfo={gift} setStampNumbers={setStampNumbers} />
               ))}
             </View>
