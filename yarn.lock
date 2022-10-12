@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@amplitude/react-native@^2.16.0":
+  "integrity" "sha512-2FnDANaeOrBvLiNGPZ9zjzooqrF6yeM5SQ8l57ma4JHt05d9JUeWszyiuAxkL3Zw+xsSXGd1fCf0WKnDpB91hA=="
+  "resolved" "https://registry.npmjs.org/@amplitude/react-native/-/react-native-2.16.0.tgz"
+  "version" "2.16.0"
+
 "@ampproject/remapping@^2.1.0":
   "integrity" "sha512-qRmjj8nj9qmLTQXXmaR1cck3UXSRMPrbsLJAasZpF+t3riI71BXed5ebIOYwQntykeZuhjsdweEc9BxH5Jc26w=="
   "resolved" "https://registry.npmjs.org/@ampproject/remapping/-/remapping-2.2.0.tgz"
@@ -1251,7 +1256,26 @@
     "node-forge" "^1.2.1"
     "nullthrows" "^1.1.1"
 
-"@expo/config-plugins@^5.0.1", "@expo/config-plugins@~5.0.0", "@expo/config-plugins@~5.0.1":
+"@expo/config-plugins@^3.0.7":
+  "integrity" "sha512-reNYaYklOIq8QUY5ua1ubSRhVgY7hllvjingo22HHSaGhX4UvFFKDGYrjBdjcutHD6jw/eYLa8yJS74o1/rqkg=="
+  "resolved" "https://registry.npmjs.org/@expo/config-plugins/-/config-plugins-3.0.8.tgz"
+  "version" "3.0.8"
+  dependencies:
+    "@expo/config-types" "^42.0.0"
+    "@expo/json-file" "8.2.33"
+    "@expo/plist" "0.0.13"
+    "debug" "^4.3.1"
+    "find-up" "~5.0.0"
+    "fs-extra" "9.0.0"
+    "getenv" "^1.0.0"
+    "glob" "7.1.6"
+    "resolve-from" "^5.0.0"
+    "semver" "^7.3.5"
+    "slash" "^3.0.0"
+    "xcode" "^3.0.1"
+    "xml2js" "^0.4.23"
+
+"@expo/config-plugins@~5.0.0", "@expo/config-plugins@~5.0.1":
   "integrity" "sha512-1OfnsOrfeSkB0VZfT01UjQ5Uq6p+yYbq8yNkj0e99K/6NLHpyvIxj+5tZIV0nQXgkOcqBIABL2uA7lwB8CkaBQ=="
   "resolved" "https://registry.npmjs.org/@expo/config-plugins/-/config-plugins-5.0.1.tgz"
   "version" "5.0.1"
@@ -1271,6 +1295,11 @@
     "slash" "^3.0.0"
     "xcode" "^3.0.1"
     "xml2js" "0.4.23"
+
+"@expo/config-types@^42.0.0":
+  "integrity" "sha512-Rj02OMZke2MrGa/1Y/EScmR7VuWbDEHPJyvfFyyLbadUt+Yv6isCdeFzDt71I7gJlPR9T4fzixeYLrtXXOTq0w=="
+  "resolved" "https://registry.npmjs.org/@expo/config-types/-/config-types-42.0.0.tgz"
+  "version" "42.0.0"
 
 "@expo/config-types@^46.0.0", "@expo/config-types@^46.0.1":
   "integrity" "sha512-PXkmOgNwRyBfgVT1HmFZhfh3Qm7WKKyV6mk3/5HJ/LzPh1t+Zs2JrWX8U2YncTLV1QzV7nV8tnkyvszzqnZEzQ=="
@@ -1295,12 +1324,12 @@
     "sucrase" "^3.20.0"
 
 "@expo/dev-server@~0.1.119":
-  "integrity" "sha512-DcVnj4/YA+b+Ljsz2qffHHN5LbouXFKeE9ER0Yjq5vIb2moV1q3U6LezndFLCf42Uev7C2vSa8YCcP3WOpxuMw=="
-  "resolved" "https://registry.npmjs.org/@expo/dev-server/-/dev-server-0.1.119.tgz"
-  "version" "0.1.119"
+  "integrity" "sha512-x5/jCv0EOpz6FyehXpI5bgDQTVsGZYvgISkAw7n60RhtG+aid6N2CCR9SDMCH70XaUpFnfTW9qvderpCEj7Puw=="
+  "resolved" "https://registry.npmjs.org/@expo/dev-server/-/dev-server-0.1.120.tgz"
+  "version" "0.1.120"
   dependencies:
     "@expo/bunyan" "4.0.0"
-    "@expo/metro-config" "~0.3.18"
+    "@expo/metro-config" "~0.4.0"
     "@expo/osascript" "2.0.33"
     "body-parser" "1.19.0"
     "chalk" "^4.0.0"
@@ -1358,10 +1387,33 @@
     "json5" "^1.0.1"
     "write-file-atomic" "^2.3.0"
 
+"@expo/json-file@8.2.33":
+  "integrity" "sha512-CDnhjdirUs6OdN5hOSTJ2y3i9EiJMk7Z5iDljC5xyCHCrUex7oyI8vbRsZEojAahxZccgL/PrO+CjakiFFWurg=="
+  "resolved" "https://registry.npmjs.org/@expo/json-file/-/json-file-8.2.33.tgz"
+  "version" "8.2.33"
+  dependencies:
+    "@babel/code-frame" "~7.10.4"
+    "json5" "^1.0.1"
+    "write-file-atomic" "^2.3.0"
+
 "@expo/metro-config@~0.3.18":
   "integrity" "sha512-R81sLbaeUBjN8IXcxiVx7GcpSj8z7szILl1b5yJDb38WdIFwxhrseA5wXaTT1yMhI+59w6n99T2qtFV2yD5qYA=="
   "resolved" "https://registry.npmjs.org/@expo/metro-config/-/metro-config-0.3.22.tgz"
   "version" "0.3.22"
+  dependencies:
+    "@expo/config" "7.0.1"
+    "@expo/json-file" "8.2.36"
+    "chalk" "^4.1.0"
+    "debug" "^4.3.2"
+    "find-yarn-workspace-root" "~2.0.0"
+    "getenv" "^1.0.0"
+    "resolve-from" "^5.0.0"
+    "sucrase" "^3.20.0"
+
+"@expo/metro-config@~0.4.0":
+  "integrity" "sha512-QhOiotuzklalLbbsTMXJ5v4q4jffQ5xXhy1zsosgc2DL/ZzUr/Yhm3xUcOGnPQ2x7UyeY9Tl3njPHBOJJe7CSA=="
+  "resolved" "https://registry.npmjs.org/@expo/metro-config/-/metro-config-0.4.0.tgz"
+  "version" "0.4.0"
   dependencies:
     "@expo/config" "7.0.1"
     "@expo/json-file" "8.2.36"
@@ -1404,6 +1456,15 @@
     "@xmldom/xmldom" "~0.7.0"
     "base64-js" "^1.2.3"
     "xmlbuilder" "^14.0.0"
+
+"@expo/plist@0.0.13":
+  "integrity" "sha512-zGPSq9OrCn7lWvwLLHLpHUUq2E40KptUFXn53xyZXPViI0k9lbApcR9KlonQZ95C+ELsf0BQ3gRficwK92Ivcw=="
+  "resolved" "https://registry.npmjs.org/@expo/plist/-/plist-0.0.13.tgz"
+  "version" "0.0.13"
+  dependencies:
+    "base64-js" "^1.2.3"
+    "xmlbuilder" "^14.0.0"
+    "xmldom" "~0.5.0"
 
 "@expo/prebuild-config@~5.0.3":
   "integrity" "sha512-G4j1H3WFjRaiQ+FgFNULrnIm7RsQyjc4xp6lLTP2ydBv79wO3x8wAdeZvaZh7eOkfu9BESpQzACT1uuJTag5jg=="
@@ -1954,19 +2015,19 @@
   "resolved" "https://registry.npmjs.org/@react-native-community/eslint-plugin/-/eslint-plugin-1.2.0.tgz"
   "version" "1.2.0"
 
-"@react-native-firebase/app@^15.7.0", "@react-native-firebase/app@15.7.0":
-  "integrity" "sha512-ZyrvewIkQC0UHDuHxXyc25/V8xYOa4xlukIHIbtJeBzVCCyVgZxF4Svyqs+CosqbHOuwWnmg+AW0rMvjrRcdmw=="
-  "resolved" "https://registry.npmjs.org/@react-native-firebase/app/-/app-15.7.0.tgz"
-  "version" "15.7.0"
+"@react-native-firebase/app@^12.7.4", "@react-native-firebase/app@12.7.4":
+  "integrity" "sha512-ao8jSyevNItQ1sFhn2yAS7BIMGChbQVfJj5/9bsJ7OdS2gQx6vczh6N0QB7AlGfzpYT/w+4xebJvnBs21V3jpg=="
+  "resolved" "https://registry.npmjs.org/@react-native-firebase/app/-/app-12.7.4.tgz"
+  "version" "12.7.4"
   dependencies:
-    "@expo/config-plugins" "^5.0.1"
+    "@expo/config-plugins" "^3.0.7"
     "opencollective-postinstall" "^2.0.1"
     "superstruct" "^0.6.2"
 
-"@react-native-firebase/messaging@^15.7.0":
-  "integrity" "sha512-c2BLLbBm4kMjbkm1fJ465qZ2o24GHylLxeHSjU63SHIUVhnD5j7rWV/XvumNIEkSWtZmy9v+uGpmArLCAjZraw=="
-  "resolved" "https://registry.npmjs.org/@react-native-firebase/messaging/-/messaging-15.7.0.tgz"
-  "version" "15.7.0"
+"@react-native-firebase/messaging@^12.7.4":
+  "integrity" "sha512-qZgm+mKt6ugMCQB54VC6dxxJYgYmtIkH55Rzf7/0rGpPmWEqlLs0BhXaJ8Z4euIdXbiTJ61cPCL3qD4t3fpYHA=="
+  "resolved" "https://registry.npmjs.org/@react-native-firebase/messaging/-/messaging-12.7.4.tgz"
+  "version" "12.7.4"
 
 "@react-native-seoul/kakao-login@^5.0.1":
   "integrity" "sha512-nCaw3pI9bp93IT1xEQY4HZvBkRQ1t8cMtY8I1rMpOOVzSpno4OnVojBsKJiDbm2c2eTcDNEBj2uaLO5to39LAQ=="
@@ -4576,7 +4637,14 @@
   "resolved" "https://registry.npmjs.org/expo-error-recovery/-/expo-error-recovery-3.2.0.tgz"
   "version" "3.2.0"
 
-"expo-file-system@^14.1.0", "expo-file-system@~14.1.0":
+"expo-file-system@^15.0.0":
+  "integrity" "sha512-zxJRSuhIYFoJQwYnEY0DNj3+Ve4rJfy4WOCZ3g0RP21lc5Upkwf4f191v/jAf8r4bOhkQYqQYYQlulAXK70YuA=="
+  "resolved" "https://registry.npmjs.org/expo-file-system/-/expo-file-system-15.0.0.tgz"
+  "version" "15.0.0"
+  dependencies:
+    "uuid" "^3.4.0"
+
+"expo-file-system@~14.1.0":
   "integrity" "sha512-lJcPGQ8yKXVknVkD5TmcJnR/TpQbEL0JP8hknLejfq3FIqPqI/LBFn31YiP37grxW8lITz1al8pq5T6CSUjAzQ=="
   "resolved" "https://registry.npmjs.org/expo-file-system/-/expo-file-system-14.1.0.tgz"
   "version" "14.1.0"
@@ -10059,7 +10127,7 @@
   "resolved" "https://registry.npmjs.org/xml-name-validator/-/xml-name-validator-3.0.0.tgz"
   "version" "3.0.0"
 
-"xml2js@0.4.23":
+"xml2js@^0.4.23", "xml2js@0.4.23":
   "integrity" "sha512-ySPiMjM0+pLDftHgXY4By0uswI3SPKLDw/i3UXbnO8M/p28zqexCUoPmQFrYD+/1BzhGJSs2i1ERWKJAtiLrug=="
   "resolved" "https://registry.npmjs.org/xml2js/-/xml2js-0.4.23.tgz"
   "version" "0.4.23"
@@ -10093,6 +10161,11 @@
   "version" "1.1.4"
   dependencies:
     "sax" "^1.2.4"
+
+"xmldom@~0.5.0":
+  "integrity" "sha512-Foaj5FXVzgn7xFzsKeNIde9g6aFBxTPi37iwsno8QvApmtg7KYrr+OPyRHcJF7dud2a5nGRBXK3n0dL62Gf7PA=="
+  "resolved" "https://registry.npmjs.org/xmldom/-/xmldom-0.5.0.tgz"
+  "version" "0.5.0"
 
 "xtend@~4.0.1":
   "integrity" "sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ=="

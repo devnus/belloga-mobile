@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, SafeAreaView, ScrollView} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useSelector} from 'react-redux';
-import colors from '@assets/colors';
 import Stamp from '@/components/Stamp/Stamp';
 import {useAppDispatch} from '@/store';
 import {RootState} from '@/store/reducer';

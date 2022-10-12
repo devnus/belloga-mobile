@@ -34,7 +34,7 @@ function AlarmList({navigation}: any) {
       const alarmLists = await getAllAlarms(); //저장된 모든 알람 목록을 불러온다.
       setAlarms(() => alarmLists);
       await fetchState();
-      // setScheduler(setInterval(fetchState, 10000)); //1초마다 fetchState 하도록 설정, 알람 새로 생겼는지 체크
+      setScheduler(setInterval(fetchState, 10000)); //1초마다 fetchState 하도록 설정, 알람 새로 생겼는지 체크
     });
     navigation.addListener('blur', async () => {
       clearInterval(scheduler);
