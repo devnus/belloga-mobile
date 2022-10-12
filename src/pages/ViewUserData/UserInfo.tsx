@@ -19,7 +19,6 @@ import UserData from '@/components/UserData';
 import {useAppDispatch} from '@/store';
 import {RootState} from '@/store/reducer';
 import LabelingLogInfo from '@/components/LabelingLogInfo';
-import Config from 'react-native-config';
 import {getUserPointInfo} from '@/modules/userPointAPIs';
 import {useGetAccessToken, useIsLoggedIn} from '@/hooks/useAuthInfo';
 import {getMyLabelingLogInfo} from '@/modules/labelingAPIs';

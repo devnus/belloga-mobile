@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import Alarm, {updateAlarm} from './alarms';
+import Alarm, {updateAlarm, updateOffAlarm} from './alarms';
 import {getKoreanDayName} from '../components/AlarmSetting/DayPicker';
 
 /**
@@ -13,10 +13,13 @@ export function calcNoRepeatingAlarmTime(alarms: Alarm[]) {
   );
 
   noRepeatingAlarms.map((alarm: Alarm) => {
+    const day: number = calcAlarmRingTime(alarm.hour, alarm.minutes);
+    alarm.days = [day];
+
     if (alarm.active === true) {
-      const day: number = calcAlarmRingTime(alarm.hour, alarm.minutes);
-      alarm.days = [day];
       updateAlarm(alarm, false);
+    } else {
+      updateOffAlarm(alarm);
     }
   });
 }
