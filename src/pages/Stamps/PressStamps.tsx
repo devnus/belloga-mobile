@@ -14,6 +14,7 @@ import {
 } from '@modules/userPointAPIs';
 import ApplyGift from '@/components/Stamp/ApplyGift';
 import useAskExitSure from '@/hooks/useAskExitSure';
+import Titles from '@/components/Titles';
 MaterialCommunityIcons.loadFont();
 
 function PressStamps({route, navigation}) {
@@ -47,14 +48,10 @@ function PressStamps({route, navigation}) {
             </View>
           </SafeAreaView>
           <View style={styles.bodyWrapper}>
-            <View style={styles.titlesWrapper}>
-              <View>
-                <Text style={styles.titlesBoldTitle}>경품 응모 스탬프판</Text>
-                <Text style={styles.titlesSubtitle}>
-                  매일 일어나서 도장 찍고 선물 받아가세요!
-                </Text>
-              </View>
-            </View>
+            <Titles
+              title="경품 응모 스탬프판"
+              description="매일 일어나서 도장 찍고 선물 받아가세요!"
+            />
 
             <View style={styles.pressStampContainer}>
               <CurrentPointData />
@@ -65,14 +62,10 @@ function PressStamps({route, navigation}) {
               />
             </View>
 
-            <View style={styles.titlesWrapper}>
-              <View>
-                <Text style={styles.titlesBoldTitle}>경품 목록</Text>
-                <Text style={styles.titlesSubtitle}>
-                  응모하고 싶은 블럭을 눌러 응모하세요
-                </Text>
-              </View>
-            </View>
+            <Titles
+              title="경품 목록"
+              description="응모하고 싶은 블럭을 눌러 응모하세요"
+            />
 
             <View style={styles.giftInfoWrapper}>
               {giftList.map((gift: any) => (
@@ -114,26 +107,8 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 40,
   },
-  titlesWrapper: {
-    marginTop: 30,
-    paddingHorizontal: 20,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    flex: 1,
-  },
   giftInfoWrapper: {
     flex: 2,
-  },
-  titlesSubtitle: {
-    fontFamily: 'Montserrat-Regular',
-    fontSize: 16,
-    color: colors.textDark,
-  },
-  titlesBoldTitle: {
-    fontFamily: 'Montserrat-Bold',
-    fontWeight: 'bold',
-    fontSize: 20,
-    color: colors.textDark,
   },
   pressStampContainer: {
     backgroundColor: 'white',

@@ -81,7 +81,6 @@ export const pressStamp = async (
   setStampNumbers: Dispatch<SetStateAction<number>>,
   handleOpen: () => void,
 ) => {
-  console.log('알람 누름');
   // if (points < 10) {
   //   Alert.alert(
   //     '포인트가 충분하지 않습니다. 기상 미션을 통해 더 많은 포인트를 모아보세요!',
@@ -153,7 +152,6 @@ export const getAppliedGiftInfo = async (
       },
     });
 
-    console.log('응모한 정보', response.data.response.content);
     const appliedInfo = response.data.response.content;
     const appliedInfoIdArray = appliedInfo.map(info => info.id);
     console.log(appliedInfoIdArray);

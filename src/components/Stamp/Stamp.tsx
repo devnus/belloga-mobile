@@ -60,14 +60,14 @@ function Stamp({stampNumbers, setStampNumbers}) {
             <TouchableOpacity
               style={styles.pressStampBtn}
               onPress={() => {
-                stampNumbers < 10 &&
+                stampNumbers < 8 &&
                   pressStamp(accessToken, points, setStampNumbers, handleOpen);
               }}>
               <LinearGradient
                 colors={['#b4eee7', '#b4e2ed', '#b4e1ee']}
                 style={styles.linearGradient}>
                 <Text style={styles.pressBtnInsideText}>
-                  {stampNumbers < 10 ? 'STAMP' : '경품 응모하기'}
+                  {stampNumbers < 8 ? 'STAMP' : '경품 응모하기'}
                 </Text>
               </LinearGradient>
             </TouchableOpacity>

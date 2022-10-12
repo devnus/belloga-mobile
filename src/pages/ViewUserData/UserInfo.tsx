@@ -22,6 +22,7 @@ import LabelingLogInfo from '@/components/LabelingLogInfo';
 import {getUserPointInfo} from '@/modules/userPointAPIs';
 import {useGetAccessToken, useIsLoggedIn} from '@/hooks/useAuthInfo';
 import {getMyLabelingLogInfo} from '@/modules/labelingAPIs';
+import Titles from '@/components/Titles';
 
 Feather.loadFont();
 MaterialCommunityIcons.loadFont();
@@ -77,7 +78,10 @@ function UserInfo({route, navigation}) {
               <View>
                 {/* User Information */}
 
-                <Text style={styles.titlesSubtitle}> 라벨링 내역 </Text>
+                <Titles
+                  title=""
+                  description={`${userName}님의 미션 알람 수행 내역`}
+                />
                 <LabelingLogInfo />
               </View>
             </ScrollView>

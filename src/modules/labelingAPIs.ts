@@ -89,7 +89,7 @@ export const getMyLabelingLogInfo = async (accessToken: string) => {
       },
     );
 
-    console.log(response.data.response.content);
+    console.log('나의 라벨링 데이터', response.data.response.content);
   } catch (error) {
     console.log(error);
   } finally {

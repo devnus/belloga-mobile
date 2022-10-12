@@ -77,7 +77,6 @@ const NaverLoginBlock = ({onPress}) => {
         `${Config.API_URL}/api/account/v1/auth/signin/naver/account`,
         {token: accessToken},
       );
-      console.log(response, 'naver login res');
       dispatch(
         userSlice.actions.setToken({
           accessToken: response.data.response.accessToken,

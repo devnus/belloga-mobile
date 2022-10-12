@@ -114,6 +114,7 @@ function LabelingAlarmRing({route, navigation, receivedAlarm}) {
             {alarm.snoozeInterval > 0 && (
               <Button
                 title={'Snooze'}
+                fill={true}
                 onPress={async () => {
                   await snoozeAlarm();
                   navigation.goBack();
@@ -123,6 +124,7 @@ function LabelingAlarmRing({route, navigation, receivedAlarm}) {
 
             <Button
               title={'Cancel'}
+              fill={true}
               onPress={async () => {
                 finishAlarm();
               }}
