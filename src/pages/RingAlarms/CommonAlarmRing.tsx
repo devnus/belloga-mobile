@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {ImageBackground, StyleSheet, Text, View} from 'react-native';
 import Button from '@components/Button';
 import Alarm, {snoozeAlarm, stopAlarm} from '@modules/alarms';
+import {toStringOnlyDates} from '@/modules/calcAlarmsTime';
+import styled from 'styled-components/native';
 
 function CommonAlarmRing({route, navigation, receivedAlarm}) {
   const [alarm, setAlarm] = useState<Alarm | undefined>();
@@ -21,47 +23,79 @@ function CommonAlarmRing({route, navigation, receivedAlarm}) {
 
   return (
     <View style={globalStyles.container}>
-      <View style={[globalStyles.innerContainer, styles.container]}>
-        <View style={styles.textContainer}>
-          <Text style={styles.clockText}>
-            {alarm.getTimeString().hour} : {alarm.getTimeString().minutes} 일반
-          </Text>
-          <Text style={styles.title}>{alarm.title}</Text>
-        </View>
-        <View style={styles.buttonContainer}>
-          {alarm.snoozeInterval > 0 && (
+      <ImageBackground
+        source={require('@assets/images/bg_illust.png')}
+        resizeMode="cover"
+        style={styles.backgroundImage}>
+        <View style={[globalStyles.innerContainer, styles.container]}>
+          <View style={styles.textContainer}>
+            <StyledText style={styles.clockText}>
+              {alarm.getTimeString().hour} : {alarm.getTimeString().minutes}{' '}
+            </StyledText>
+            <StyledText style={styles.clockDateText}>
+              {toStringOnlyDates(new Date())}{' '}
+            </StyledText>
+            <Text style={styles.title}>{alarm.title}</Text>
+          </View>
+          <View style={styles.buttonContainer}>
+            {alarm.snoozeInterval > 0 && (
+              <Button
+                title={'Snooze'}
+                fill={true}
+                onPress={async () => {
+                  await snoozeAlarm();
+                  navigation.goBack();
+                }}
+              />
+            )}
+
             <Button
-              title={'Snooze'}
+              title={'Cancel'}
+              fill={true}
               onPress={async () => {
-                await snoozeAlarm();
-                navigation.goBack();
+                finishAlarm();
               }}
             />
-          )}
-
-          <Button
-            title={'Cancel'}
-            onPress={async () => {
-              finishAlarm();
-            }}
-          />
+          </View>
         </View>
-      </View>
+      </ImageBackground>
     </View>
   );
 }
 
 export default CommonAlarmRing;
 
+const StyledText = styled.Text`
+  text-shadow-color: rgba(0, 0, 0, 0.25);
+  text-shadow-offset: 0px 0px;
+  text-shadow-radius: 10px;
+  text-shadow-opacity: 0.5;
+`;
+
 const styles = StyleSheet.create({
+  backgroundImage: {
+    flex: 1,
+    justifyContent: 'center',
+  },
   container: {
     justifyContent: 'space-around',
     alignItems: 'center',
   },
   clockText: {
-    color: 'black',
+    color: 'white',
     fontWeight: 'bold',
     fontSize: 50,
+    shadowColor: '#bcbcbc',
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 1,
+  },
+  clockDateText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 20,
   },
   textContainer: {
     display: 'flex',
@@ -78,18 +112,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: '#d0d5dc',
   },
-  loginButton: {
-    padding: 10,
-    margin: 10,
-    paddingLeft: 20,
-    paddingRight: 20,
-    borderWidth: 2,
-    borderColor: '#1992fe',
-    borderRadius: 25,
-  },
-  loginButtonActive: {
-    backgroundColor: 'whited',
-  },
   rectangle: {
     borderWidth: 3,
     borderColor: 'red',
@@ -100,13 +122,10 @@ const globalStyles = StyleSheet.create({
   container: {
     height: '100%',
     width: '100%',
-    display: 'flex',
-    alignItems: 'center',
+    flex: 1,
     justifyContent: 'center',
-    backgroundColor: 'white',
   },
   innerContainer: {
-    width: '90%',
     height: '90%',
     display: 'flex',
     alignItems: 'center',

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Image, StyleSheet, Text, View} from 'react-native';
 import colors from '../assets/colors';
 
 function UserData() {
@@ -12,7 +12,7 @@ function UserData() {
               source={require('@/assets/images/label.png')}
               style={styles.userInfoIcon}
             />
-            <Text style={styles.titlesSubtitle}>검토 중인 라벨링</Text>
+            <Text style={styles.titlesSubtitle}>검토 중인 미션</Text>
           </View>
           <Text style={styles.titlesSubtitle}>34개</Text>
         </View>
@@ -23,7 +23,7 @@ function UserData() {
               source={require('../assets/images/point.png')}
               style={styles.userInfoIcon}
             />
-            <Text style={styles.titlesSubtitle}>지급 예정 포인트</Text>
+            <Text style={styles.titlesSubtitle}>진행한 총 미션 수</Text>
           </View>
           <Text style={styles.titlesSubtitle}>1000P</Text>
         </View>

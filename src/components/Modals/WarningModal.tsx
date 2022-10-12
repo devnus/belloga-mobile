@@ -15,6 +15,9 @@ export function WarningModal(props: any) {
   const dispatch = useAppDispatch();
 
   const titleText = useSelector((state: RootState) => state.alert.titleMessage);
+  const middleText = useSelector(
+    (state: RootState) => state.alert.middleMessage,
+  );
 
   return (
     <View>
@@ -23,7 +26,7 @@ export function WarningModal(props: any) {
         onBackdropPress={() => alertSlice.actions.setAlert({isOpen: false})}>
         <View style={styles.contentView}>
           <View style={styles.modalRoundWrapper}>
-            <WarningModalCard titleText={titleText} />
+            <WarningModalCard titleText={titleText} middleText={middleText} />
             <Button
               title="닫기"
               fill={true}

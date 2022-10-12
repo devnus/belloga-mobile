@@ -5,7 +5,7 @@ import colors from '@assets/colors';
 function UserGiftApplyCount({stampNumbers}) {
   return (
     <View style={styles.userInfoRow}>
-      {stampNumbers >= 10 ? (
+      {stampNumbers >= 8 ? (
         <>
           <Text style={styles.titlesSubtitle}> 내 응모 횟수 </Text>
           <Text style={styles.pointValue}> 10회 </Text>
@@ -13,7 +13,7 @@ function UserGiftApplyCount({stampNumbers}) {
       ) : (
         <>
           <Text style={styles.titlesSubtitle}> 응모까지 </Text>
-          <Text style={styles.pointValue}> {10 - stampNumbers}개 </Text>
+          <Text style={styles.pointValue}> {8 - stampNumbers}개 </Text>
         </>
       )}
     </View>

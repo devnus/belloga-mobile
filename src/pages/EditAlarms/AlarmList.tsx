@@ -14,9 +14,9 @@ import {
   calcRemainTime,
   sortAlarm,
 } from 'modules/calcAlarmsTime';
-import {AlarmType} from './AlarmSettings';
 import AlarmInfo from '@components/AlarmInfo';
 import useAskExitSure from '@/hooks/useAskExitSure';
+import DisplayAlarmTimeInfo from '@/components/DisplayAlarmTimeInfo';
 
 //움직이는 탭바를 위한 상수
 const Header_Maximum_Height = 200;
@@ -25,7 +25,7 @@ const Header_Minimum_Height = 50;
 //Min Height of the Header
 
 function AlarmList({navigation}: any) {
-  const [alarms, setAlarms] = useState<Array<AlarmType>>([]);
+  const [alarms, setAlarms] = useState<Array<Alarm>>([]);
   const [scheduler, setScheduler] = useState(null);
 
   useAskExitSure();
@@ -78,7 +78,7 @@ function AlarmList({navigation}: any) {
             <Text> 알람이 없습니다 </Text>
           ) : (
             <View style={styles.nextAlarmTextContainer}>
-              {calcNextAlarm(alarms)}
+              <DisplayAlarmTimeInfo alarms={alarms} />
             </View>
           )}
           <View style={styles.addButtonContainer}>
@@ -100,7 +100,7 @@ function AlarmList({navigation}: any) {
             {useNativeDriver: false},
           )}>
           {alarms &&
-            alarms.map(a => (
+            alarms.map((a: Alarm) => (
               <AlarmInfo
                 key={a.uid}
                 uid={a.uid}

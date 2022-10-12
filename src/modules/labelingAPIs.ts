@@ -77,3 +77,21 @@ export const sendLabelingResult = async (
     console.log(error);
   }
 };
+
+export const getMyLabelingLogInfo = async (accessToken: string) => {
+  try {
+    const response = await axios.get(
+      `${Config.API_URL}/api/labeled-data/v1/ocr-data`,
+      {
+        headers: {
+          Authorization: accessToken,
+        },
+      },
+    );
+
+    console.log('나의 라벨링 데이터', response.data.response.content);
+  } catch (error) {
+    console.log(error);
+  } finally {
+  }
+};

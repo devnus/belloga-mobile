@@ -8,7 +8,7 @@ export default function WarningAnimation() {
   useEffect(() => {
     Animated.timing(animationProgress.current, {
       toValue: 1,
-      duration: 2000,
+      duration: 1500,
       easing: Easing.linear,
       useNativeDriver: false,
     }).start();

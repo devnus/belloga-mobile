@@ -1,6 +1,5 @@
-import React from 'react';
-import {StyleSheet, Text} from 'react-native';
-import Alarm, {updateAlarm} from './alarms';
+import {StyleSheet} from 'react-native';
+import Alarm, {updateAlarm, updateOffAlarm} from './alarms';
 import {getKoreanDayName} from '../components/AlarmSetting/DayPicker';
 
 /**
@@ -14,10 +13,13 @@ export function calcNoRepeatingAlarmTime(alarms: Alarm[]) {
   );
 
   noRepeatingAlarms.map((alarm: Alarm) => {
+    const day: number = calcAlarmRingTime(alarm.hour, alarm.minutes);
+    alarm.days = [day];
+
     if (alarm.active === true) {
-      const day: number = calcAlarmRingTime(alarm.hour, alarm.minutes);
-      alarm.days = [day];
-      updateAlarm(alarm);
+      updateAlarm(alarm, false);
+    } else {
+      updateOffAlarm(alarm);
     }
   });
 }
@@ -26,18 +28,8 @@ export function calcNoRepeatingAlarmTime(alarms: Alarm[]) {
  * 가장 빠르게 울리는 알람이 어느 것인지 계산해주는 함수
  */
 
-export function calcNextAlarm(alarms: Alarm[]) {
+export function calcNextAlarm(activeAlarms: Alarm[]) {
   const today = new Date();
-
-  const activeAlarms = alarms.filter((alarm: Alarm) => alarm.active === true);
-
-  if (activeAlarms.length === 0) {
-    return (
-      <>
-        <Text style={styles.nextAlarmInfo}> 예정된 알람이 없습니다 </Text>
-      </>
-    );
-  }
 
   const remainTimes = activeAlarms.map((alarm: Alarm) => {
     return Math.floor((calcRemainTime(alarm) - today) / (1000 * 60));
@@ -46,25 +38,7 @@ export function calcNextAlarm(alarms: Alarm[]) {
   const min = Math.min(...remainTimes);
   const index = remainTimes.indexOf(min);
 
-  return (
-    <>
-      <Text style={styles.nextAlarmGuideText}> 다음 알람까지 </Text>
-
-      {min / 60 < 24 ? (
-        <Text style={styles.nextAlarmLeftTime}>
-          {`${Math.floor((min / 60) % 24)} : ${leftPad(Math.floor(min % 60))}`}
-        </Text>
-      ) : (
-        <Text style={styles.nextAlarmLeftTime}>
-          {`${Math.floor(min / 60 / 24)} 일`}
-        </Text>
-      )}
-
-      <Text style={styles.nextAlarmInfo}>
-        {toStringByFormatting(calcRemainTime(activeAlarms[index]))}{' '}
-      </Text>
-    </>
-  );
+  return [min, activeAlarms[index]];
 }
 
 /**
@@ -89,7 +63,7 @@ export function sortAlarm(alarmList: []) {
  * @param value 숫자를 넣으면
  * @returns 한자리일 경우 앞에 0을 붙여서 string으로 리턴
  */
-function leftPad(value: number) {
+export function leftPad(value: number) {
   if (value >= 10) {
     return value;
   }
@@ -103,9 +77,6 @@ function leftPad(value: number) {
  * @returns 몇월 몇일 무슨 요일이라고 string으로 리턴
  */
 export function toStringByFormatting(source: Date) {
-  const month = leftPad(source.getMonth() + 1);
-  const day = leftPad(source.getDate());
-
   let hours: number = Number(leftPad(source.getHours()));
   const minutes = leftPad(source.getMinutes());
 
@@ -114,9 +85,21 @@ export function toStringByFormatting(source: Date) {
   hours = hours ? hours : 12; // the hour '0' should be '12'
   hours = Number(leftPad(hours));
 
-  return `${month}월 ${day}일 ${getKoreanDayName(source.getDay())}요일 ${
+  return `${toStringOnlyDates(source)} ${
     String(hours) + ':' + minutes + ' ' + timeZone
   }`;
+}
+
+/**
+ *Date를 받아 string format로 한글로 된 걸 돌려주는 함수
+ * @param source Date 날짜
+ * @returns 몇월 몇일 무슨 요일이라고 string으로 리턴
+ */
+export function toStringOnlyDates(source: Date) {
+  const month = leftPad(source.getMonth() + 1);
+  const day = leftPad(source.getDate());
+
+  return `${month}월 ${day}일 ${getKoreanDayName(source.getDay())}요일 `;
 }
 
 /**
@@ -179,19 +162,3 @@ export function calcRemainTime(alarm: Alarm) {
 
   return closeDate;
 }
-
-const styles = StyleSheet.create({
-  nextAlarmGuideText: {
-    color: '#8abccb',
-    fontSize: 14,
-  },
-  nextAlarmLeftTime: {
-    color: '#0f5078',
-    fontSize: 50,
-    fontWeight: 'bold',
-  },
-  nextAlarmInfo: {
-    color: '#0f5078',
-    fontSize: 18,
-  },
-});

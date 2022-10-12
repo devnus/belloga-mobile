@@ -68,6 +68,15 @@ public class Manager {
         }
     }
 
+    static void updateOffAlarm(Context context, Alarm alarm) {
+        AlarmDates prevDates = Storage.getDates(context, alarm.uid);
+        AlarmDates dates = alarm.getAlarmDates();
+
+        Storage.saveAlarm(context, alarm);
+        Storage.saveDates(context, dates);
+        if (prevDates == null) return;
+    }
+
     static void removeAll(Context context) {
         Alarm[] alarms = Storage.getAllAlarms(context);
         for (Alarm alarm : alarms) {

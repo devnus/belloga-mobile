@@ -7,46 +7,31 @@ import Stamp from '@/components/Stamp/Stamp';
 import {useAppDispatch} from '@/store';
 import {RootState} from '@/store/reducer';
 import CurrentPointData from '@/components/Stamp/CurrentPointData';
-import {getGiftInfo, getUserStampInfo} from '@modules/userPointAPIs';
+import {
+  getAppliedGiftInfo,
+  getGiftInfo,
+  getUserStampInfo,
+} from '@modules/userPointAPIs';
 import ApplyGift from '@/components/Stamp/ApplyGift';
 import useAskExitSure from '@/hooks/useAskExitSure';
+import Titles from '@/components/Titles';
 MaterialCommunityIcons.loadFont();
 
 function PressStamps({route, navigation}) {
   const isLoggedIn = useSelector((state: RootState) => !!state.user.email);
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const [stampNumbers, setStampNumbers] = useState<number>(0);
+  const [giftList, setGiftList] = useState<any>([]);
+  const [giftAppliedInfo, setGiftAppliedInfo] = useState<any>([]);
   const dispatch = useAppDispatch();
-
-  const giftInfoJSONArray = [
-    {
-      id: 1,
-      title: '바나나 기프티콘 이벤트',
-      giftType: 'GIFTICON',
-      expectedDrawDate: '2022-11-11',
-      giftStatus: null,
-      odds: 1,
-      imageUrl:
-        'https://www.freepnglogos.com/uploads/banana-png/banana-school-council-drapers-mills-primary-academy-little-0.png',
-    },
-    {
-      id: 2,
-      title: '초콜릿 기프티콘 이벤트',
-      giftType: 'GIFTICON',
-      expectedDrawDate: '2022-12-12',
-      giftStatus: null,
-      odds: 0.25,
-      imageUrl:
-        'https://www.maltesers.co.uk/sites/g/files/fnmzdf601/files/migrate-product-files/aal391kpuxkfxoyhji5k.png',
-    },
-  ];
 
   useAskExitSure();
 
   useEffect(() => {
     if (accessToken) {
       getUserStampInfo(accessToken, dispatch, setStampNumbers);
-      getGiftInfo(accessToken);
+      getGiftInfo(accessToken, setGiftList);
+      getAppliedGiftInfo(accessToken, setGiftAppliedInfo);
     }
   }, [isLoggedIn, accessToken, dispatch]);
 
@@ -63,14 +48,10 @@ function PressStamps({route, navigation}) {
             </View>
           </SafeAreaView>
           <View style={styles.bodyWrapper}>
-            <View style={styles.titlesWrapper}>
-              <View>
-                <Text style={styles.titlesBoldTitle}>경품 응모 스탬프판</Text>
-                <Text style={styles.titlesSubtitle}>
-                  매일 일어나서 도장 찍고 선물 받아가세요!
-                </Text>
-              </View>
-            </View>
+            <Titles
+              title="경품 응모 스탬프판"
+              description="매일 일어나서 도장 찍고 선물 받아가세요!"
+            />
 
             <View style={styles.pressStampContainer}>
               <CurrentPointData />
@@ -81,17 +62,13 @@ function PressStamps({route, navigation}) {
               />
             </View>
 
-            <View style={styles.titlesWrapper}>
-              <View>
-                <Text style={styles.titlesBoldTitle}>경품 목록</Text>
-                <Text style={styles.titlesSubtitle}>
-                  응모하고 싶은 블럭을 눌러 응모하세요
-                </Text>
-              </View>
-            </View>
+            <Titles
+              title="경품 목록"
+              description="응모하고 싶은 블럭을 눌러 응모하세요"
+            />
 
             <View style={styles.giftInfoWrapper}>
-              {giftInfoJSONArray.map((gift: any) => (
+              {giftList.map((gift: any) => (
                 <ApplyGift giftInfo={gift} setStampNumbers={setStampNumbers} />
               ))}
             </View>
@@ -130,26 +107,8 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 40,
   },
-  titlesWrapper: {
-    marginTop: 30,
-    paddingHorizontal: 20,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    flex: 1,
-  },
   giftInfoWrapper: {
     flex: 2,
-  },
-  titlesSubtitle: {
-    fontFamily: 'Montserrat-Regular',
-    fontSize: 16,
-    color: colors.textDark,
-  },
-  titlesBoldTitle: {
-    fontFamily: 'Montserrat-Bold',
-    fontWeight: 'bold',
-    fontSize: 20,
-    color: colors.textDark,
   },
   pressStampContainer: {
     backgroundColor: 'white',

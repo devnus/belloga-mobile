@@ -19,9 +19,10 @@ import UserData from '@/components/UserData';
 import {useAppDispatch} from '@/store';
 import {RootState} from '@/store/reducer';
 import LabelingLogInfo from '@/components/LabelingLogInfo';
-import Config from 'react-native-config';
 import {getUserPointInfo} from '@/modules/userPointAPIs';
 import {useGetAccessToken, useIsLoggedIn} from '@/hooks/useAuthInfo';
+import {getMyLabelingLogInfo} from '@/modules/labelingAPIs';
+import Titles from '@/components/Titles';
 
 Feather.loadFont();
 MaterialCommunityIcons.loadFont();
@@ -35,6 +36,7 @@ function UserInfo({route, navigation}) {
   useEffect(() => {
     if (accessToken) {
       getUserPointInfo(accessToken, dispatch);
+      getMyLabelingLogInfo(accessToken);
     }
   }, [accessToken, dispatch]);
 
@@ -75,8 +77,13 @@ function UserInfo({route, navigation}) {
               showsVerticalScrollIndicator={false}>
               <View>
                 {/* User Information */}
+                <View style={styles.titlesWrapper}>
+                  <Text
+                    style={
+                      styles.titlesSubtitle
+                    }>{`${userName}님의 미션 알람 수행 내역`}</Text>
+                </View>
 
-                <Text style={styles.titlesSubtitle}> 라벨링 내역 </Text>
                 <LabelingLogInfo />
               </View>
             </ScrollView>

@@ -31,7 +31,11 @@ export const getUserPointInfo = async (
     console.error(error);
 
     dispatch(userSlice.actions.setInitial());
-    Alert.alert('포인트 정보 불러오기에 실패했습니다. 다시 로그인해 주세요');
+    displayWarningAlert(
+      dispatch,
+      '포인트 정보 불러오기가 처리되지 않았습니다',
+      '다시 로그인해 주세요',
+    );
   }
 };
 
@@ -57,8 +61,12 @@ export const getUserStampInfo = async (
     console.error(error);
 
     //로그아웃
-    dispatch(userSlice.actions.setInitial());
-    Alert.alert('스탬프 정보 불러오기에 실패했습니다. 다시 로그인해 주세요');
+    // dispatch(userSlice.actions.setInitial());
+    displayWarningAlert(
+      dispatch,
+      '스탬프 정보 불러오기에 실패했습니다',
+      '다시 로그인해 주세요',
+    );
   }
 };
 
@@ -73,7 +81,6 @@ export const pressStamp = async (
   setStampNumbers: Dispatch<SetStateAction<number>>,
   handleOpen: () => void,
 ) => {
-  console.log('알람 누름');
   // if (points < 10) {
   //   Alert.alert(
   //     '포인트가 충분하지 않습니다. 기상 미션을 통해 더 많은 포인트를 모아보세요!',
@@ -113,7 +120,31 @@ export const pressStamp = async (
  * gift 정보를 받아오는 함수
  * @param accessToken header에 넣을 accessToken을 보낸다
  */
-export const getGiftInfo = async (accessToken: string) => {
+export const getGiftInfo = async (accessToken: string, setGiftList) => {
+  try {
+    const response = await axios.get(`${Config.API_URL}/api/gift/v1`, {
+      headers: {
+        Authorization: accessToken,
+      },
+    });
+
+    console.log('선물정보', response.data.response.content);
+    setGiftList(() => response.data.response.content);
+  } catch (error) {
+    console.error(error);
+
+    Alert.alert('선물 정보 불러오기에 실패했습니다. 다시 로그인해 주세요');
+  }
+};
+
+/**
+ * gift 정보를 받아오는 함수
+ * @param accessToken header에 넣을 accessToken을 보낸다
+ */
+export const getAppliedGiftInfo = async (
+  accessToken: string,
+  setGiftAppliedInfo,
+) => {
   try {
     const response = await axios.get(`${Config.API_URL}/api/gift/v1/apply`, {
       headers: {
@@ -121,7 +152,17 @@ export const getGiftInfo = async (accessToken: string) => {
       },
     });
 
-    console.log('선물정보', response.data.content);
+    const appliedInfo = response.data.response.content;
+    const appliedInfoIdArray = appliedInfo.map(info => info.id);
+    console.log(appliedInfoIdArray);
+
+    const giftAppliedInfo = appliedInfoIdArray.reduce(
+      (ac, v) => ({...ac, [v]: (ac[v] || 0) + 1}),
+      {},
+    );
+    console.log('가공된 어레이', giftAppliedInfo);
+
+    setGiftAppliedInfo(giftAppliedInfo);
   } catch (error) {
     console.error(error);
 
@@ -137,10 +178,19 @@ export const getGiftInfo = async (accessToken: string) => {
 export const applyGift = async (
   accessToken: string,
   giftId: number,
-  dispatch,
+  dispatch: Dispatch<any>,
   setStampNumbers: Dispatch<SetStateAction<number>>,
   handleOpen: () => void,
 ) => {
+  if (accessToken === '') {
+    displayWarningAlert(
+      dispatch,
+      '선물 응모를 위해서 로그인이 필요해요',
+      '로그인 후 이용해주세요',
+    );
+
+    return;
+  }
   try {
     const response = await axios.post(
       `${Config.API_URL}/api/gift/v1/apply`,
@@ -160,21 +210,33 @@ export const applyGift = async (
 
     if (error.response.data.message === 'Unauthorized') {
       // Alert.alert('선물 응모를 위해서 로그인이 필요합니다');
-      dispatch(
-        alertSlice.actions.setAlert({
-          isOpen: true,
-          titleMessage: '선물 응모를 위해서 로그인이 필요해요',
-        }),
+      displayWarningAlert(
+        dispatch,
+        '선물 응모를 위해서 로그인이 필요해요',
+        '로그인 후 이용해주세요',
       );
     }
 
     if (error.response.data.error.code === 'STAMP_001') {
-      dispatch(
-        alertSlice.actions.setAlert({
-          isOpen: true,
-          titleMessage: '스탬프가 부족합니다',
-        }),
+      displayWarningAlert(
+        dispatch,
+        '스탬프가 부족합니다',
+        '포인트를 모아 스탬프를 찍어주세요!',
       );
     }
   }
 };
+
+function displayWarningAlert(
+  dispatch: Dispatch<any>,
+  titleMessage = '',
+  middleMessage = '',
+) {
+  dispatch(
+    alertSlice.actions.setAlert({
+      isOpen: true,
+      titleMessage: titleMessage,
+      middleMessage: middleMessage,
+    }),
+  );
+}
