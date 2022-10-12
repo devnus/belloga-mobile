@@ -77,11 +77,13 @@ function UserInfo({route, navigation}) {
               showsVerticalScrollIndicator={false}>
               <View>
                 {/* User Information */}
+                <View style={styles.titlesWrapper}>
+                  <Text
+                    style={
+                      styles.titlesSubtitle
+                    }>{`${userName}님의 미션 알람 수행 내역`}</Text>
+                </View>
 
-                <Titles
-                  title=""
-                  description={`${userName}님의 미션 알람 수행 내역`}
-                />
                 <LabelingLogInfo />
               </View>
             </ScrollView>

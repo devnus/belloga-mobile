@@ -36,10 +36,11 @@ function LabelingLogInfo({date, isProcessed, labeledLog}) {
         </View>
         <Text style={styles.labelingSuccess}>처리완료</Text>
       </View>
-      <Text style={styles.briefResultText}> 대기 5 · 완료 8 · 반려 2</Text>
       <View style={styles.totalResultContainer}>
-        <Text style={styles.totalResultText}>총 15건 </Text>
-        <Text style={styles.totalResultText}> 3000P </Text>
+        <Text style={styles.totalResultText}>미션 알람을 </Text>
+        <Text style={styles.totalResultBoldText}>총 15번</Text>
+        <Text style={styles.totalResultText}> 실행했어요</Text>
+        {/* <Text style={styles.totalResultText}> 3000P </Text> */}
       </View>
       <TouchableOpacity
         style={styles.labelingInfoRow}
@@ -54,8 +55,10 @@ function LabelingLogInfo({date, isProcessed, labeledLog}) {
       </TouchableOpacity>
 
       <Collapsible collapsed={isCollapsed}>
-        <Text style={styles.dateInfo}>15:00 과자 OCR </Text>
-        <Text style={styles.briefResultText}> 대기 5 · 완료 8 · 반려 2</Text>
+        <View style={styles.labelingInfoRow}>
+          <Text style={styles.dateInfo}>15:00 미션 알람 </Text>
+          <Text style={styles.briefResultText}> 대기중</Text>
+        </View>
       </Collapsible>
     </View>
   );
@@ -97,7 +100,7 @@ const styles = StyleSheet.create({
   totalResultContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     marginVertical: 5,
     borderRadius: 10,
     backgroundColor: '#f2f6f7',
@@ -105,8 +108,14 @@ const styles = StyleSheet.create({
   totalResultText: {
     color: '#0f5078',
     fontSize: 16,
+    textAlign: 'center',
+    paddingVertical: 12,
+  },
+  totalResultBoldText: {
+    color: '#0f5078',
+    fontSize: 16,
+    marginHorizontal: 8,
     fontWeight: 'bold',
-    flex: 1,
     textAlign: 'center',
     paddingVertical: 12,
   },

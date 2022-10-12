@@ -16,6 +16,7 @@ type GiftInfo = {
   giftStatus: any;
   odds: number;
   imageUrl: string;
+  applyCount: number;
 };
 
 type ApplyGiftProps = {
@@ -48,7 +49,7 @@ function ApplyGift({giftInfo, setStampNumbers}: ApplyGiftProps) {
                 </Text>
                 <Text style={styles.titlesMainTitle}>{giftInfo.title}</Text>
                 <Text style={styles.joiningInfo}>
-                  {giftInfo.odds} 명이 참여 중
+                  총 {giftInfo.applyCount}명 응모 중
                 </Text>
               </View>
               <Image
