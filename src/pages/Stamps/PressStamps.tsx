@@ -27,9 +27,9 @@ function PressStamps({route, navigation}) {
   useAskExitSure();
 
   useEffect(() => {
+    getGiftInfo(accessToken, setGiftList);
     if (accessToken) {
       getUserStampInfo(accessToken, dispatch, setStampNumbers);
-      getGiftInfo(accessToken, setGiftList);
       getAppliedGiftInfo(accessToken, setGiftAppliedInfo);
     }
   }, [isLoggedIn, accessToken, dispatch]);
@@ -43,7 +43,7 @@ function PressStamps({route, navigation}) {
           {/* Header */}
           <SafeAreaView>
             <View style={styles.headerWrapper}>
-              <Text style={styles.titlesSubtitle}> </Text>
+              <Text> </Text>
             </View>
           </SafeAreaView>
           <View style={styles.bodyWrapper}>
@@ -68,7 +68,11 @@ function PressStamps({route, navigation}) {
 
             <View style={styles.giftInfoWrapper}>
               {giftList.map((gift: any) => (
-                <ApplyGift giftInfo={gift} setStampNumbers={setStampNumbers} />
+                <ApplyGift
+                  giftInfo={gift}
+                  setStampNumbers={setStampNumbers}
+                  key={gift.id}
+                />
               ))}
             </View>
           </View>
