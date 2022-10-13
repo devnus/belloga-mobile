@@ -6,6 +6,7 @@ import AppInner from './AppInner';
 import messaging from '@react-native-firebase/messaging';
 import {Alert} from 'react-native';
 import {WarningModal} from '@/components/Modals/WarningModal';
+import codePush from 'react-native-code-push';
 
 function App() {
   messaging().setBackgroundMessageHandler(async remoteMessage => {
@@ -29,4 +30,4 @@ function App() {
   );
 }
 
-export default App;
+export default codePush(App);

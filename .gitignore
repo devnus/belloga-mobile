@@ -2,6 +2,9 @@
 #
 .DS_Store
 
+#Android
+android/app/src/main/assets/appcenter-config.json
+
 # Xcode
 #
 build/
