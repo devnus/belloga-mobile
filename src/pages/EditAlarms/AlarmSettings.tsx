@@ -13,6 +13,8 @@ import Button from 'components/Button';
 import AlarmSettingDetail from 'components/AlarmSetting/AlarmSettingDetail';
 import SettingTitleText from 'components/AlarmSetting/SettingTitleText';
 import {calcAlarmRingTime} from 'modules/calcAlarmsTime';
+import {useAppDispatch} from '@/store';
+import alertSlice from '@/slices/alert';
 
 export type AlarmType = {
   active: boolean;
@@ -35,6 +37,7 @@ function AlarmSettings({route, navigation}) {
 
   const [alarm, setAlarm] = useState<Alarm>(null);
   const [mode, setMode] = useState<string>(null);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (route.params && route.params.alarm) {
@@ -130,7 +133,15 @@ function AlarmSettings({route, navigation}) {
               {/* {mode === 'EDIT' && <Button onPress={onDelete} title={'Delete'} />} */}
               <View style={styles.buttonBox}>
                 <Button
-                  onPress={() => update([['isMissionAlert', true]])}
+                  onPress={() => {
+                    dispatch(
+                      alertSlice.actions.setAlert({
+                        isOpen: true,
+                        titleMessage: '준비중인 기능입니다',
+                        middleMessage: '다음 업데이트를 기대해주세요!',
+                      }),
+                    );
+                  }}
                   title={'미션 알람'}
                   custom={true}
                   borderColor={alarm.isMissionAlert ? '#54a5bc' : '#c1c6c7'}

@@ -14,7 +14,7 @@ function CommonAlarmRing({route, navigation, receivedAlarm}) {
 
   const finishAlarm = async () => {
     await stopAlarm();
-    navigation.navigate('AlarmSuccess');
+    navigation.goBack();
   };
 
   if (!alarm) {
