@@ -88,8 +88,13 @@ function UserInfo({route, navigation}) {
                       styles.titlesSubtitle
                     }>{`${userName}님의 미션 알람 수행 내역`}</Text>
                 </View>
-
-                <LabelingLogInfo />
+                {labelingLog.map(log => (
+                  <LabelingLogInfo
+                    date={log.dateInfo}
+                    isProcessed={false}
+                    labeledLog={log.dailyInfo}
+                  />
+                ))}
               </View>
             </ScrollView>
           </View>
