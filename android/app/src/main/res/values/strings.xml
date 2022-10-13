@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BellogaMobile</string>
+    <string name="app_name">벨로가</string>
     <string name="notification_channel_id">alarm-app</string>
     <string name="notification_channel_name">Alarm</string>
     <string name="notification_channel_desc">Fires alarms.</string>
