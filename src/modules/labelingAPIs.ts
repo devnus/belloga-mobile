@@ -123,9 +123,14 @@ export const getMyLabelingLogInfo = async (
         rawLog => log.dateInfo === rawLog.sortDate,
       );
 
+      const processSuccessStatus = results.filter(
+        singleLog => singleLog.status === 'SUCCESS',
+      ).length;
+
       return {
         dateInfo: log.dateInfo,
         dailyInfo: results,
+        processStatus: processSuccessStatus === results.length,
       };
     });
 

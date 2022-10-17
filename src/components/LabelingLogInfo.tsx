@@ -34,7 +34,11 @@ function LabelingLogInfo({date, isProcessed, labeledLog}) {
         <View style={styles.labelingInfosDescribe}>
           <Text style={styles.dateInfo}>{date} </Text>
         </View>
-        {/* <Text style={styles.labelingSuccess}>처리완료</Text> */}
+        {isProcessed ? (
+          <Text style={styles.labelingSuccess}>확인완료</Text>
+        ) : (
+          <Text style={styles.labelingProcessing}>확인 중</Text>
+        )}
       </View>
       <View style={styles.totalResultContainer}>
         <Text style={styles.totalResultText}>미션 알람을 </Text>
@@ -144,7 +148,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 10,
     borderTopRightRadius: 10,
     backgroundColor: '#ededed',
-    color: '#bcbcbc',
+    color: '#a4aaac',
     paddingVertical: 2,
     paddingHorizontal: 10,
     fontSize: 12,

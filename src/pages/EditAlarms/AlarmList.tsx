@@ -8,12 +8,7 @@ import Alarm, {
   getAllAlarms,
   showAlarmToastMessage,
 } from 'modules/alarms';
-import {
-  calcNextAlarm,
-  calcNoRepeatingAlarmTime,
-  calcRemainTime,
-  sortAlarm,
-} from 'modules/calcAlarmsTime';
+import {calcNoRepeatingAlarmTime} from 'modules/calcAlarmsTime';
 import AlarmInfo from '@components/AlarmInfo';
 import useAskExitSure from '@/hooks/useAskExitSure';
 import DisplayAlarmTimeInfo from '@/components/DisplayAlarmTimeInfo';

@@ -39,7 +39,7 @@ function UserInfo({route, navigation}) {
 
   useEffect(() => {
     if (accessToken && isFocused) {
-      //isFocused를 넣어서 탭이 전환될때마다 useEffect를 실행되게 한다!
+      //isFocused를 넣어서 탭이 전환될때마다 useEffect를 실행되게 됨... 흠
       getUserPointInfo(accessToken, dispatch);
       getMyLabelingLogInfo(accessToken, setLabelingLog);
     }
@@ -91,7 +91,7 @@ function UserInfo({route, navigation}) {
                 {labelingLog.map(log => (
                   <LabelingLogInfo
                     date={log.dateInfo}
-                    isProcessed={false}
+                    isProcessed={log.processStatus}
                     labeledLog={log.dailyInfo}
                   />
                 ))}
