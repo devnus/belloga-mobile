@@ -38,7 +38,7 @@ function AlarmTabs() {
           },
         }}
       />
-      {/* <Tab.Screen
+      <Tab.Screen
         name="응모"
         component={PressStamps}
         options={{
@@ -77,7 +77,7 @@ function AlarmTabs() {
             </Text>
           ),
         }}
-      /> */}
+      />
     </Tab.Navigator>
   );
 }

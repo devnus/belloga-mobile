@@ -29,6 +29,7 @@ function AlarmList({navigation}: any) {
   const [scheduler, setScheduler] = useState(null);
 
   useAskExitSure();
+
   useEffect(() => {
     navigation.addListener('focus', async () => {
       const alarmLists = await getAllAlarms(); //저장된 모든 알람 목록을 불러온다.
