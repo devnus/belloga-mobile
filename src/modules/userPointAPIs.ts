@@ -82,6 +82,14 @@ export const pressStamp = async (
   handleOpen: () => void,
   dispatch: Dispatch<any>,
 ) => {
+  if (accessToken === '') {
+    displayWarningAlert(
+      dispatch,
+      '스탬프 찍기는 로그인이 필요해요',
+      '로그인 후 이용해주세요',
+    );
+    return;
+  }
   // if (points < 10) {
   //   Alert.alert(
   //     '포인트가 충분하지 않습니다. 기상 미션을 통해 더 많은 포인트를 모아보세요!',
