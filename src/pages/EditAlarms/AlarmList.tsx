@@ -66,7 +66,6 @@ function AlarmList({navigation}: any) {
           styles.animatedToolbarContainer,
           {
             height: animateHeaderHeight,
-            // backgroundColor: '#f2f6f7',
           },
         ]}>
         <View style={styles.earliestAlarmContainer}>
@@ -77,7 +76,6 @@ function AlarmList({navigation}: any) {
               <DisplayAlarmTimeInfo alarms={alarms} />
             )}
           </View>
-
           <View style={styles.addButtonContainer}>
             <AddButton
               title={'+'}
@@ -139,17 +137,20 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   animatedToolbarContainer: {
-    justifyContent: 'flex-end',
+    width: '100%',
     flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
   },
   addButtonContainer: {
-    height: 30,
+    zIndex: 1,
+    height: 50,
+    bottom: 0,
+    position: 'absolute',
     width: '100%',
     justifyContent: 'flex-end',
     flexDirection: 'row',
     backgroundColor: '#f2f6f7',
-    flex: 1,
-    backgroundColor: 'red',
   },
   container: {
     height: '100%',
@@ -165,11 +166,11 @@ const styles = StyleSheet.create({
   scrollView: {
     width: '100%',
     alignItems: 'center',
+    backgroundColor: '#f2f6f7',
   },
   nextAlarmTextContainer: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 60,
-    flex: 3,
   },
 });
