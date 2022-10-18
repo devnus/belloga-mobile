@@ -14,7 +14,7 @@ import useAskExitSure from '@/hooks/useAskExitSure';
 import DisplayAlarmTimeInfo from '@/components/DisplayAlarmTimeInfo';
 
 //움직이는 탭바를 위한 상수
-const Header_Maximum_Height = 200;
+const Header_Maximum_Height = 300;
 //Max Height of the Header
 const Header_Minimum_Height = 50;
 //Min Height of the Header
@@ -70,13 +70,14 @@ function AlarmList({navigation}: any) {
           },
         ]}>
         <View style={styles.earliestAlarmContainer}>
-          {alarms.length === 0 ? (
-            <Text> 알람이 없습니다 </Text>
-          ) : (
-            <View style={styles.nextAlarmTextContainer}>
+          <View style={styles.nextAlarmTextContainer}>
+            {alarms.length === 0 ? (
+              <Text> 알람이 없습니다 </Text>
+            ) : (
               <DisplayAlarmTimeInfo alarms={alarms} />
-            </View>
-          )}
+            )}
+          </View>
+
           <View style={styles.addButtonContainer}>
             <AddButton
               title={'+'}
@@ -132,20 +133,23 @@ const styles = StyleSheet.create({
   earliestAlarmContainer: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     flexDirection: 'column',
     width: '90%',
+    flex: 1,
   },
   animatedToolbarContainer: {
     justifyContent: 'flex-end',
     flexDirection: 'column',
   },
   addButtonContainer: {
-    height: 50,
+    height: 30,
     width: '100%',
     justifyContent: 'flex-end',
     flexDirection: 'row',
     backgroundColor: '#f2f6f7',
+    flex: 1,
+    backgroundColor: 'red',
   },
   container: {
     height: '100%',
@@ -164,5 +168,8 @@ const styles = StyleSheet.create({
   },
   nextAlarmTextContainer: {
     alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 60,
+    flex: 3,
   },
 });
