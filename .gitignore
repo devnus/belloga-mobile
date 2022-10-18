@@ -2,6 +2,11 @@
 #
 .DS_Store
 
+#Android
+android/app/src/main/assets/appcenter-config.json
+android/app/my-release-key.keystore
+android/gradle.properties
+
 # Xcode
 #
 build/

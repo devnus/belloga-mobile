@@ -61,7 +61,13 @@ function Stamp({stampNumbers, setStampNumbers}) {
               style={styles.pressStampBtn}
               onPress={() => {
                 stampNumbers < 8 &&
-                  pressStamp(accessToken, points, setStampNumbers, handleOpen);
+                  pressStamp(
+                    accessToken,
+                    points,
+                    setStampNumbers,
+                    handleOpen,
+                    dispatch,
+                  );
               }}>
               <LinearGradient
                 colors={['#b4eee7', '#b4e2ed', '#b4e1ee']}

@@ -32,13 +32,17 @@ function LabelingLogInfo({date, isProcessed, labeledLog}) {
     <View style={styles.labelingInfoWrapper}>
       <View style={styles.labelingInfoRow}>
         <View style={styles.labelingInfosDescribe}>
-          <Text style={styles.dateInfo}>6월 29일 </Text>
+          <Text style={styles.dateInfo}>{date} </Text>
         </View>
-        <Text style={styles.labelingSuccess}>처리완료</Text>
+        {isProcessed ? (
+          <Text style={styles.labelingSuccess}>확인완료</Text>
+        ) : (
+          <Text style={styles.labelingProcessing}>확인 중</Text>
+        )}
       </View>
       <View style={styles.totalResultContainer}>
         <Text style={styles.totalResultText}>미션 알람을 </Text>
-        <Text style={styles.totalResultBoldText}>총 15번</Text>
+        <Text style={styles.totalResultBoldText}>총 {labeledLog.length}번</Text>
         <Text style={styles.totalResultText}> 실행했어요</Text>
         {/* <Text style={styles.totalResultText}> 3000P </Text> */}
       </View>
@@ -55,10 +59,15 @@ function LabelingLogInfo({date, isProcessed, labeledLog}) {
       </TouchableOpacity>
 
       <Collapsible collapsed={isCollapsed}>
-        <View style={styles.labelingInfoRow}>
-          <Text style={styles.dateInfo}>15:00 미션 알람 </Text>
-          <Text style={styles.briefResultText}> 대기중</Text>
-        </View>
+        {labeledLog.map(log => (
+          <View style={styles.labelingInfoRow}>
+            <Text style={styles.dateInfo}>
+              {log.createdDate.getHours()}:{log.createdDate.getMinutes()} 미션
+              알람{' '}
+            </Text>
+            <Text style={styles.briefResultText}> {log.status}</Text>
+          </View>
+        ))}
       </Collapsible>
     </View>
   );
@@ -139,7 +148,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 10,
     borderTopRightRadius: 10,
     backgroundColor: '#ededed',
-    color: '#bcbcbc',
+    color: '#a4aaac',
     paddingVertical: 2,
     paddingHorizontal: 10,
     fontSize: 12,

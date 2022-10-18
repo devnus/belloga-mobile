@@ -8,7 +8,7 @@ import AlarmRingHandle from './src/pages/RingAlarms/AlarmRingHandle';
 import AlarmList from '@/pages/EditAlarms/AlarmList';
 import AlarmSettings from '@/pages/EditAlarms/AlarmSettings';
 import PressStamps from '@/pages/Stamps/PressStamps';
-import {WarningModal} from '@/components/Modals/WarningModal';
+import {Text} from 'react-native';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -21,7 +21,21 @@ function AlarmTabs() {
         component={AlarmList}
         options={{
           headerShown: false,
-          tabBarIcon: () => <Icon name="bell" size={20} color="#000" />,
+          tabBarLabel: ({focused}) => (
+            <Text
+              style={{color: focused ? '#68A3B9' : '#D9E5E4', fontSize: 10}}>
+              알람
+            </Text>
+          ),
+          tabBarIcon: ({focused}) => {
+            return (
+              <Icon
+                name="bell"
+                size={20}
+                color={focused ? '#68A3B9' : '#D9E5E4'}
+              />
+            );
+          },
         }}
       />
       <Tab.Screen
@@ -29,7 +43,19 @@ function AlarmTabs() {
         component={PressStamps}
         options={{
           headerShown: false,
-          tabBarIcon: () => <Icon name="user" size={20} color="#000" />,
+          tabBarLabel: ({focused}) => (
+            <Text
+              style={{color: focused ? '#68A3B9' : '#D9E5E4', fontSize: 10}}>
+              응모
+            </Text>
+          ),
+          tabBarIcon: ({focused}) => (
+            <Icon
+              name="gift"
+              size={20}
+              color={focused ? '#68A3B9' : '#D9E5E4'}
+            />
+          ),
         }}
       />
       <Tab.Screen
@@ -37,7 +63,19 @@ function AlarmTabs() {
         component={Setting}
         options={{
           headerShown: false,
-          tabBarIcon: () => <Icon name="user" size={20} color="#000" />,
+          tabBarIcon: ({focused}) => (
+            <Icon
+              name="th-large"
+              size={20}
+              color={focused ? '#68A3B9' : '#D9E5E4'}
+            />
+          ),
+          tabBarLabel: ({focused}) => (
+            <Text
+              style={{color: focused ? '#68A3B9' : '#D9E5E4', fontSize: 10}}>
+              기록
+            </Text>
+          ),
         }}
       />
     </Tab.Navigator>

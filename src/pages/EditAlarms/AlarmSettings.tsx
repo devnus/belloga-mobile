@@ -13,6 +13,7 @@ import Button from 'components/Button';
 import AlarmSettingDetail from 'components/AlarmSetting/AlarmSettingDetail';
 import SettingTitleText from 'components/AlarmSetting/SettingTitleText';
 import {calcAlarmRingTime} from 'modules/calcAlarmsTime';
+import {useAppDispatch} from '@/store';
 
 export type AlarmType = {
   active: boolean;
@@ -35,6 +36,7 @@ function AlarmSettings({route, navigation}) {
 
   const [alarm, setAlarm] = useState<Alarm>(null);
   const [mode, setMode] = useState<string>(null);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (route.params && route.params.alarm) {

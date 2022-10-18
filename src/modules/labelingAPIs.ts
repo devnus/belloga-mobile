@@ -78,7 +78,17 @@ export const sendLabelingResult = async (
   }
 };
 
-export const getMyLabelingLogInfo = async (accessToken: string) => {
+type LabelingLogType = {
+  createdDate: string; //2022-10-12T07:58:53.698871
+  labelingUUID: string; //5865edc6-a306-427b-a411-4ddcf5b39db8/867
+  labelingVerificationStatus: string; //WAITING, SUCCESS, FAIL
+  textLabel: string; //test 10/12 17:02
+};
+
+export const getMyLabelingLogInfo = async (
+  accessToken: string,
+  setLabelingLog: Dispatch<SetStateAction<[]>>,
+) => {
   try {
     const response = await axios.get(
       `${Config.API_URL}/api/labeled-data/v1/ocr-data`,
@@ -89,7 +99,42 @@ export const getMyLabelingLogInfo = async (accessToken: string) => {
       },
     );
 
-    console.log('나의 라벨링 데이터', response.data.response.content);
+    const myLog: [] = response.data.response.content;
+    const labeled = myLog.map((log: LabelingLogType) => {
+      const logDate = new Date(log.createdDate);
+
+      return {
+        sortDate: `${logDate.getMonth() + 1}/${logDate.getDate()}`,
+        createdDate: logDate,
+        status: log.labelingVerificationStatus,
+      };
+    });
+
+    const dateInfoIdArray = labeled
+      .map(item => item.sortDate)
+      .filter((value, index, self) => self.indexOf(value) === index);
+
+    const dateArray = dateInfoIdArray.map(date => ({
+      dateInfo: date,
+    }));
+
+    const labelingLog = dateArray.map(log => {
+      const results = labeled.filter(
+        rawLog => log.dateInfo === rawLog.sortDate,
+      );
+
+      const processSuccessStatus = results.filter(
+        singleLog => singleLog.status === 'SUCCESS',
+      ).length;
+
+      return {
+        dateInfo: log.dateInfo,
+        dailyInfo: results,
+        processStatus: processSuccessStatus === results.length,
+      };
+    });
+
+    setLabelingLog(labelingLog);
   } catch (error) {
     console.log(error);
   } finally {

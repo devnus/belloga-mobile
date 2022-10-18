@@ -80,7 +80,16 @@ export const pressStamp = async (
   points: number,
   setStampNumbers: Dispatch<SetStateAction<number>>,
   handleOpen: () => void,
+  dispatch: Dispatch<any>,
 ) => {
+  if (accessToken === '') {
+    displayWarningAlert(
+      dispatch,
+      '스탬프 찍기는 로그인이 필요해요',
+      '로그인 후 이용해주세요',
+    );
+    return;
+  }
   // if (points < 10) {
   //   Alert.alert(
   //     '포인트가 충분하지 않습니다. 기상 미션을 통해 더 많은 포인트를 모아보세요!',
@@ -111,8 +120,12 @@ export const pressStamp = async (
     //   }),
     // );
 
-    //포인트 적은 경우를 분기
-    Alert.alert('스탬프 찍기가 처리되지 않았어요. 버튼을 다시 눌러 주세요');
+    if (error.response.data.message === 'Unauthorized') {
+      Alert.alert('스탬프 찍기를 위해서는 로그인이 필요합니다');
+    } else {
+      //포인트 적은 경우를 분기
+      Alert.alert('스탬프 찍기가 처리되지 않았어요. 버튼을 다시 눌러 주세요');
+    }
   }
 };
 
@@ -153,7 +166,7 @@ export const getAppliedGiftInfo = async (
     });
 
     const appliedInfo = response.data.response.content;
-    const appliedInfoIdArray = appliedInfo.map(info => info.id);
+    const appliedInfoIdArray = appliedInfo.map(info => info.giftId);
     console.log(appliedInfoIdArray);
 
     const giftAppliedInfo = appliedInfoIdArray.reduce(
@@ -185,7 +198,7 @@ export const applyGift = async (
   if (accessToken === '') {
     displayWarningAlert(
       dispatch,
-      '선물 응모를 위해서 로그인이 필요해요',
+      '선물을 응모하려면 로그인이 필요해요',
       '로그인 후 이용해주세요',
     );
 

@@ -123,14 +123,21 @@ public class Manager {
         String Hours = Integer.toString(remainHours % 24);
         String Days = Integer.toString(remainHours / 24);
 
+        String DaysKor = (Days + "일 ");
+        String HoursKor = (remainHours % 24 == 0 ) ? "" : (Hours + "시간 ");
+        String MinutesKor = (remainMinutes == 0) ? "" : (Minutes + "분");
+
         if (remainHours >= 24){
-            return (Days + "일 " + Hours+"시간 "+ Minutes+"분");
+            return ( DaysKor + HoursKor + MinutesKor);
         } else {
             if (remainHours == 0){
-                return (Minutes + "분");
+                if (remainMinutes == 0){
+                    return "알람이 곧 울립니다";
+                }
+                return MinutesKor;
             } 
 
-            return (Hours+"시간 "+ Minutes+"분");
+            return (HoursKor + MinutesKor);
         }
       }
 

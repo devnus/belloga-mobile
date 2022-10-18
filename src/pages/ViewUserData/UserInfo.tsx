@@ -1,6 +1,6 @@
 import userSlice from '@/slices/user';
 import {NaverLogin} from '@react-native-seoul/naver-login';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -22,7 +22,7 @@ import LabelingLogInfo from '@/components/LabelingLogInfo';
 import {getUserPointInfo} from '@/modules/userPointAPIs';
 import {useGetAccessToken, useIsLoggedIn} from '@/hooks/useAuthInfo';
 import {getMyLabelingLogInfo} from '@/modules/labelingAPIs';
-import Titles from '@/components/Titles';
+import {useIsFocused} from '@react-navigation/native';
 
 Feather.loadFont();
 MaterialCommunityIcons.loadFont();
@@ -33,12 +33,17 @@ function UserInfo({route, navigation}) {
   const accessToken = useGetAccessToken();
   const dispatch = useAppDispatch();
 
+  const [labelingLog, setLabelingLog] = useState<any>([]);
+
+  const isFocused = useIsFocused();
+
   useEffect(() => {
-    if (accessToken) {
+    if (accessToken && isFocused) {
+      //isFocused를 넣어서 탭이 전환될때마다 useEffect를 실행되게 됨... 흠
       getUserPointInfo(accessToken, dispatch);
-      getMyLabelingLogInfo(accessToken);
+      getMyLabelingLogInfo(accessToken, setLabelingLog);
     }
-  }, [accessToken, dispatch]);
+  }, [isFocused, accessToken, dispatch]);
 
   return (
     <View style={styles.container}>
@@ -83,8 +88,13 @@ function UserInfo({route, navigation}) {
                       styles.titlesSubtitle
                     }>{`${userName}님의 미션 알람 수행 내역`}</Text>
                 </View>
-
-                <LabelingLogInfo />
+                {labelingLog.map(log => (
+                  <LabelingLogInfo
+                    date={log.dateInfo}
+                    isProcessed={log.processStatus}
+                    labeledLog={log.dailyInfo}
+                  />
+                ))}
               </View>
             </ScrollView>
           </View>

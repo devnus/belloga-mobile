@@ -50,7 +50,7 @@ function AlarmInfo({
           {!repeating && (
             <Text>
               {calcRemainTime(alarm).getMonth() + 1}/
-              {calcRemainTime(alarm).getDate()} ({getKoreanDayName(days[0])})
+              {calcRemainTime(alarm).getDate()} ({getKoreanDayName(days[0])}){' '}
             </Text>
           )}
           <SwitcherInput isActive={isActive} onToggle={onChange} />
