@@ -22,8 +22,15 @@ type GiftInfo = {
 type ApplyGiftProps = {
   giftInfo: GiftInfo;
   setStampNumbers: any;
+  appliedNumbers: number;
+  isLoggedIn: boolean;
 };
-function ApplyGift({giftInfo, setStampNumbers}: ApplyGiftProps) {
+function ApplyGift({
+  giftInfo,
+  setStampNumbers,
+  appliedNumbers,
+  isLoggedIn,
+}: ApplyGiftProps) {
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const dispatch = useAppDispatch();
 
@@ -48,9 +55,14 @@ function ApplyGift({giftInfo, setStampNumbers}: ApplyGiftProps) {
                   {giftInfo.expectedDrawDate} 마감
                 </Text>
                 <Text style={styles.titlesMainTitle}>{giftInfo.title}</Text>
-                <Text style={styles.joiningInfo}>
-                  총 {giftInfo.applyCount}명 응모 중
-                </Text>
+                <View style={styles.applyInfo}>
+                  <Text style={styles.joiningInfo}>
+                    총 {giftInfo.applyCount}명 응모 중
+                  </Text>
+                  {isLoggedIn && appliedNumbers && (
+                    <Text> {appliedNumbers}번 응모</Text>
+                  )}
+                </View>
               </View>
               <Image
                 // source={{
@@ -112,6 +124,9 @@ const styles = StyleSheet.create({
     borderRadius: 25,
 
     flexDirection: 'column',
+  },
+  applyInfo: {
+    flexDirection: 'row',
   },
 });
 
