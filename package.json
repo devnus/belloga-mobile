@@ -42,6 +42,7 @@
     "react-native-collapsible": "^1.6.0",
     "react-native-config": "^1.4.6",
     "react-native-date-picker": "^4.2.5",
+    "react-native-encrypted-storage": "^4.0.2",
     "react-native-flipper": "^0.153.0",
     "react-native-get-random-values": "^1.8.0",
     "react-native-gradle-plugin": "^0.0.7",

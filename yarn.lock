@@ -8537,6 +8537,11 @@
   dependencies:
     "prop-types" "^15.8.1"
 
+"react-native-encrypted-storage@^4.0.2":
+  "integrity" "sha512-vneDkHGDuTvLQjUBztqb2YI8QoH1zxdJonPGTS+g57lfJZff9fAjoLSSb6NgMBebpXFcK3I3sEresGyL+3AArw=="
+  "resolved" "https://registry.npmjs.org/react-native-encrypted-storage/-/react-native-encrypted-storage-4.0.2.tgz"
+  "version" "4.0.2"
+
 "react-native-flipper@^0.153.0", "react-native-flipper@^0.37.0", "react-native-flipper@>=0.100.0":
   "integrity" "sha512-s6l5DafPLCrhyGqb+awZ2rFoR8lE+of/ZANr+H57pm0KMn3usGCA3QYbKTK8iP1T/hCZOZwhwX7vsR2dXJzqHQ=="
   "resolved" "https://registry.npmjs.org/react-native-flipper/-/react-native-flipper-0.153.0.tgz"
