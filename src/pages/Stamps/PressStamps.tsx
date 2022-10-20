@@ -12,7 +12,6 @@ import {
   getUserStampInfo,
 } from '@modules/userPointAPIs';
 import ApplyGift from '@/components/Stamp/ApplyGift';
-import useAskExitSure from '@/hooks/useAskExitSure';
 import Titles from '@/components/Titles';
 MaterialCommunityIcons.loadFont();
 
@@ -23,8 +22,6 @@ function PressStamps({route, navigation}) {
   const [giftList, setGiftList] = useState<any>([]);
   const [giftAppliedInfo, setGiftAppliedInfo] = useState<any>([]);
   const dispatch = useAppDispatch();
-
-  useAskExitSure();
 
   useEffect(() => {
     getGiftInfo(accessToken, setGiftList);
@@ -67,13 +64,18 @@ function PressStamps({route, navigation}) {
             />
 
             <View style={styles.giftInfoWrapper}>
-              {giftList.map((gift: any) => (
-                <ApplyGift
-                  giftInfo={gift}
-                  setStampNumbers={setStampNumbers}
-                  key={gift.id}
-                />
-              ))}
+              {giftList.map((gift: any) => {
+                const giftId = gift.id;
+                return (
+                  <ApplyGift
+                    giftInfo={gift}
+                    setStampNumbers={setStampNumbers}
+                    key={giftId}
+                    appliedNumbers={giftAppliedInfo[giftId]}
+                    isLoggedIn={isLoggedIn}
+                  />
+                );
+              })}
             </View>
           </View>
         </ScrollView>

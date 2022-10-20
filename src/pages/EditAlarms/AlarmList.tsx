@@ -10,11 +10,10 @@ import Alarm, {
 } from 'modules/alarms';
 import {calcNoRepeatingAlarmTime} from 'modules/calcAlarmsTime';
 import AlarmInfo from '@components/AlarmInfo';
-import useAskExitSure from '@/hooks/useAskExitSure';
 import DisplayAlarmTimeInfo from '@/components/DisplayAlarmTimeInfo';
 
 //움직이는 탭바를 위한 상수
-const Header_Maximum_Height = 200;
+const Header_Maximum_Height = 300;
 //Max Height of the Header
 const Header_Minimum_Height = 50;
 //Min Height of the Header
@@ -22,8 +21,6 @@ const Header_Minimum_Height = 50;
 function AlarmList({navigation}: any) {
   const [alarms, setAlarms] = useState<Array<Alarm>>([]);
   const [scheduler, setScheduler] = useState(null);
-
-  useAskExitSure();
 
   useEffect(() => {
     navigation.addListener('focus', async () => {
@@ -66,17 +63,16 @@ function AlarmList({navigation}: any) {
           styles.animatedToolbarContainer,
           {
             height: animateHeaderHeight,
-            // backgroundColor: '#f2f6f7',
           },
         ]}>
         <View style={styles.earliestAlarmContainer}>
-          {alarms.length === 0 ? (
-            <Text> 알람이 없습니다 </Text>
-          ) : (
-            <View style={styles.nextAlarmTextContainer}>
+          <View style={styles.nextAlarmTextContainer}>
+            {alarms.length === 0 ? (
+              <Text> 알람이 없습니다 </Text>
+            ) : (
               <DisplayAlarmTimeInfo alarms={alarms} />
-            </View>
-          )}
+            )}
+          </View>
           <View style={styles.addButtonContainer}>
             <AddButton
               title={'+'}
@@ -132,16 +128,22 @@ const styles = StyleSheet.create({
   earliestAlarmContainer: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     flexDirection: 'column',
     width: '90%',
+    flex: 1,
   },
   animatedToolbarContainer: {
-    justifyContent: 'flex-end',
+    width: '100%',
     flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
   },
   addButtonContainer: {
+    zIndex: 1,
     height: 50,
+    bottom: 0,
+    position: 'absolute',
     width: '100%',
     justifyContent: 'flex-end',
     flexDirection: 'row',
@@ -161,8 +163,11 @@ const styles = StyleSheet.create({
   scrollView: {
     width: '100%',
     alignItems: 'center',
+    backgroundColor: '#f2f6f7',
   },
   nextAlarmTextContainer: {
+    flex: 1,
     alignItems: 'center',
+    justifyContent: 'center',
   },
 });
