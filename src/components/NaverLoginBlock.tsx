@@ -9,13 +9,13 @@ import {
   Text,
   Image,
 } from 'react-native';
-import {NaverLogin, TokenResponse} from '@react-native-seoul/naver-login';
 import Config from 'react-native-config';
 import {useAppDispatch} from '@/store';
 import userSlice from '@/slices/user';
 import axios from 'axios';
 import {getNaverUserProfile} from '@/modules/naverLoginApis';
 import EncryptedStorage from 'react-native-encrypted-storage';
+import {NaverLogin, TokenResponse} from '@react-native-seoul/naver-login';
 
 const iosKeys = {
   kConsumerKey: 'VC5CPfjRigclJV_TFACU',

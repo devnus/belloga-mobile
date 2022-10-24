@@ -18,7 +18,9 @@ export type boundingBoxTypes = {
 
 export const getAlarmInfo = async (
   accessToken: string,
-  setBoundingBoxList: Dispatch<SetStateAction<Array<boundingBoxTypes>>>,
+  setBoundingBoxList: Dispatch<
+    React.SetStateAction<boundingBoxTypes | undefined>
+  >,
   setImageUrl: Dispatch<SetStateAction<string>>,
   setLoading: Dispatch<SetStateAction<boolean>>,
 ) => {
@@ -38,7 +40,7 @@ export const getAlarmInfo = async (
       x: response.data.response.x,
       y: response.data.response.y,
     };
-    setBoundingBoxList(() => [boundingBoxData]);
+    setBoundingBoxList(() => boundingBoxData);
     setImageUrl(() => response.data.response.imageUrl);
   } catch (error) {
     console.log(error);
@@ -54,7 +56,7 @@ export const getAlarmInfo = async (
  * @param accessToken accessToken을 전송
  */
 export const sendLabelingResult = async (
-  boundingBoxId: number,
+  boundingBoxId: number | undefined,
   labelText: string,
   accessToken: string,
 ) => {

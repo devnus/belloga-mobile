@@ -12,7 +12,6 @@ import {Alert, Text} from 'react-native';
 import {useAppDispatch} from '@/store';
 import axios, {AxiosError} from 'axios';
 import EncryptedStorage from 'react-native-encrypted-storage';
-import userSlice from '@/slices/user';
 import Config from 'react-native-config';
 
 const Stack = createNativeStackNavigator();
@@ -133,6 +132,11 @@ function AppInner() {
 
         console.log('data,', tokenRes.data);
 
+        await EncryptedStorage.setItem(
+          'refreshToken',
+          tokenRes.data.response.refreshToken,
+        );
+
         // const userInfoRes = await axios.get(
         //   `${Config.API_URL}/api/user/v1/labeler`,
         //   {
@@ -143,7 +147,6 @@ function AppInner() {
         // );
         // dispatch(
         //   userSlice.actions.setUser({
-        //     name: response.data.data.name,
         //     email: response.data.data.email,
         //     accessToken: response.data.data.accessToken,
         //   }),

@@ -24,33 +24,26 @@ function LabelingAlarmRing({route, navigation, receivedAlarm}) {
   const [imageUrl, setImageUrl] = useState<string>('');
   const [answer, setAnswer] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
-  const [boundingBoxList, setBoundingBoxList] = useState<boundingBoxTypes>([]);
-  const [boundingBoxIndex, setBoundingBoxIndex] = useState<number>(0);
+  const [boundingBoxInfo, setBoundingBoxInfo] = useState<boundingBoxTypes>();
   const accessToken = useGetAccessToken();
 
   useEffect(() => {
     setAlarm(receivedAlarm);
-    getAlarmInfo(accessToken, setBoundingBoxList, setImageUrl, setLoading);
+    getAlarmInfo(accessToken, setBoundingBoxInfo, setImageUrl, setLoading);
+
+    return;
   }, []);
 
   const onPressSendButton = useCallback(() => {
-    const currentIndex = boundingBoxIndex;
-    const maxIndex = boundingBoxList.length - 1;
-    const boundingBoxId = boundingBoxList[boundingBoxIndex].boundingBoxId;
+    const boundingBoxId = boundingBoxInfo?.boundingBoxId;
 
     sendLabelingResult(boundingBoxId, answer, accessToken);
-
-    if (currentIndex < maxIndex) {
-      setBoundingBoxIndex(() => boundingBoxIndex + 1);
-      setAnswer(() => '');
-    } else {
-      finishAlarm();
-    }
-  }, [boundingBoxList, boundingBoxIndex, answer]);
+    finishAlarm();
+  }, [boundingBoxInfo, answer, accessToken]);
 
   const loadBoundingBox = useMemo(
-    () => showBoundingBox(boundingBoxList[boundingBoxIndex], imageUrl),
-    [boundingBoxList, boundingBoxIndex, imageUrl],
+    () => showBoundingBox(boundingBoxInfo, imageUrl),
+    [boundingBoxInfo, imageUrl],
   );
 
   const finishAlarm = async () => {
@@ -80,7 +73,7 @@ function LabelingAlarmRing({route, navigation, receivedAlarm}) {
             onPress={() =>
               getAlarmInfo(
                 accessToken,
-                setBoundingBoxList,
+                setBoundingBoxInfo,
                 setImageUrl,
                 setLoading,
               )
