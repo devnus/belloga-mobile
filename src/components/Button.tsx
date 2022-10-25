@@ -2,8 +2,8 @@ import {StyleSheet, Text, TouchableHighlight} from 'react-native';
 import React from 'react';
 
 export default function ({
-  onPress,
-  title,
+  onPress = () => {},
+  title = '',
   fill = false,
   custom = false,
   textColor = 'white',

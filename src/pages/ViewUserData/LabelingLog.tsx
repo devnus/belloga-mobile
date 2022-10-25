@@ -8,7 +8,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import colors from '../../assets/colors';
+import colors from '../../assets/constants/colors';
 import LabelingLogInfo from '../../components/LabelingLogInfo';
 
 function LabelingLog() {

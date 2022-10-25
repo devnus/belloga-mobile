@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
-import colors from '@assets/colors';
+import colors from '@/assets/constants/colors';
 import {displayStamps} from '@/modules/calcCircularView';
 import UserGiftApplyCount from './UserGiftApplyCount';
 import {CustomModal} from '@/components/Modals/CustomModal';

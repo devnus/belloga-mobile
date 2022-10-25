@@ -14,7 +14,7 @@ import {
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useSelector} from 'react-redux';
-import colors from '../../assets/colors';
+import colors from '../../assets/constants/colors';
 import UserData from '@/components/UserData';
 import {useAppDispatch} from '@/store';
 import {RootState} from '@/store/reducer';

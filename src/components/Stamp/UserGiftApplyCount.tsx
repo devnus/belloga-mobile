@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import colors from '@assets/colors';
+import colors from '@/assets/constants/colors';
 
 function UserGiftApplyCount({stampNumbers}) {
   return (

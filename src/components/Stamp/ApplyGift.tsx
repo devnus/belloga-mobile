@@ -1,6 +1,6 @@
 import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import colors from '@assets/colors';
+import colors from '@/assets/constants/colors';
 import {applyGift} from '@/modules/userPointAPIs';
 import {RootState} from '@/store/reducer';
 import {useSelector} from 'react-redux';

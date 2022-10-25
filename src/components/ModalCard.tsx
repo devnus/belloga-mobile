@@ -1,6 +1,6 @@
 import React from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
-import colors from '@assets/colors';
+import colors from '@/assets/constants/colors';
 
 function ModalCard() {
   return (
