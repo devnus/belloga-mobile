@@ -13,6 +13,7 @@ import {useAppDispatch} from '@/store';
 import axios, {AxiosError} from 'axios';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import Config from 'react-native-config';
+import userSlice from '@/slices/user';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -137,20 +138,32 @@ function AppInner() {
           tokenRes.data.response.refreshToken,
         );
 
-        // const userInfoRes = await axios.get(
-        //   `${Config.API_URL}/api/user/v1/labeler`,
-        //   {
-        //     headers: {
-        //       authorization: `${token}`,
-        //     },
-        //   },
-        // );
-        // dispatch(
-        //   userSlice.actions.setUser({
-        //     email: response.data.data.email,
-        //     accessToken: response.data.data.accessToken,
-        //   }),
-        // );
+        const {data} = await axios.get(
+          `${Config.API_URL}/api/user/v1/labeler`,
+          {
+            headers: {
+              authorization: `${token}`,
+            },
+          },
+        );
+
+        console.log('data', data);
+
+        dispatch(
+          userSlice.actions.setUser({
+            name: data.response.name,
+            email: data.response.email,
+            birthYear: data.response.birthYear,
+            phoneNumber: data.response.mobile,
+          }),
+        );
+
+        dispatch(
+          userSlice.actions.setToken({
+            accessToken: tokenRes.data.response.accessToken,
+            refreshToken: tokenRes.data.response.refreshToken,
+          }),
+        );
       } catch (error) {
         console.error(error);
         Alert.alert('알림', '다시 로그인 해주세요.');
