@@ -6,13 +6,10 @@ import Stamp from '@/components/Stamp/Stamp';
 import {useAppDispatch} from '@/store';
 import {RootState} from '@/store/reducer';
 import CurrentPointData from '@/components/Stamp/CurrentPointData';
-import {
-  getAppliedGiftInfo,
-  getGiftInfo,
-  getUserStampInfo,
-} from '@modules/userPointAPIs';
+import {getAppliedGiftInfo, getGiftInfo} from '@modules/userPointAPIs';
 import ApplyGift from '@/components/Stamp/ApplyGift';
 import Titles from '@/components/Titles';
+import {calcMyGiftInfo} from '@/modules/calcGiftInfo';
 MaterialCommunityIcons.loadFont();
 
 function PressStamps({route, navigation}) {
@@ -26,10 +23,11 @@ function PressStamps({route, navigation}) {
   useEffect(() => {
     getGiftInfo(accessToken, setGiftList);
     if (accessToken) {
-      getUserStampInfo(accessToken, dispatch, setStampNumbers);
       getAppliedGiftInfo(accessToken, setGiftAppliedInfo);
     }
   }, [isLoggedIn, accessToken, dispatch]);
+
+  const {applyCount, myGiftAppliedInfo} = calcMyGiftInfo(giftAppliedInfo);
 
   return (
     <View style={styles.container}>
@@ -54,6 +52,7 @@ function PressStamps({route, navigation}) {
               <Stamp
                 setStampNumbers={setStampNumbers}
                 stampNumbers={stampNumbers}
+                giftNumbers={applyCount}
                 key={'stampView'}
               />
             </View>
@@ -72,7 +71,7 @@ function PressStamps({route, navigation}) {
                     giftInfo={gift}
                     setStampNumbers={setStampNumbers}
                     key={giftId}
-                    appliedNumbers={giftAppliedInfo[giftId]} //array가 아니라 object지만 .을 쓰면 에러가 나서 이 방법으로 대체
+                    appliedNumbers={myGiftAppliedInfo[giftId]} //array가 아니라 object지만 .을 쓰면 에러가 나서 이 방법으로 대체
                     isLoggedIn={isLoggedIn}
                   />
                 );

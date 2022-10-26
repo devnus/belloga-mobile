@@ -10,11 +10,10 @@ export const useAxiosInterceptor = (dispatch: any) => {
       return response;
     },
     async error => {
-      console.log('인터셉터 적용됨');
       const {config, response} = error;
       if (
         response.status === 403 &&
-        response.data.error.message ===
+        response.data.Message ===
           'User is not authorized to access this resource with an explicit deny'
       ) {
         console.log(config);
