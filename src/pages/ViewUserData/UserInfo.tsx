@@ -125,11 +125,6 @@ function UserInfo({route, navigation}) {
                 style={styles.coffeeImage}
               />
             </View>
-
-            {/* <UserAlarmLogInfo />
-            <UserAlarmLogInfo />
-            <UserAlarmLogInfo />
-            <UserAlarmLogInfo /> */}
           </View>
         )}
       </ScrollView>
