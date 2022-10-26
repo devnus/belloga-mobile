@@ -14,6 +14,7 @@ import axios, {AxiosError} from 'axios';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import Config from 'react-native-config';
 import userSlice from '@/slices/user';
+import {useAxiosInterceptor} from '@/hooks/useAxiosInterceptor';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -116,6 +117,8 @@ function AlarmAppStacks() {
 function AppInner() {
   const dispatch = useAppDispatch();
 
+  useAxiosInterceptor(dispatch);
+
   // 앱 실행 시 토큰 있으면 로그인하는 코드
   useEffect(() => {
     const getTokenAndRefresh = async () => {
@@ -173,47 +176,6 @@ function AppInner() {
       }
     };
     getTokenAndRefresh();
-  }, [dispatch]);
-
-  //토큰 재발급 처리하는 코드
-  useEffect(() => {
-    axios.interceptors.response.use(
-      response => {
-        return response;
-      },
-      async error => {
-        console.log('인터셉터 적용됨');
-        const {
-          config,
-          response: {status},
-        } = error;
-        if (status === 403) {
-          const originalRequest = config;
-          const refreshToken = await EncryptedStorage.getItem('refreshToken');
-          // token refresh 요청
-          const {data} = await axios.post(
-            `${Config.API_URL}/api/account/v1/auth/reissue`, // token refresh api
-            {
-              refreshToken: refreshToken,
-            },
-          );
-          // 새로운 토큰 저장
-
-          dispatch(
-            userSlice.actions.setToken({
-              accessToken: data.response.accessToken,
-              refreshToken: data.response.refreshToken,
-            }),
-          );
-
-          originalRequest.headers.authorization = `${data.response.accessToken}`;
-
-          // 419로 요청 실패했던 요청 새로운 토큰으로 재요청
-          return axios(originalRequest);
-        }
-        return Promise.reject(error);
-      },
-    );
   }, [dispatch]);
 
   return <AlarmAppStacks />;

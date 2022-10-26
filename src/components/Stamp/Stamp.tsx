@@ -20,7 +20,7 @@ import {useSelector} from 'react-redux';
 import {RootState} from '@/store/reducer';
 import {useAppDispatch} from '@/store';
 
-function Stamp({stampNumbers, setStampNumbers}) {
+function Stamp({stampNumbers, setStampNumbers}: any) {
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const points = useSelector((state: RootState) => state.user.points);
   const dispatch = useAppDispatch();
@@ -45,7 +45,7 @@ function Stamp({stampNumbers, setStampNumbers}) {
     if (accessToken) {
       getUserStampInfo(accessToken, dispatch, setStampNumbers);
     }
-  }, [stampNumbers]);
+  }, [stampNumbers, accessToken, dispatch, setStampNumbers]);
 
   return (
     <SafeAreaView style={styles.popularWrapper}>

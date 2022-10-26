@@ -87,9 +87,26 @@ type LabelingLogType = {
   textLabel: string; //test 10/12 17:02
 };
 
+type MissionStatusType = {
+  sortDate: string;
+  createdDate: Date;
+  status: string;
+};
+
+export type DailyLogType = {
+  dateInfo: string;
+  dailyInfo: MissionStatusType[];
+  processStatus: boolean;
+};
+
+/**
+ *
+ * @param accessToken 액세스토큰을 받아옴
+ * @param setLabelingLog 라벨링로그를 설정하는 함수
+ */
 export const getMyLabelingLogInfo = async (
   accessToken: string,
-  setLabelingLog: Dispatch<SetStateAction<[]>>,
+  setLabelingLog: Dispatch<React.SetStateAction<DailyLogType[]>>,
 ) => {
   try {
     const response = await axios.get(
@@ -120,7 +137,7 @@ export const getMyLabelingLogInfo = async (
       dateInfo: date,
     }));
 
-    const labelingLog = dateArray.map(log => {
+    const labelingLog: DailyLogType[] = dateArray.map(log => {
       const results = labeled.filter(
         rawLog => log.dateInfo === rawLog.sortDate,
       );

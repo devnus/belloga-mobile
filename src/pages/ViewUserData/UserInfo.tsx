@@ -21,7 +21,7 @@ import {RootState} from '@/store/reducer';
 import LabelingLogInfo from '@/components/LabelingLogInfo';
 import {getUserPointInfo} from '@/modules/userPointAPIs';
 import {useGetAccessToken, useIsLoggedIn} from '@/hooks/useAuthInfo';
-import {getMyLabelingLogInfo} from '@/modules/labelingAPIs';
+import {DailyLogType, getMyLabelingLogInfo} from '@/modules/labelingAPIs';
 import {useIsFocused} from '@react-navigation/native';
 
 Feather.loadFont();
@@ -33,17 +33,23 @@ function UserInfo({route, navigation}) {
   const accessToken = useGetAccessToken();
   const dispatch = useAppDispatch();
 
-  const [labelingLog, setLabelingLog] = useState<any>([]);
+  const [labelingLog, setLabelingLog] = useState<DailyLogType[]>([]);
 
   const isFocused = useIsFocused();
 
   useEffect(() => {
     if (accessToken && isFocused) {
-      //isFocused를 넣어서 탭이 전환될때마다 useEffect를 실행되게 됨... 흠
+      //isFocused를 넣어서 탭이 전환될때마다 useEffect를 실행되게 함
       getUserPointInfo(accessToken, dispatch);
       getMyLabelingLogInfo(accessToken, setLabelingLog);
     }
   }, [isFocused, accessToken, dispatch]);
+
+  const appLogOut = () => {
+    NaverLogin.logout();
+    dispatch(userSlice.actions.setInitial());
+    Alert.alert('알림', '로그아웃 되었습니다.');
+  };
 
   return (
     <View style={styles.container}>
@@ -65,13 +71,7 @@ function UserInfo({route, navigation}) {
                 <Text style={styles.titlesBoldTitle}>{userName}님</Text>
                 <Text style={styles.titlesSubtitle}>안녕하세요.</Text>
               </View>
-              <Pressable
-                style={styles.loginButton}
-                onPress={() => {
-                  NaverLogin.logout();
-                  dispatch(userSlice.actions.setInitial());
-                  Alert.alert('알림', '로그아웃 되었습니다.');
-                }}>
+              <Pressable style={styles.loginButton} onPress={appLogOut}>
                 <Text style={styles.loginButtonText}>로그아웃</Text>
               </Pressable>
             </View>

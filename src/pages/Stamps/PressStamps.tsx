@@ -66,12 +66,13 @@ function PressStamps({route, navigation}) {
             <View style={styles.giftInfoWrapper}>
               {giftList.map((gift: any) => {
                 const giftId = gift.id;
+
                 return (
                   <ApplyGift
                     giftInfo={gift}
                     setStampNumbers={setStampNumbers}
                     key={giftId}
-                    appliedNumbers={giftAppliedInfo[giftId]}
+                    appliedNumbers={giftAppliedInfo[giftId]} //array가 아니라 object지만 .을 쓰면 에러가 나서 이 방법으로 대체
                     isLoggedIn={isLoggedIn}
                   />
                 );
