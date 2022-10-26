@@ -3,7 +3,7 @@ import React from 'react';
 import {TextInput, View, StyleSheet} from 'react-native';
 import SettingTitleText from './SettingTitleText';
 
-export default function ({onChangeText, value, description}) {
+export default function ({onChangeText, value, description, placeholder}) {
   return (
     <View style={styles.container}>
       <SettingTitleText text={description} />
@@ -11,7 +11,7 @@ export default function ({onChangeText, value, description}) {
         style={styles.textInput}
         onChangeText={onChangeText}
         value={value}
-        placeholder="알람 이름을 입력해주세요"
+        placeholder={placeholder}
         placeholderTextColor="#a4aaac"
       />
     </View>

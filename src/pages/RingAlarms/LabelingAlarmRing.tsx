@@ -18,6 +18,7 @@ import {
   getAlarmInfo,
   sendLabelingResult,
 } from '@/modules/labelingAPIs';
+import AlarmTime from '@/components/AlarmRing/AlarmTime';
 
 function LabelingAlarmRing({route, navigation, receivedAlarm}) {
   const [alarm, setAlarm] = useState<Alarm | undefined>();
@@ -63,13 +64,14 @@ function LabelingAlarmRing({route, navigation, receivedAlarm}) {
         style={styles.backgroundImage}>
         <View style={[globalStyles.innerContainer, styles.container]}>
           <View style={styles.textContainer}>
-            <Text style={styles.clockText}>
-              {alarm.getTimeString().hour} : {alarm.getTimeString().minutes}
-            </Text>
+            <AlarmTime
+              hour={alarm.getTimeString().hour}
+              minutes={alarm.getTimeString().minutes}
+            />
+
             <Text style={styles.title}>{alarm.title}</Text>
           </View>
           <TouchableHighlight
-            style={styles.button}
             onPress={() =>
               getAlarmInfo(
                 accessToken,
@@ -79,29 +81,28 @@ function LabelingAlarmRing({route, navigation, receivedAlarm}) {
               )
             }
             underlayColor="#fff">
-            <Text style={styles.buttonText}>새로고침</Text>
+            <Text>새로고침</Text>
           </TouchableHighlight>
           {loading ? loadBoundingBox : <Text> Loading </Text>}
           <View>
             <TextInput
               description={'answer'}
-              onChangeText={(text: String) => setAnswer(text)}
+              onChangeText={(text: string) => setAnswer(text)}
               value={answer}
+              placeholder={' 이미지 안에 보이는 글자를 입력해주세요.'}
             />
           </View>
           <View style={styles.buttonContainer}>
-            <Pressable
-              style={
-                answer
-                  ? StyleSheet.compose(
-                      styles.loginButton,
-                      styles.loginButtonActive,
-                    )
-                  : styles.loginButton
-              }
-              disabled={!answer}
-              onPress={onPressSendButton}>
-              <Text>Stop</Text>
+            <Pressable disabled={!answer} onPress={onPressSendButton}>
+              <Text
+                style={[
+                  answer
+                    ? styles.loginButtonActive
+                    : styles.loginButtonInactive,
+                  styles.loginButton,
+                ]}>
+                Stop
+              </Text>
             </Pressable>
 
             {alarm.snoozeInterval > 0 && (
@@ -162,11 +163,17 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20,
     borderWidth: 2,
-    borderColor: '#1992fe',
     borderRadius: 25,
   },
+  loginButtonInactive: {
+    backgroundColor: '#d0d5dc',
+    borderColor: '#d0d5dc',
+    color: 'black',
+  },
   loginButtonActive: {
-    backgroundColor: 'whited',
+    backgroundColor: '#0f5078',
+    borderColor: '#0f5078',
+    color: 'white',
   },
   backgroundImage: {
     flex: 1,

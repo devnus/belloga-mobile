@@ -134,13 +134,13 @@ function UserInfo({route, navigation}) {
             </View>
 
             <View style={styles.advertisingContainer}>
-              <Text style={styles.titlesBoldTitle}>아침에 일어나기만 해도</Text>
-              <Text style={styles.titlesBoldTitle}>모닝 커피가 한 잔!</Text>
               <Image
                 source={require('@assets/images/coffee.png')}
                 resizeMode="contain"
                 style={styles.coffeeImage}
               />
+              <Text style={styles.advertisingText}>아침에 일어나기만 해도</Text>
+              <Text style={styles.advertisingText}>모닝 커피가 한 잔!</Text>
             </View>
           </View>
         )}
@@ -200,67 +200,15 @@ const styles = StyleSheet.create({
     fontSize: 16,
     paddingHorizontal: 20,
   },
-  categoriesListWrapper: {
-    paddingTop: 15,
-    paddingBottom: 20,
-  },
-  categoryItemWrapper: {
-    backgroundColor: '#F5CA48',
-    marginRight: 20,
-    borderRadius: 20,
-    shadowColor: colors.black,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
-    elevation: 2,
-  },
-  categoryItemImage: {
-    width: 60,
-    height: 60,
-    marginTop: 25,
-    alignSelf: 'center',
-    marginHorizontal: 20,
-  },
-  categoryItemTitle: {
-    textAlign: 'center',
-    fontFamily: 'Montserrat-Medium',
-    fontSize: 14,
-    marginTop: 10,
-  },
   coffeeImage: {
     width: 200,
     height: 200,
-  },
-  categorySelectWrapper: {
-    alignSelf: 'center',
-    justifyContent: 'center',
-    marginTop: 20,
-    width: 26,
-    height: 26,
-    borderRadius: 26,
-    marginBottom: 20,
-  },
-  categorySelectIcon: {
-    alignSelf: 'center',
+    marginBottom: 10,
   },
   advertisingContainer: {
-    alignSelf: 'center',
-    justifyContent: 'center',
-    flex: 2,
-  },
-  ratingWrapper: {
-    flexDirection: 'row',
     alignItems: 'center',
-    marginLeft: 20,
-  },
-  rating: {
-    fontFamily: 'Montserrat-SemiBold',
-    fontSize: 12,
-    color: colors.textDark,
-    marginLeft: 5,
+    justifyContent: 'center',
+    marginTop: 200,
   },
   popularCardRight: {
     marginLeft: 40,
@@ -281,5 +229,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 14,
     color: 'white',
+  },
+  advertisingText: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    color: 'grey',
+    marginTop: 2,
   },
 });
