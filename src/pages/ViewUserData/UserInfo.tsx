@@ -1,6 +1,6 @@
 import userSlice from '@/slices/user';
 import {NaverLogin} from '@react-native-seoul/naver-login';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {
   View,
   Text,
@@ -21,8 +21,9 @@ import {RootState} from '@/store/reducer';
 import LabelingLogInfo from '@/components/LabelingLogInfo';
 import {getUserPointInfo} from '@/modules/userPointAPIs';
 import {useGetAccessToken, useIsLoggedIn} from '@/hooks/useAuthInfo';
-import {DailyLogType, getMyLabelingLogInfo} from '@/modules/labelingAPIs';
+import {getMyLabelingLogInfo} from '@/modules/labelingAPIs';
 import {useIsFocused} from '@react-navigation/native';
+import {calcDailyLogs, LabelingLogType} from '@/modules/calcLabelingLogs';
 
 Feather.loadFont();
 MaterialCommunityIcons.loadFont();
@@ -33,17 +34,30 @@ function UserInfo({route, navigation}) {
   const accessToken = useGetAccessToken();
   const dispatch = useAppDispatch();
 
-  const [labelingLog, setLabelingLog] = useState<DailyLogType[]>([]);
+  const [labelingLog, setLabelingLog] = useState<LabelingLogType[]>([]);
 
   const isFocused = useIsFocused();
 
   useEffect(() => {
     if (accessToken && isFocused) {
       //isFocused를 넣어서 탭이 전환될때마다 useEffect를 실행되게 함
+
       getUserPointInfo(accessToken, dispatch);
       getMyLabelingLogInfo(accessToken, setLabelingLog);
     }
   }, [isFocused, accessToken, dispatch]);
+
+  const dailyLogs = useMemo(
+    () => calcDailyLogs(labelingLog).reverse(),
+    [labelingLog],
+  );
+  const unProcessedLogs = useMemo(() => {
+    const waitingLogs = labelingLog.filter(
+      log => log.labelingVerificationStatus === 'WAITING',
+    );
+
+    return waitingLogs.length;
+  }, [labelingLog]);
 
   const appLogOut = () => {
     NaverLogin.logout();
@@ -76,7 +90,10 @@ function UserInfo({route, navigation}) {
               </Pressable>
             </View>
             {/* User Information */}
-            <UserData />
+            <UserData
+              totalMissionLog={labelingLog.length}
+              processingMissionLog={unProcessedLogs}
+            />
             <ScrollView
               contentInsetAdjustmentBehavior="automatic"
               showsVerticalScrollIndicator={false}>
@@ -88,7 +105,7 @@ function UserInfo({route, navigation}) {
                       styles.titlesSubtitle
                     }>{`${userName}님의 미션 알람 수행 내역`}</Text>
                 </View>
-                {labelingLog.map(log => (
+                {dailyLogs.map(log => (
                   <LabelingLogInfo
                     date={log.dateInfo}
                     isProcessed={log.processStatus}

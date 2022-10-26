@@ -2,7 +2,7 @@ import React from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import colors from '../assets/constants/colors';
 
-function UserData() {
+function UserData({totalMissionLog = 0, processingMissionLog = 0}) {
   return (
     <View style={styles.categoriesWrapper}>
       <View style={styles.userInfoRoundWrapper}>
@@ -14,7 +14,7 @@ function UserData() {
             />
             <Text style={styles.titlesSubtitle}>검토 중인 미션</Text>
           </View>
-          <Text style={styles.titlesSubtitle}>34개</Text>
+          <Text style={styles.titlesSubtitle}>{processingMissionLog}개</Text>
         </View>
 
         <View style={styles.userInfoRow}>
@@ -25,7 +25,7 @@ function UserData() {
             />
             <Text style={styles.titlesSubtitle}>진행한 총 미션 수</Text>
           </View>
-          <Text style={styles.titlesSubtitle}>1000P</Text>
+          <Text style={styles.titlesSubtitle}>{totalMissionLog}개</Text>
         </View>
       </View>
     </View>

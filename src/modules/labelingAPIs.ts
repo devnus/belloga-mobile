@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {Dispatch, SetStateAction} from 'react';
 import Config from 'react-native-config';
+import {LabelingLogType} from './calcLabelingLogs';
 
 export type boundingBoxTypes = {
   boundingBoxId: number;
@@ -80,25 +81,6 @@ export const sendLabelingResult = async (
   }
 };
 
-type LabelingLogType = {
-  createdDate: string; //2022-10-12T07:58:53.698871
-  labelingUUID: string; //5865edc6-a306-427b-a411-4ddcf5b39db8/867
-  labelingVerificationStatus: string; //WAITING, SUCCESS, FAIL
-  textLabel: string; //test 10/12 17:02
-};
-
-type MissionStatusType = {
-  sortDate: string;
-  createdDate: Date;
-  status: string;
-};
-
-export type DailyLogType = {
-  dateInfo: string;
-  dailyInfo: MissionStatusType[];
-  processStatus: boolean;
-};
-
 /**
  *
  * @param accessToken 액세스토큰을 받아옴
@@ -106,7 +88,7 @@ export type DailyLogType = {
  */
 export const getMyLabelingLogInfo = async (
   accessToken: string,
-  setLabelingLog: Dispatch<React.SetStateAction<DailyLogType[]>>,
+  setLabelingLog: Dispatch<React.SetStateAction<LabelingLogType[]>>,
 ) => {
   try {
     const response = await axios.get(
@@ -118,42 +100,9 @@ export const getMyLabelingLogInfo = async (
       },
     );
 
-    const myLog: [] = response.data.response.content;
-    const labeled = myLog.map((log: LabelingLogType) => {
-      const logDate = new Date(log.createdDate);
+    const myLog: LabelingLogType[] = response.data.response.content;
 
-      return {
-        sortDate: `${logDate.getMonth() + 1}/${logDate.getDate()}`,
-        createdDate: logDate,
-        status: log.labelingVerificationStatus,
-      };
-    });
-
-    const dateInfoIdArray = labeled
-      .map(item => item.sortDate)
-      .filter((value, index, self) => self.indexOf(value) === index);
-
-    const dateArray = dateInfoIdArray.map(date => ({
-      dateInfo: date,
-    }));
-
-    const labelingLog: DailyLogType[] = dateArray.map(log => {
-      const results = labeled.filter(
-        rawLog => log.dateInfo === rawLog.sortDate,
-      );
-
-      const processSuccessStatus = results.filter(
-        singleLog => singleLog.status === 'SUCCESS',
-      ).length;
-
-      return {
-        dateInfo: log.dateInfo,
-        dailyInfo: results,
-        processStatus: processSuccessStatus === results.length,
-      };
-    });
-
-    setLabelingLog(labelingLog);
+    setLabelingLog(myLog);
   } catch (error) {
     console.log(error);
   } finally {
