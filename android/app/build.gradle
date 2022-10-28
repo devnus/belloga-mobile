@@ -135,9 +135,10 @@ android {
         applicationId "com.bellogamobile"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "2.1"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
+        resValue "string", "build_config_package", "com.bellogamobile"
 
         if (isNewArchitectureEnabled()) {
             // We configure the NDK build only if you decide to opt-in for the New Architecture.
@@ -235,6 +236,14 @@ android {
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
+            resValue "string", "CodePushDeploymentKey", '""'
+        }
+        releaseStaging {
+            resValue "string", "CodePushDeploymentKey", "bdrh-1jft7va9VUaUuhDPnXnItP6Y2Ik6tzHV"
+
+            // Note: It is a good idea to provide matchingFallbacks for the new buildType you create to prevent build issues
+            // Add the following line if not already there
+            matchingFallbacks = ['release']
         }
         release {
             // Caution! In production, you need to generate your own keystore file.
@@ -242,6 +251,7 @@ android {
             signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            resValue "string", "CodePushDeploymentKey", "KiH7GCvDnj4Nj6AoPc68xEjisU858f2ETPtUj"
         }
     }
 

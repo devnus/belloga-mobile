@@ -5,7 +5,7 @@ import {applyGift} from '@/modules/userPointAPIs';
 import {RootState} from '@/store/reducer';
 import {useSelector} from 'react-redux';
 import {CustomModal} from '../Modals/CustomModal';
-import ModalCard from '../Modals/ModalCard';
+import ModalCard from '@components/Modals/ModalCard';
 import {useAppDispatch} from '@/store';
 
 type GiftInfo = {

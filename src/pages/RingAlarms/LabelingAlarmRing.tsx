@@ -115,14 +115,6 @@ function LabelingAlarmRing({route, navigation, receivedAlarm}) {
                 }}
               />
             )}
-
-            <Button
-              title={'Cancel'}
-              fill={true}
-              onPress={async () => {
-                finishAlarm();
-              }}
-            />
           </View>
         </View>
       </ImageBackground>

@@ -24,6 +24,7 @@ import {useGetAccessToken, useIsLoggedIn} from '@/hooks/useAuthInfo';
 import {getMyLabelingLogInfo} from '@/modules/labelingAPIs';
 import {useIsFocused} from '@react-navigation/native';
 import {calcDailyLogs, LabelingLogType} from '@/modules/calcLabelingLogs';
+import AlarmLogSkeleton from '@/components/Common/AlarmLogSkeleton';
 
 Feather.loadFont();
 MaterialCommunityIcons.loadFont();
@@ -113,6 +114,7 @@ function UserInfo({route, navigation}) {
                   />
                 ))}
               </View>
+              <AlarmLogSkeleton />
             </ScrollView>
           </View>
         ) : (

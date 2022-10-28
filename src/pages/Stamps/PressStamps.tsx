@@ -8,7 +8,7 @@ import {RootState} from '@/store/reducer';
 import CurrentPointData from '@/components/Stamp/CurrentPointData';
 import {getAppliedGiftInfo, getGiftInfo} from '@modules/userPointAPIs';
 import ApplyGift from '@/components/Stamp/ApplyGift';
-import Titles from '@/components/Titles';
+import Titles from '@/components/Common/Titles';
 import {calcMyGiftInfo} from '@/modules/calcGiftInfo';
 MaterialCommunityIcons.loadFont();
 
