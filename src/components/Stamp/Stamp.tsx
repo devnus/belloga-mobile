@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
-import colors from '@assets/colors';
+import colors from '@/assets/constants/colors';
 import {displayStamps} from '@/modules/calcCircularView';
 import UserGiftApplyCount from './UserGiftApplyCount';
 import {CustomModal} from '@/components/Modals/CustomModal';
@@ -20,7 +20,7 @@ import {useSelector} from 'react-redux';
 import {RootState} from '@/store/reducer';
 import {useAppDispatch} from '@/store';
 
-function Stamp({stampNumbers, setStampNumbers}) {
+function Stamp({stampNumbers, setStampNumbers, giftNumbers}: any) {
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const points = useSelector((state: RootState) => state.user.points);
   const dispatch = useAppDispatch();
@@ -45,14 +45,17 @@ function Stamp({stampNumbers, setStampNumbers}) {
     if (accessToken) {
       getUserStampInfo(accessToken, dispatch, setStampNumbers);
     }
-  }, [stampNumbers]);
+  }, [stampNumbers, accessToken, dispatch, setStampNumbers]);
 
   return (
     <SafeAreaView style={styles.popularWrapper}>
       <View style={styles.pressStampContainer}>
         <View style={stampContainerStyle}>
           {displayStamps(stampNumbers, windowWidth, imgSize)}
-          <UserGiftApplyCount stampNumbers={stampNumbers} />
+          <UserGiftApplyCount
+            stampNumbers={stampNumbers}
+            giftApplyCount={giftNumbers}
+          />
         </View>
 
         <CustomModal

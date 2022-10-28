@@ -1,6 +1,6 @@
 import React from 'react';
 import {FunctionComponent, useState} from 'react';
-import {StyleSheet, View, Button, Text} from 'react-native';
+import {StyleSheet, View, Button} from 'react-native';
 
 import Modal from 'react-native-modal';
 

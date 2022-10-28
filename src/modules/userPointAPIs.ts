@@ -166,16 +166,8 @@ export const getAppliedGiftInfo = async (
     });
 
     const appliedInfo = response.data.response.content;
-    const appliedInfoIdArray = appliedInfo.map(info => info.giftId);
-    console.log(appliedInfoIdArray);
 
-    const giftAppliedInfo = appliedInfoIdArray.reduce(
-      (ac, v) => ({...ac, [v]: (ac[v] || 0) + 1}),
-      {},
-    );
-    console.log('가공된 어레이', giftAppliedInfo);
-
-    setGiftAppliedInfo(giftAppliedInfo);
+    setGiftAppliedInfo(appliedInfo);
   } catch (error) {
     console.error(error);
 

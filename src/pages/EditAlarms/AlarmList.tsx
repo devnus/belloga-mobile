@@ -11,6 +11,7 @@ import Alarm, {
 import {calcNoRepeatingAlarmTime} from 'modules/calcAlarmsTime';
 import AlarmInfo from '@components/AlarmInfo';
 import DisplayAlarmTimeInfo from '@/components/DisplayAlarmTimeInfo';
+import CoinAnimation from '@/components/LottieAnimations/CoinAnimation';
 
 //움직이는 탭바를 위한 상수
 const Header_Maximum_Height = 300;

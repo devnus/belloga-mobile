@@ -18,39 +18,33 @@ import {
   getAlarmInfo,
   sendLabelingResult,
 } from '@/modules/labelingAPIs';
+import AlarmTime from '@/components/AlarmRing/AlarmTime';
 
 function LabelingAlarmRing({route, navigation, receivedAlarm}) {
   const [alarm, setAlarm] = useState<Alarm | undefined>();
   const [imageUrl, setImageUrl] = useState<string>('');
   const [answer, setAnswer] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
-  const [boundingBoxList, setBoundingBoxList] = useState<boundingBoxTypes>([]);
-  const [boundingBoxIndex, setBoundingBoxIndex] = useState<number>(0);
+  const [boundingBoxInfo, setBoundingBoxInfo] = useState<boundingBoxTypes>();
   const accessToken = useGetAccessToken();
 
   useEffect(() => {
     setAlarm(receivedAlarm);
-    getAlarmInfo(accessToken, setBoundingBoxList, setImageUrl, setLoading);
+    getAlarmInfo(accessToken, setBoundingBoxInfo, setImageUrl, setLoading);
+
+    return;
   }, []);
 
   const onPressSendButton = useCallback(() => {
-    const currentIndex = boundingBoxIndex;
-    const maxIndex = boundingBoxList.length - 1;
-    const boundingBoxId = boundingBoxList[boundingBoxIndex].boundingBoxId;
+    const boundingBoxId = boundingBoxInfo?.boundingBoxId;
 
     sendLabelingResult(boundingBoxId, answer, accessToken);
-
-    if (currentIndex < maxIndex) {
-      setBoundingBoxIndex(() => boundingBoxIndex + 1);
-      setAnswer(() => '');
-    } else {
-      finishAlarm();
-    }
-  }, [boundingBoxList, boundingBoxIndex, answer]);
+    finishAlarm();
+  }, [boundingBoxInfo, answer, accessToken]);
 
   const loadBoundingBox = useMemo(
-    () => showBoundingBox(boundingBoxList[boundingBoxIndex], imageUrl),
-    [boundingBoxList, boundingBoxIndex, imageUrl],
+    () => showBoundingBox(boundingBoxInfo, imageUrl),
+    [boundingBoxInfo, imageUrl],
   );
 
   const finishAlarm = async () => {
@@ -70,45 +64,45 @@ function LabelingAlarmRing({route, navigation, receivedAlarm}) {
         style={styles.backgroundImage}>
         <View style={[globalStyles.innerContainer, styles.container]}>
           <View style={styles.textContainer}>
-            <Text style={styles.clockText}>
-              {alarm.getTimeString().hour} : {alarm.getTimeString().minutes}
-            </Text>
+            <AlarmTime
+              hour={alarm.getTimeString().hour}
+              minutes={alarm.getTimeString().minutes}
+            />
+
             <Text style={styles.title}>{alarm.title}</Text>
           </View>
           <TouchableHighlight
-            style={styles.button}
             onPress={() =>
               getAlarmInfo(
                 accessToken,
-                setBoundingBoxList,
+                setBoundingBoxInfo,
                 setImageUrl,
                 setLoading,
               )
             }
             underlayColor="#fff">
-            <Text style={styles.buttonText}>새로고침</Text>
+            <Text>새로고침</Text>
           </TouchableHighlight>
           {loading ? loadBoundingBox : <Text> Loading </Text>}
           <View>
             <TextInput
               description={'answer'}
-              onChangeText={(text: String) => setAnswer(text)}
+              onChangeText={(text: string) => setAnswer(text)}
               value={answer}
+              placeholder={' 이미지 안에 보이는 글자를 입력해주세요.'}
             />
           </View>
           <View style={styles.buttonContainer}>
-            <Pressable
-              style={
-                answer
-                  ? StyleSheet.compose(
-                      styles.loginButton,
-                      styles.loginButtonActive,
-                    )
-                  : styles.loginButton
-              }
-              disabled={!answer}
-              onPress={onPressSendButton}>
-              <Text>Stop</Text>
+            <Pressable disabled={!answer} onPress={onPressSendButton}>
+              <Text
+                style={[
+                  answer
+                    ? styles.loginButtonActive
+                    : styles.loginButtonInactive,
+                  styles.loginButton,
+                ]}>
+                Stop
+              </Text>
             </Pressable>
 
             {alarm.snoozeInterval > 0 && (
@@ -121,14 +115,6 @@ function LabelingAlarmRing({route, navigation, receivedAlarm}) {
                 }}
               />
             )}
-
-            <Button
-              title={'Cancel'}
-              fill={true}
-              onPress={async () => {
-                finishAlarm();
-              }}
-            />
           </View>
         </View>
       </ImageBackground>
@@ -169,11 +155,17 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20,
     borderWidth: 2,
-    borderColor: '#1992fe',
     borderRadius: 25,
   },
+  loginButtonInactive: {
+    backgroundColor: '#d0d5dc',
+    borderColor: '#d0d5dc',
+    color: 'black',
+  },
   loginButtonActive: {
-    backgroundColor: 'whited',
+    backgroundColor: '#0f5078',
+    borderColor: '#0f5078',
+    color: 'white',
   },
   backgroundImage: {
     flex: 1,

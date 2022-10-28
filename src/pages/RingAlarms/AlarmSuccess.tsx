@@ -1,6 +1,8 @@
-import axios from 'axios';
+import colors from '@/assets/constants/colors';
+import Button from '@/components/Button';
+import CoinAnimation from '@/components/LottieAnimations/CoinAnimation';
 import React from 'react';
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 
 function AlarmSuccess({route, navigation}) {
   const onPressSendButton = () => {
@@ -8,18 +10,12 @@ function AlarmSuccess({route, navigation}) {
   };
 
   return (
-    <View style={globalStyles.container}>
-      <View style={[globalStyles.innerContainer, styles.container]}>
-        <View style={styles.card}>
-          <Text style={styles.clockText}>라벨링 완료!</Text>
-          <Text style={styles.title}>총 지급 예정 포인트</Text>
-          <Text style={styles.title}> +20 p</Text>
-          <Image style={styles.image} source={require('@assets/coin.png')} />
-        </View>
+    <View style={styles.container}>
+      <View style={styles.card}>
+        <Text style={styles.clockText}>미션 수행 완료!</Text>
+        <View style={styles.checkAnimationWrapper}>{CoinAnimation()}</View>
         <View style={styles.buttonContainer}>
-          <Pressable style={styles.loginButton} onPress={onPressSendButton}>
-            <Text> 확인 </Text>
-          </Pressable>
+          <Button onPress={onPressSendButton} title="확인" fill={true} />
         </View>
       </View>
     </View>
@@ -30,8 +26,10 @@ export default AlarmSuccess;
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'space-around',
-    alignItems: 'center',
+    flex: 1,
+    backgroundColor: colors.background,
+    justifyContent: 'center', //Centered vertically
+    alignItems: 'center', // Centered horizontally
   },
   image: {
     padding: 30,
@@ -41,16 +39,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 30,
     padding: 25,
+    marginBottom: 60,
   },
   textContainer: {
     display: 'flex',
     alignItems: 'center',
   },
   buttonContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
+    width: '60%',
   },
   title: {
     fontWeight: 'bold',
@@ -58,6 +54,10 @@ const styles = StyleSheet.create({
     color: 'black',
     padding: 10,
   },
+  checkAnimationWrapper: {
+    padding: 100,
+  },
+
   loginButton: {
     padding: 10,
     margin: 10,
@@ -68,44 +68,15 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     backgroundColor: 'white',
   },
-  loginButtonActive: {
-    backgroundColor: 'whited',
-  },
-  rectangle: {
-    borderWidth: 3,
-    borderColor: 'red',
-    position: 'absolute',
-  },
   card: {
-    width: '100%',
-    height: 400,
-    backgroundColor: '#fff',
+    width: '90%',
+    padding: 10,
+    backgroundColor: 'white',
     justifyContent: 'center', //Centered vertically
     alignItems: 'center', // Centered horizontally
     borderTopLeftRadius: 10, // to provide rounded corners
     borderTopRightRadius: 10, // to provide rounded corners,
     borderBottomRightRadius: 10, // to provide rounded corners,
     borderBottomLeftRadius: 10, // to provide rounded corners,
-  },
-});
-const globalStyles = StyleSheet.create({
-  container: {
-    height: '100%',
-    width: '100%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#BDE0EC',
-  },
-  innerContainer: {
-    width: '90%',
-    height: '90%',
-    display: 'flex',
-    alignItems: 'center',
-  },
-  scrollView: {
-    width: '90%',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });
