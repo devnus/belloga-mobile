@@ -182,7 +182,7 @@ public class Manager {
             sound.playVibration();
         }
 
-        Log.d(TAG, "Starting " + activeAlarmUid + "sound" + alarm.isSoundOn + "vibe"+ alarm.isVibrateOn);
+        Log.d(TAG, "Starting " + activeAlarmUid + " sound " + alarm.isSoundOn + " vibe "+ alarm.isVibrateOn);
     }
 
     static void stop(Context context) {
