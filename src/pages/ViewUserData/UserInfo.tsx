@@ -114,7 +114,6 @@ function UserInfo({route, navigation}) {
                   />
                 ))}
               </View>
-              <AlarmLogSkeleton />
             </ScrollView>
           </View>
         ) : (

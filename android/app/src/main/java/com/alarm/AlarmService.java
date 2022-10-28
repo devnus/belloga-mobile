@@ -39,6 +39,7 @@ public class AlarmService extends Service {
         String alarmUid = intent.getStringExtra("ALARM_UID");
         Alarm alarm = Storage.getAlarm(getApplicationContext(), alarmUid);
         Notification notification = Helper.getAlarmNotification(this, alarm, 1);
+        
         Manager.start(getApplicationContext(), alarmUid);
 
         startForeground(1, notification);

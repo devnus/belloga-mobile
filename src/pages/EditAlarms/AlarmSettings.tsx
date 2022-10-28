@@ -126,6 +126,7 @@ function AlarmSettings({route, navigation}) {
               description={'알람 이름'}
               onChangeText={v => update([['title', v]])}
               value={alarm.title}
+              placeholder={'알람 이름을 입력해주세요'}
             />
             <SettingTitleText text="알람 모드" />
             <View style={styles.buttonContainer}>

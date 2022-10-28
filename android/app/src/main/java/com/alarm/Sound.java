@@ -40,10 +40,10 @@ class Sound {
     }
 
     void stop() {
+        stopVibration();
         try {
             if (mediaPlayer.isPlaying()) {
                 stopSound();
-                stopVibration();
                 mediaPlayer.release();
             }
         } catch (IllegalStateException e) {
