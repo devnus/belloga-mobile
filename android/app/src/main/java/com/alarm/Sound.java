@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.os.Handler;
 import android.provider.Settings;
 import android.util.Log;
 
@@ -19,6 +20,8 @@ class Sound {
     private int userVolume;
     private MediaPlayer mediaPlayer;
     private Vibrator vibrator;
+
+    private Handler handlerVibrate;
 
     private Context context;
 
@@ -36,7 +39,14 @@ class Sound {
     }
 
     void playVibration() {
-        startVibration();
+        handlerVibrate = new Handler();
+        handlerVibrate.post(new Runnable() {
+            @Override
+            public void run() {
+                startVibration();
+            }
+        });
+
     }
 
     void stop() {
