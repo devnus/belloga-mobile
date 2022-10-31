@@ -111,6 +111,7 @@ function UserInfo({route, navigation}) {
                     date={log.dateInfo}
                     isProcessed={log.processStatus}
                     labeledLog={log.dailyInfo}
+                    key={log.dateInfo}
                   />
                 ))}
               </View>

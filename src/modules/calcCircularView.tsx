@@ -24,6 +24,7 @@ export function displayStamps(
         <Image
           source={require('@/assets/images/stamp.png')}
           style={stampStyles[i]}
+          key={i}
         />,
       );
     } else {

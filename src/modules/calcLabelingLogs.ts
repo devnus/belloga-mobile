@@ -5,7 +5,7 @@ export type LabelingLogType = {
   textLabel: string; //test 10/12 17:02
 };
 
-type MissionStatusType = {
+export type MissionStatusType = {
   sortDate: string;
   createdDate: Date;
   status: string;

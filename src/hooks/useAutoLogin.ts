@@ -8,7 +8,7 @@ import {useIsLoggedIn} from './useAuthInfo';
 
 export const useAutoLogin = (
   dispatch: any,
-  connectionInfo: boolean = false,
+  connectionInfo: boolean | null = false,
 ) => {
   // 앱 실행 시 토큰 있으면 로그인하는 코드
 
