@@ -16,9 +16,7 @@ export function calcNoRepeatingAlarmTime(alarms: Alarm[]) {
     const day: number = calcAlarmRingTime(alarm.hour, alarm.minutes);
     alarm.days = [day];
 
-    if (alarm.active === true) {
-      updateAlarm(alarm, false);
-    } else {
+    if (alarm.active === false) {
       updateOffAlarm(alarm);
     }
   });
