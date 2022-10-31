@@ -3,21 +3,11 @@ import Alarm, {getAlarm} from '@modules/alarms';
 import LabelingAlarmRing from './LabelingAlarmRing';
 import CommonAlarmRing from './CommonAlarmRing';
 import {Text} from 'react-native';
-import NetInfo from '@react-native-community/netinfo';
+import {useCheckNetwork} from '@/hooks/useCheckNetwork';
 
 function SelectAlarmRingMode({route, navigation}) {
   const [alarm, setAlarm] = useState<Alarm | undefined>();
-  const [connectionInfo, setNetInfo] = useState<boolean | null>(false);
-
-  useEffect(() => {
-    const unsubscribe = NetInfo.addEventListener(state => {
-      setNetInfo(state.isConnected);
-    });
-
-    return () => {
-      unsubscribe();
-    };
-  }, []);
+  const connectionInfo = useCheckNetwork();
 
   useEffect(() => {
     const alarmUid = route.params.alarmUid;
@@ -27,8 +17,6 @@ function SelectAlarmRingMode({route, navigation}) {
       setAlarm(alarmInfo);
     })();
   }, []);
-
-  useEffect(() => {});
 
   if (!alarm) {
     return <Text> 로딩중입니다!</Text>;

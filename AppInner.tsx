@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Setting from './src/pages/ViewUserData/Setting';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -8,14 +8,11 @@ import AlarmRingHandle from './src/pages/RingAlarms/AlarmRingHandle';
 import AlarmList from '@/pages/EditAlarms/AlarmList';
 import AlarmSettings from '@/pages/EditAlarms/AlarmSettings';
 import PressStamps from '@/pages/Stamps/PressStamps';
-import {Alert, Text} from 'react-native';
+import {Text} from 'react-native';
 import {useAppDispatch} from '@/store';
-import axios, {AxiosError} from 'axios';
-import EncryptedStorage from 'react-native-encrypted-storage';
-import Config from 'react-native-config';
-import userSlice from '@/slices/user';
 import {useAxiosInterceptor} from '@/hooks/useAxiosInterceptor';
 import {useAutoLogin} from '@/hooks/useAutoLogin';
+import {useCheckNetwork} from '@/hooks/useCheckNetwork';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -117,9 +114,11 @@ function AlarmAppStacks() {
 
 function AppInner() {
   const dispatch = useAppDispatch();
+  const connectionInfo = useCheckNetwork();
 
   useAxiosInterceptor(dispatch);
-  useAutoLogin(dispatch);
+
+  useAutoLogin(dispatch, connectionInfo);
 
   return <AlarmAppStacks />;
 }

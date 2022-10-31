@@ -4,9 +4,16 @@ import {useEffect} from 'react';
 import {Alert} from 'react-native';
 import Config from 'react-native-config';
 import EncryptedStorage from 'react-native-encrypted-storage';
+import {useIsLoggedIn} from './useAuthInfo';
 
-export const useAutoLogin = (dispatch: any) => {
+export const useAutoLogin = (
+  dispatch: any,
+  connectionInfo: boolean = false,
+) => {
   // 앱 실행 시 토큰 있으면 로그인하는 코드
+
+  const isLoggedIn = useIsLoggedIn();
+
   useEffect(() => {
     const getTokenAndRefresh = async () => {
       try {
@@ -58,6 +65,9 @@ export const useAutoLogin = (dispatch: any) => {
         // }
       }
     };
-    getTokenAndRefresh();
-  }, [dispatch]);
+    if (isLoggedIn === false && connectionInfo === true) {
+      //로그인이 되어 있지 않고, 네트워크 연결이 된 상태에서만 자동로그인을 한다.
+      getTokenAndRefresh();
+    }
+  }, [dispatch, isLoggedIn, connectionInfo]);
 };
