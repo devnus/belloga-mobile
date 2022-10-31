@@ -57,6 +57,7 @@
     "react-native-screens": "^3.14.1",
     "react-native-skeleton-placeholder": "^5.2.3",
     "react-native-vector-icons": "^9.2.0",
+    "react-query": "^3.39.2",
     "react-redux": "^8.0.2",
     "redux-flipper": "^2.0.2",
     "rn-async-storage-flipper": "^0.0.10",
