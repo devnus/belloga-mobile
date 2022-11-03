@@ -14,10 +14,8 @@
     "bundle:android": "react-native bundle --assets-dest build/CodePush --bundle-output build/CodePush/index.android.bundle --dev false --entry-file index.js --platform android --sourcemap-output build/CodePush/index.android.bundle.map"
   },
   "dependencies": {
-    "@amplitude/analytics-react-native": "^0.5.1",
     "@amplitude/react-native": "^2.16.0",
     "@expo/vector-icons": "^13.0.0",
-    "@react-native-async-storage/async-storage": "^1.17.10",
     "@react-native-community/datetimepicker": "^6.2.0",
     "@react-native-community/netinfo": "^9.3.6",
     "@react-native-firebase/app": "^12.7.4",
