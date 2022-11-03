@@ -10,6 +10,7 @@ import {
   Pressable,
   Alert,
   Image,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -82,10 +83,15 @@ function UserInfo({route, navigation}) {
         {isLoggedIn ? (
           <View>
             <View style={styles.titlesWrapper}>
-              <View>
-                <Text style={styles.titlesBoldTitle}>{userName}님</Text>
-                <Text style={styles.titlesSubtitle}>안녕하세요.</Text>
-              </View>
+              <TouchableWithoutFeedback
+                onPress={() => {
+                  navigation.navigate('UserProfile');
+                }}>
+                <View>
+                  <Text style={styles.titlesBoldTitle}>{userName}님</Text>
+                  <Text style={styles.titlesSubtitle}>안녕하세요.</Text>
+                </View>
+              </TouchableWithoutFeedback>
               <Pressable style={styles.loginButton} onPress={appLogOut}>
                 <Text style={styles.loginButtonText}>로그아웃</Text>
               </Pressable>
