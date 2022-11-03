@@ -19,6 +19,7 @@ import {
   sendLabelingResult,
 } from '@/modules/labelingAPIs';
 import AlarmTime from '@/components/AlarmRing/AlarmTime';
+import ampInstance from '@/amplitude';
 
 function LabelingAlarmRing({route, navigation, receivedAlarm}) {
   const [alarm, setAlarm] = useState<Alarm | undefined>();
@@ -27,6 +28,7 @@ function LabelingAlarmRing({route, navigation, receivedAlarm}) {
   const [loading, setLoading] = useState<boolean>(false);
   const [boundingBoxInfo, setBoundingBoxInfo] = useState<boundingBoxTypes>();
   const accessToken = useGetAccessToken();
+  ampInstance.logEvent('MISSON_ALERT_START');
 
   useEffect(() => {
     setAlarm(receivedAlarm);
@@ -36,6 +38,7 @@ function LabelingAlarmRing({route, navigation, receivedAlarm}) {
   }, []);
 
   const onPressSendButton = useCallback(() => {
+    ampInstance.logEvent('SEND_MISSION_ALARM');
     const boundingBoxId = boundingBoxInfo?.boundingBoxId;
 
     sendLabelingResult(boundingBoxId, answer, accessToken);
@@ -72,14 +75,15 @@ function LabelingAlarmRing({route, navigation, receivedAlarm}) {
             <Text style={styles.title}>{alarm.title}</Text>
           </View>
           <TouchableHighlight
-            onPress={() =>
+            onPress={() => {
+              ampInstance.logEvent('REFRESH_MISSION_ALARM');
               getAlarmInfo(
                 accessToken,
                 setBoundingBoxInfo,
                 setImageUrl,
                 setLoading,
-              )
-            }
+              );
+            }}
             underlayColor="#fff">
             <Text>새로고침</Text>
           </TouchableHighlight>

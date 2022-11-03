@@ -106,6 +106,7 @@ export const pressStamp = async (
         },
       },
     );
+
     handleOpen();
     setStampNumbers(prev => prev + 1);
   } catch (error) {

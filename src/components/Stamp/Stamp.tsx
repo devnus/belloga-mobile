@@ -19,6 +19,7 @@ import {getUserStampInfo, pressStamp} from '@/modules/userPointAPIs';
 import {useSelector} from 'react-redux';
 import {RootState} from '@/store/reducer';
 import {useAppDispatch} from '@/store';
+import ampInstance from '@/amplitude';
 
 function Stamp({stampNumbers, setStampNumbers, giftNumbers}: any) {
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
@@ -63,6 +64,7 @@ function Stamp({stampNumbers, setStampNumbers, giftNumbers}: any) {
             <TouchableOpacity
               style={styles.pressStampBtn}
               onPress={() => {
+                ampInstance.logEvent('ADD_STAMP_CLICKED');
                 stampNumbers < 8 &&
                   pressStamp(
                     accessToken,

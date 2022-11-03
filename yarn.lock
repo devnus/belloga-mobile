@@ -2,10 +2,57 @@
 # yarn lockfile v1
 
 
+"@amplitude/analytics-client-common@^0.4.0":
+  "integrity" "sha512-I3cy6AYCiVUqXAD6yU+tm3qBZdEyrdruDaUS/vVPoi+MvHIkZIXw7xaQjmkBRURWCgdcxu5LioU8r1ld1widtA=="
+  "resolved" "https://registry.npmjs.org/@amplitude/analytics-client-common/-/analytics-client-common-0.4.0.tgz"
+  "version" "0.4.0"
+  dependencies:
+    "@amplitude/analytics-connector" "^1.4.5"
+    "@amplitude/analytics-core" "^0.10.0"
+    "@amplitude/analytics-types" "^0.12.0"
+    "tslib" "^2.3.1"
+
+"@amplitude/analytics-connector@^1.4.5":
+  "integrity" "sha512-6jD2pOosRD4y8DT8StUCz7yTd5ZDkdOU9/AWnlWKM5qk90Mz7sdZrdZ9H7sA/L3yOJEpQOYZgQplQdWWUzyWug=="
+  "resolved" "https://registry.npmjs.org/@amplitude/analytics-connector/-/analytics-connector-1.4.6.tgz"
+  "version" "1.4.6"
+  dependencies:
+    "@amplitude/ua-parser-js" "0.7.31"
+
+"@amplitude/analytics-core@^0.10.0":
+  "integrity" "sha512-D/6U9SzyDmcNWnT/lFnBKfYl4ASicLlwD1tqu4RZoYS3SwHd/PNST+LbnL3yBTEIJIY//qjth9lLBh/RRzePfg=="
+  "resolved" "https://registry.npmjs.org/@amplitude/analytics-core/-/analytics-core-0.10.0.tgz"
+  "version" "0.10.0"
+  dependencies:
+    "@amplitude/analytics-types" "^0.12.0"
+    "tslib" "^2.3.1"
+
+"@amplitude/analytics-react-native@^0.5.1":
+  "integrity" "sha512-JaxLdGCWGSFGe/z93wPe8/1q2FBPLYOml1e/SyjKjvfMvjicVK+DkV8fDUlDkrhyNj2pRnanl1deEesuzwZ7Zw=="
+  "resolved" "https://registry.npmjs.org/@amplitude/analytics-react-native/-/analytics-react-native-0.5.1.tgz"
+  "version" "0.5.1"
+  dependencies:
+    "@amplitude/analytics-client-common" "^0.4.0"
+    "@amplitude/analytics-core" "^0.10.0"
+    "@amplitude/analytics-types" "^0.12.0"
+    "@amplitude/ua-parser-js" "^0.7.31"
+    "@react-native-async-storage/async-storage" "^1.17.7"
+    "tslib" "^2.3.1"
+
+"@amplitude/analytics-types@^0.12.0":
+  "integrity" "sha512-XwySEhnCdU8fNWUNaB38JS7bwOt4GOUG8OqgzuXtR8HvGnpCvuT7C6H+BIGA7MfctNQBAzR+6IBgDD+8r1/OEQ=="
+  "resolved" "https://registry.npmjs.org/@amplitude/analytics-types/-/analytics-types-0.12.0.tgz"
+  "version" "0.12.0"
+
 "@amplitude/react-native@^2.16.0":
   "integrity" "sha512-2FnDANaeOrBvLiNGPZ9zjzooqrF6yeM5SQ8l57ma4JHt05d9JUeWszyiuAxkL3Zw+xsSXGd1fCf0WKnDpB91hA=="
   "resolved" "https://registry.npmjs.org/@amplitude/react-native/-/react-native-2.16.0.tgz"
   "version" "2.16.0"
+
+"@amplitude/ua-parser-js@^0.7.31", "@amplitude/ua-parser-js@0.7.31":
+  "integrity" "sha512-+z8UGRaj13Pt5NDzOnkTBy49HE2CX64jeL0ArB86HAtilpnfkPB7oqkigN7Lf2LxscMg4QhFD7mmCfedh3rqTg=="
+  "resolved" "https://registry.npmjs.org/@amplitude/ua-parser-js/-/ua-parser-js-0.7.31.tgz"
+  "version" "0.7.31"
 
 "@ampproject/remapping@^2.1.0":
   "integrity" "sha512-qRmjj8nj9qmLTQXXmaR1cck3UXSRMPrbsLJAasZpF+t3riI71BXed5ebIOYwQntykeZuhjsdweEc9BxH5Jc26w=="
@@ -1841,10 +1888,10 @@
     "mkdirp" "^1.0.4"
     "rimraf" "^3.0.2"
 
-"@react-native-async-storage/async-storage@^1.15.2", "@react-native-async-storage/async-storage@^1.17.7":
-  "integrity" "sha512-mDtWhCcpxzrZhA95f6zi0pnBsjBEZW1LKZWfxVXG0UfaWpPxDBCKowNk2xjRTytckZeVhjmPJPtBU+8QNQcR0A=="
-  "resolved" "https://registry.npmjs.org/@react-native-async-storage/async-storage/-/async-storage-1.17.7.tgz"
-  "version" "1.17.7"
+"@react-native-async-storage/async-storage@^1.15.2", "@react-native-async-storage/async-storage@^1.17.10", "@react-native-async-storage/async-storage@^1.17.7":
+  "integrity" "sha512-KrR021BmBLsA0TT1AAsfH16bHYy0MSbhdAeBAqpriak3GS1T2alFcdTUvn13p0ZW6FKRD6Bd3ryU2zhU/IYYJQ=="
+  "resolved" "https://registry.npmjs.org/@react-native-async-storage/async-storage/-/async-storage-1.17.10.tgz"
+  "version" "1.17.10"
   dependencies:
     "merge-options" "^3.0.4"
 
@@ -8694,7 +8741,7 @@
     "prop-types" "^15.7.2"
     "yargs" "^16.1.1"
 
-"react-native@*", "react-native@^0.0.0-0 || 0.60 - 0.69 || 1000.0.0", "react-native@^0.62.0", "react-native@^0.66.4", "react-native@>=0.25.1", "react-native@>=0.46", "react-native@>=0.50.0", "react-native@>=0.50.1", "react-native@>=0.56", "react-native@>=0.57", "react-native@>=0.59", "react-native@>=0.63.0", "react-native@>=0.65.0", "react-native@>0.62.0":
+"react-native@*", "react-native@^0.0.0-0 || 0.60 - 0.70 || 1000.0.0", "react-native@^0.62.0", "react-native@^0.66.4", "react-native@>=0.25.1", "react-native@>=0.46", "react-native@>=0.50.0", "react-native@>=0.50.1", "react-native@>=0.56", "react-native@>=0.57", "react-native@>=0.59", "react-native@>=0.63.0", "react-native@>=0.65.0", "react-native@>0.62.0":
   "integrity" "sha512-9vx5dlSfQlKbbDtr8+xMon6qsmSu7jvjdXWZpEKh3XVKpUidbbODv7048gwVKX8YAel1egeR7hN8vzSeI6ssTw=="
   "resolved" "https://registry.npmjs.org/react-native/-/react-native-0.66.4.tgz"
   "version" "0.66.4"
@@ -10179,7 +10226,7 @@
   "resolved" "https://registry.npmjs.org/tslib/-/tslib-1.14.1.tgz"
   "version" "1.14.1"
 
-"tslib@^2.0.1", "tslib@^2.1.0":
+"tslib@^2.0.1", "tslib@^2.1.0", "tslib@^2.3.1":
   "integrity" "sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ=="
   "resolved" "https://registry.npmjs.org/tslib/-/tslib-2.4.0.tgz"
   "version" "2.4.0"

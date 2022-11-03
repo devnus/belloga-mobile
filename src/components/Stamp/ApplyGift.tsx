@@ -7,6 +7,7 @@ import {useSelector} from 'react-redux';
 import {CustomModal} from '../Modals/CustomModal';
 import ModalCard from '@components/Modals/ModalCard';
 import {useAppDispatch} from '@/store';
+import ampInstance from '@/amplitude';
 
 type GiftInfo = {
   id: number;
@@ -38,15 +39,16 @@ function ApplyGift({
     <CustomModal
       activator={({handleOpen}) => (
         <TouchableOpacity
-          onPress={() =>
+          onPress={() => {
+            ampInstance.logEvent('APPLY_GIFT_CLICKED');
             applyGift(
               accessToken,
               giftInfo.id,
               dispatch,
               setStampNumbers,
               handleOpen,
-            )
-          }
+            );
+          }}
           style={styles.giftWrapper}>
           <View style={styles.giftRoundWrapper}>
             <View style={styles.giftInfoRow}>
