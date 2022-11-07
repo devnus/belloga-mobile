@@ -20,6 +20,7 @@ import {
 } from '@/modules/labelingAPIs';
 import AlarmTime from '@/components/AlarmRing/AlarmTime';
 import ampInstance from '@/amplitude';
+import {saveAlarm} from '@/modules/getAlarmLog';
 
 function LabelingAlarmRing({route, navigation, receivedAlarm}) {
   const [alarm, setAlarm] = useState<Alarm | undefined>();
@@ -45,6 +46,7 @@ function LabelingAlarmRing({route, navigation, receivedAlarm}) {
 
     const finishAlarm = async () => {
       await stopAlarm();
+      saveAlarm('Mission');
       navigation.navigate('AlarmSuccess');
     };
 
