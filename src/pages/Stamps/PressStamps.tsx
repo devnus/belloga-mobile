@@ -10,6 +10,8 @@ import {getAppliedGiftInfo, getGiftInfo} from '@modules/userPointAPIs';
 import ApplyGift from '@/components/Stamp/ApplyGift';
 import Titles from '@/components/Common/Titles';
 import {calcMyGiftInfo} from '@/modules/calcGiftInfo';
+import Header from '@/components/Common/Header';
+
 MaterialCommunityIcons.loadFont();
 
 function PressStamps({route, navigation}) {
@@ -35,12 +37,7 @@ function PressStamps({route, navigation}) {
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           showsVerticalScrollIndicator={false}>
-          {/* Header */}
-          <SafeAreaView>
-            <View style={styles.headerWrapper}>
-              <Text> </Text>
-            </View>
-          </SafeAreaView>
+          <Header />
           <View style={styles.bodyWrapper}>
             <Titles
               title="경품 응모 스탬프판"
