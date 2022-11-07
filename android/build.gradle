@@ -54,4 +54,10 @@ allprojects {
         maven { url 'https://www.jitpack.io' }
         maven { url 'https://devrepo.kakao.com/nexus/content/groups/public/' }
     }
+
+    configurations.all {
+        resolutionStrategy {
+            force 'com.facebook.react:react-native:0.66.4'
+        }
+    }
 }

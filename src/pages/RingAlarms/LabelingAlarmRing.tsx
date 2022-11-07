@@ -42,18 +42,19 @@ function LabelingAlarmRing({route, navigation, receivedAlarm}) {
     const boundingBoxId = boundingBoxInfo?.boundingBoxId;
 
     sendLabelingResult(boundingBoxId, answer, accessToken);
+
+    const finishAlarm = async () => {
+      await stopAlarm();
+      navigation.navigate('AlarmSuccess');
+    };
+
     finishAlarm();
-  }, [boundingBoxInfo, answer, accessToken]);
+  }, [boundingBoxInfo, answer, accessToken, navigation]);
 
   const loadBoundingBox = useMemo(
     () => showBoundingBox(boundingBoxInfo, imageUrl),
     [boundingBoxInfo, imageUrl],
   );
-
-  const finishAlarm = async () => {
-    await stopAlarm();
-    navigation.navigate('AlarmSuccess');
-  };
 
   if (!alarm) {
     return <View />;

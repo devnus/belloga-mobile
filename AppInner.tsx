@@ -13,6 +13,7 @@ import {useAppDispatch} from '@/store';
 import {useAxiosInterceptor} from '@/hooks/useAxiosInterceptor';
 import {useAutoLogin} from '@/hooks/useAutoLogin';
 import {useCheckNetwork} from '@/hooks/useCheckNetwork';
+import AlarmLogPage from '@/pages/AlarmLogPage';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -64,6 +65,26 @@ function AlarmTabs() {
       />
       <Tab.Screen
         name="기록"
+        component={AlarmLogPage}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({focused}) => (
+            <Icon
+              name="th-large"
+              size={20}
+              color={focused ? '#68A3B9' : '#D9E5E4'}
+            />
+          ),
+          tabBarLabel: ({focused}) => (
+            <Text
+              style={{color: focused ? '#68A3B9' : '#D9E5E4', fontSize: 10}}>
+              기록
+            </Text>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="설정"
         component={Setting}
         options={{
           headerShown: false,
