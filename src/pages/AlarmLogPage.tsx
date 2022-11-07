@@ -1,12 +1,19 @@
-import React from 'react';
-import {View, StyleSheet, ScrollView} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View, StyleSheet, ScrollView, Text} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Titles from '@/components/Common/Titles';
 import Header from '@/components/Common/Header';
 import EmptyCard from '@/components/Common/EmptyCard';
+import {loadAlarm, totalAlarmLog} from '@/modules/getAlarmLog';
 MaterialCommunityIcons.loadFont();
 
 function AlarmLogPage({route, navigation}) {
+  const [alarmLog, setAlarmLog] = useState<totalAlarmLog[] | undefined>([]);
+
+  useEffect(() => {
+    loadAlarm().then(data => setAlarmLog(() => data));
+  }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.scrollView}>
@@ -20,9 +27,24 @@ function AlarmLogPage({route, navigation}) {
               description="일어난 기록을 확인해보세요"
             />
           </View>
-          <View style={styles.emptyCardWrapper}>
-            <EmptyCard description="아직 기상 기록이 없어요" />
-          </View>
+          {alarmLog?.length === 0 ? (
+            <View style={styles.emptyCardWrapper}>
+              <EmptyCard description="아직 기상 기록이 없어요" />
+            </View>
+          ) : (
+            alarmLog?.map((log: totalAlarmLog) => {
+              const date: Date = new Date(log.todayDate as string);
+              return (
+                <View>
+                  <Text>{log.alarmDate}</Text>
+                  <Text>{log.alarmType}</Text>
+                  <Text>
+                    {date.getHours()} :{date.getMinutes()}
+                  </Text>
+                </View>
+              );
+            })
+          )}
         </ScrollView>
       </View>
     </View>

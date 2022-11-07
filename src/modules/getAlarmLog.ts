@@ -2,9 +2,9 @@ import {containsKey, getData, storeData} from './asyncStorageStoreData';
 
 const ALARM_LOG = 'alarmLog';
 
-type totalAlarmLog = {
+export type totalAlarmLog = {
   alarmType: string;
-  todayDate: Date;
+  todayDate: Date | string;
   alarmDate: string;
 };
 
@@ -38,6 +38,5 @@ export const loadAlarm = async (): Promise<totalAlarmLog[]> => {
     alarmLogs = await getData(ALARM_LOG);
   }
 
-  console.log(alarmLogs);
   return alarmLogs;
 };
