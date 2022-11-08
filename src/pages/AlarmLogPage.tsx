@@ -4,15 +4,19 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Titles from '@/components/Common/Titles';
 import Header from '@/components/Common/Header';
 import EmptyCard from '@/components/Common/EmptyCard';
-import {loadAlarm, totalAlarmLog} from '@/modules/getAlarmLog';
+import {loadAlarm, totalAlarmLog} from '@/modules/AsyncStorage/getAlarmLog';
+import {useIsFocused} from '@react-navigation/native';
 MaterialCommunityIcons.loadFont();
 
 function AlarmLogPage({route, navigation}) {
   const [alarmLog, setAlarmLog] = useState<totalAlarmLog[] | undefined>([]);
+  const isFocused: boolean = useIsFocused();
 
   useEffect(() => {
-    loadAlarm().then(data => setAlarmLog(() => data));
-  }, []);
+    if (isFocused === true) {
+      loadAlarm().then(data => setAlarmLog(() => data));
+    }
+  }, [isFocused]);
 
   return (
     <View style={styles.container}>

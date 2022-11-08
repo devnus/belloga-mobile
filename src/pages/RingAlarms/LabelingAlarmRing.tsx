@@ -20,7 +20,7 @@ import {
 } from '@/modules/labelingAPIs';
 import AlarmTime from '@/components/AlarmRing/AlarmTime';
 import ampInstance from '@/amplitude';
-import {saveAlarm} from '@/modules/getAlarmLog';
+import {saveAlarm} from '@/modules/AsyncStorage/getAlarmLog';
 
 function LabelingAlarmRing({route, navigation, receivedAlarm}) {
   const [alarm, setAlarm] = useState<Alarm | undefined>();

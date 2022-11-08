@@ -9,8 +9,6 @@ export type totalAlarmLog = {
 };
 
 export const saveAlarm = async (alarmType: string) => {
-  const todayDate = new Date();
-
   const isAlarmLogExists = await containsKey(ALARM_LOG);
 
   let previousData = [];
@@ -18,8 +16,8 @@ export const saveAlarm = async (alarmType: string) => {
   if (isAlarmLogExists) {
     previousData = await getData(ALARM_LOG);
   }
-  console.log(previousData);
 
+  const todayDate = new Date();
   const alarmOffInfo: totalAlarmLog = {
     alarmType: alarmType,
     todayDate: todayDate,

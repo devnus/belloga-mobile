@@ -4,7 +4,7 @@ import Button from '@components/Button';
 import Alarm, {snoozeAlarm, stopAlarm} from '@modules/alarms';
 import {toStringOnlyDates} from '@/modules/calcAlarmsTime';
 import styled from 'styled-components/native';
-import {saveAlarm} from '@/modules/getAlarmLog';
+import {saveAlarm} from '@/modules/AsyncStorage/getAlarmLog';
 
 function CommonAlarmRing({route, navigation, receivedAlarm}) {
   const [alarm, setAlarm] = useState<Alarm | undefined>();
