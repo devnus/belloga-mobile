@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
   },
   bodyWrapper: {
     flex: 5,
+    marginBottom: 20,
   },
   emptyCardWrapper: {
     paddingVertical: 150,

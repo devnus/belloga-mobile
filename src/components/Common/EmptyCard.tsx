@@ -30,11 +30,9 @@ const styles = StyleSheet.create({
   },
   advertisingText: {
     fontSize: 16,
-    color: 'grey',
+    color: colors.textLight,
     marginTop: 2,
-    backgroundColor: colors.background,
     paddingHorizontal: 12,
     paddingVertical: 4,
-    borderRadius: 15,
   },
 });

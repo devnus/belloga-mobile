@@ -2,27 +2,27 @@ import React from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import colors from '@/assets/constants/colors';
 import {totalAlarmLog} from '@/modules/AsyncStorage/getAlarmLog';
+import {leftPad} from '@/modules/calcAlarmsTime';
 
 type AlarmLogProps = {
   alarmDate: string;
   alarmLogArr: totalAlarmLog[];
 };
 function AlarmLog({alarmDate, alarmLogArr}: AlarmLogProps) {
+  const sortedAlarmLog = alarmLogArr.sort();
+
   return (
     <View style={styles.giftRoundWrapper}>
       <View style={styles.giftInfoRow}>
         <View style={styles.giftDescribe}>
           <Text style={styles.titlesMainTitle}>{alarmDate}</Text>
 
-          {alarmLogArr.map((log: totalAlarmLog) => {
+          {sortedAlarmLog.map((log: totalAlarmLog) => {
             const date: Date = new Date(log.todayDate as string);
             const alarmType = log.alarmType;
 
             return (
-              <View style={styles.applyInfo} key={log.alarmDate}>
-                <Text style={styles.joiningInfo}>
-                  {date.getHours()} :{date.getMinutes()}
-                </Text>
+              <View style={styles.applyInfo} key={date.getTime()}>
                 <Text
                   style={
                     alarmType === 'common'
@@ -30,6 +30,9 @@ function AlarmLog({alarmDate, alarmLogArr}: AlarmLogProps) {
                       : styles.missionText
                   }>
                   {alarmType === 'common' ? '일반 알람' : '미션 알람'}
+                </Text>
+                <Text style={styles.joiningInfo}>
+                  {leftPad(date.getHours())} :{leftPad(date.getMinutes())}
                 </Text>
               </View>
             );
@@ -49,14 +52,16 @@ const styles = StyleSheet.create({
   joiningInfo: {
     fontSize: 14,
     color: colors.navy,
+    marginLeft: 10,
   },
   titlesMainTitle: {
     fontSize: 16,
     color: colors.textDark,
     fontWeight: 'bold',
-    borderBottomColor: 'grey',
-    borderBottomWidth: 2,
-    paddingVertical: 10,
+    borderBottomColor: colors.textLight,
+    borderBottomWidth: 1,
+    paddingBottom: 10,
+    marginBottom: 10,
   },
   giftWrapper: {
     marginTop: 20,
@@ -65,11 +70,12 @@ const styles = StyleSheet.create({
   giftDescribe: {
     width: '100%',
     flexDirection: 'column',
+    paddingHorizontal: 4,
+    paddingVertical: 20,
   },
   giftInfoRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
     paddingHorizontal: 20,
   },
   giftRoundWrapper: {
@@ -80,14 +86,13 @@ const styles = StyleSheet.create({
   },
   applyInfo: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginVertical: 3,
+    marginVertical: 4,
   },
   commonText: {
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 4,
-    backgroundColor: colors.green,
+    backgroundColor: colors.textLight,
     color: 'white',
     fontSize: 12,
   },
@@ -95,8 +100,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 4,
-    backgroundColor: colors.navy,
-    color: 'white',
+    backgroundColor: colors.lightBlue,
+    color: colors.textDark,
     fontSize: 12,
   },
 });
