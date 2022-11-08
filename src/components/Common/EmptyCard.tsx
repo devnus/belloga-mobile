@@ -1,3 +1,4 @@
+import colors from '@/assets/constants/colors';
 import React from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 
@@ -23,13 +24,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   emptyImage: {
-    width: 80,
-    height: 80,
+    width: 50,
+    height: 50,
     marginBottom: 10,
   },
   advertisingText: {
     fontSize: 16,
     color: 'grey',
     marginTop: 2,
+    backgroundColor: colors.background,
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    borderRadius: 15,
   },
 });
