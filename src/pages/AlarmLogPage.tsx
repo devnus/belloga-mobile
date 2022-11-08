@@ -4,17 +4,27 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Titles from '@/components/Common/Titles';
 import Header from '@/components/Common/Header';
 import EmptyCard from '@/components/Common/EmptyCard';
-import {loadAlarm, totalAlarmLog} from '@/modules/AsyncStorage/getAlarmLog';
+import {
+  alarmLogType,
+  loadAlarm,
+  saveAlarm,
+  totalAlarmLog,
+} from '@/modules/AsyncStorage/getAlarmLog';
 import {useIsFocused} from '@react-navigation/native';
+import AlarmLog from '@/components/AlarmLog/AlarmLog';
+
 MaterialCommunityIcons.loadFont();
 
 function AlarmLogPage({route, navigation}) {
-  const [alarmLog, setAlarmLog] = useState<totalAlarmLog[] | undefined>([]);
+  const [alarmLog, setAlarmLog] = useState<alarmLogType[] | undefined>([]);
   const isFocused: boolean = useIsFocused();
 
   useEffect(() => {
     if (isFocused === true) {
-      loadAlarm().then(data => setAlarmLog(() => data));
+      loadAlarm().then(data => {
+        setAlarmLog(() => data);
+        console.log(data);
+      });
     }
   }, [isFocused]);
 
@@ -36,18 +46,13 @@ function AlarmLogPage({route, navigation}) {
               <EmptyCard description="아직 기상 기록이 없어요" />
             </View>
           ) : (
-            alarmLog?.map((log: totalAlarmLog) => {
-              const date: Date = new Date(log.todayDate as string);
-              return (
-                <View>
-                  <Text>{log.alarmDate}</Text>
-                  <Text>{log.alarmType}</Text>
-                  <Text>
-                    {date.getHours()} :{date.getMinutes()}
-                  </Text>
-                </View>
-              );
-            })
+            alarmLog?.map((log: alarmLogType) => (
+              <AlarmLog
+                alarmDate={log.alarmDate}
+                alarmLogArr={log.alarmLog}
+                key={log.alarmDate}
+              />
+            ))
           )}
         </ScrollView>
       </View>

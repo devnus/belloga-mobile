@@ -9,6 +9,7 @@ const colors = {
   price: '#E4723C',
   white: '#FFF',
   black: '#000',
+  green: '#57ce73',
 };
 
 export default colors;

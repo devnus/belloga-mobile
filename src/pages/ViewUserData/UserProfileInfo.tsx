@@ -3,14 +3,9 @@ import React, {useEffect} from 'react';
 import {View, SafeAreaView, StyleSheet, Text} from 'react-native';
 import {useSelector} from 'react-redux';
 import Titles from '@/components/Common/Titles';
-import colors from '@/assets/constants/colors';
 
 function UserProfileInfo({route, navigation}) {
   const user = useSelector((state: RootState) => state.user);
-
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
 
   return (
     <View style={styles.container}>
