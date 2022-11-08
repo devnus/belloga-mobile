@@ -26,6 +26,7 @@ import {getMyLabelingLogInfo} from '@/modules/labelingAPIs';
 import {useIsFocused} from '@react-navigation/native';
 import {calcDailyLogs, LabelingLogType} from '@/modules/calcLabelingLogs';
 import EncryptedStorage from 'react-native-encrypted-storage';
+import EmptyCard from '@/components/Common/EmptyCard';
 
 Feather.loadFont();
 MaterialCommunityIcons.loadFont();
@@ -112,14 +113,20 @@ function UserInfo({route, navigation}) {
                       styles.titlesSubtitle
                     }>{`${userName}님의 미션 알람 수행 내역`}</Text>
                 </View>
-                {dailyLogs.map(log => (
-                  <LabelingLogInfo
-                    date={log.dateInfo}
-                    isProcessed={log.processStatus}
-                    labeledLog={log.dailyInfo}
-                    key={log.dateInfo}
-                  />
-                ))}
+                {dailyLogs.length === 0 ? (
+                  <View style={styles.emptyCardWrapper}>
+                    <EmptyCard description="아직 미션 알람을 수행하지 않았어요" />
+                  </View>
+                ) : (
+                  dailyLogs.map(log => (
+                    <LabelingLogInfo
+                      date={log.dateInfo}
+                      isProcessed={log.processStatus}
+                      labeledLog={log.dailyInfo}
+                      key={log.dateInfo}
+                    />
+                  ))
+                )}
               </View>
             </ScrollView>
           </View>
@@ -171,11 +178,6 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     alignItems: 'center',
   },
-  profileImage: {
-    width: 40,
-    height: 40,
-    borderRadius: 40,
-  },
   titlesWrapper: {
     marginTop: 30,
     paddingHorizontal: 20,
@@ -199,15 +201,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     marginTop: 30,
   },
-  categoriesWrapper: {
-    marginTop: 30,
-    paddingHorizontal: 20,
-  },
-  categoriesTitle: {
-    fontFamily: 'Montserrat-Bold',
-    fontSize: 16,
-    paddingHorizontal: 20,
-  },
   coffeeImage: {
     width: 200,
     height: 200,
@@ -217,14 +210,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 200,
-  },
-  popularCardRight: {
-    marginLeft: 40,
-  },
-  popularCardImage: {
-    width: 210,
-    height: 125,
-    resizeMode: 'contain',
   },
   loginButton: {
     backgroundColor: '#54a5bc',
@@ -243,5 +228,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'grey',
     marginTop: 2,
+  },
+  emptyCardWrapper: {
+    paddingVertical: 100,
   },
 });
