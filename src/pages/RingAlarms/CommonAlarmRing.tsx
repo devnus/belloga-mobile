@@ -69,7 +69,7 @@ const StyledText = styled.Text`
   text-shadow-color: rgba(0, 0, 0, 0.25);
   text-shadow-offset: 0px 0px;
   text-shadow-radius: 10px;
-  text-shadow-opacity: 0.5;
+  shadow-opacity: 0.5;
 `;
 
 const styles = StyleSheet.create({

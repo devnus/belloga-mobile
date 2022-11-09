@@ -1,10 +1,10 @@
 /* eslint-disable prettier/prettier */
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useState} from 'react';
+import React from 'react';
 
 export default function ({
   activeDays = [],
-  onChange = () => null,
+  onChange = (v: any) => {},
   isDisabled = false,
 }) {
   // NOTICE: days doesn't change if prop activeDays changes

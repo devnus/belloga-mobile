@@ -48,12 +48,12 @@ function PressStamps({route, navigation}) {
             />
 
             <View style={styles.pressStampContainer}>
-              <CurrentPointData />
+              <CurrentPointData key="current" />
               <Stamp
                 setStampNumbers={setStampNumbers}
                 stampNumbers={stampNumbers}
                 giftNumbers={applyCount}
-                key={'stampView'}
+                key="stampView"
               />
             </View>
 

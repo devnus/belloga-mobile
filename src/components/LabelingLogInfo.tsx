@@ -1,9 +1,17 @@
+import {leftPad} from '@/modules/calcAlarmsTime';
+import {MissionStatusType} from '@/modules/calcLabelingLogs';
 import React, {useState} from 'react';
 import {Animated, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Collapsible from 'react-native-collapsible';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-function LabelingLogInfo({date, isProcessed, labeledLog}) {
+type labelingLogProps = {
+  date: string;
+  isProcessed: boolean;
+  labeledLog: MissionStatusType[];
+};
+
+function LabelingLogInfo({date, isProcessed, labeledLog}: labelingLogProps) {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
   const [rotateAnimation, setRotateAnimation] = useState(new Animated.Value(0));
 
@@ -59,11 +67,11 @@ function LabelingLogInfo({date, isProcessed, labeledLog}) {
       </TouchableOpacity>
 
       <Collapsible collapsed={isCollapsed}>
-        {labeledLog.map(log => (
-          <View style={styles.labelingInfoRow}>
+        {labeledLog.map((log, index) => (
+          <View style={styles.labelingInfoRow} key={index}>
             <Text style={styles.dateInfo}>
-              {log.createdDate.getHours()}:{log.createdDate.getMinutes()} 미션
-              알람{' '}
+              {leftPad(log.createdDate.getHours())}:
+              {leftPad(log.createdDate.getMinutes())} 미션 알람{' '}
             </Text>
             <Text style={styles.briefResultText}> {log.status}</Text>
           </View>

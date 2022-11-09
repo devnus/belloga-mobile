@@ -3,9 +3,11 @@ import Alarm, {getAlarm} from '@modules/alarms';
 import LabelingAlarmRing from './LabelingAlarmRing';
 import CommonAlarmRing from './CommonAlarmRing';
 import {Text} from 'react-native';
+import {useCheckNetwork} from '@/hooks/useCheckNetwork';
 
 function SelectAlarmRingMode({route, navigation}) {
   const [alarm, setAlarm] = useState<Alarm | undefined>();
+  const connectionInfo = useCheckNetwork();
 
   useEffect(() => {
     const alarmUid = route.params.alarmUid;
@@ -22,7 +24,7 @@ function SelectAlarmRingMode({route, navigation}) {
 
   return (
     <>
-      {alarm?.isMissionAlert === true ? (
+      {alarm?.isMissionAlert === true && connectionInfo === true ? (
         <LabelingAlarmRing
           route={route}
           navigation={navigation}

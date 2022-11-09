@@ -3,6 +3,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import UserInfo from './UserInfo';
 import LoginPage from './LoginPage';
 import LabelingLog from './LabelingLog';
+import UserProfileInfo from './UserProfileInfo';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +24,11 @@ function Setting() {
         name="LabelingLog"
         component={LabelingLog}
         options={{title: '내 기록'}}
+      />
+      <Stack.Screen
+        name="UserProfile"
+        component={UserProfileInfo}
+        options={{title: '유저 정보'}}
       />
     </Stack.Navigator>
   );

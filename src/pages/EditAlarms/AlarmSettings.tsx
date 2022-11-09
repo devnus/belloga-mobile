@@ -14,6 +14,7 @@ import AlarmSettingDetail from 'components/AlarmSetting/AlarmSettingDetail';
 import SettingTitleText from 'components/AlarmSetting/SettingTitleText';
 import {calcAlarmRingTime} from 'modules/calcAlarmsTime';
 import {useAppDispatch} from '@/store';
+import ampInstance from '@/amplitude';
 
 export type AlarmType = {
   active: boolean;
@@ -126,13 +127,17 @@ function AlarmSettings({route, navigation}) {
               description={'알람 이름'}
               onChangeText={v => update([['title', v]])}
               value={alarm.title}
+              placeholder={'알람 이름을 입력해주세요'}
             />
             <SettingTitleText text="알람 모드" />
             <View style={styles.buttonContainer}>
               {/* {mode === 'EDIT' && <Button onPress={onDelete} title={'Delete'} />} */}
               <View style={styles.buttonBox}>
                 <Button
-                  onPress={() => update([['isMissionAlert', true]])}
+                  onPress={() => {
+                    update([['isMissionAlert', true]]);
+                    ampInstance.logEvent('SELECT_MISSION_ALERT');
+                  }}
                   title={'미션 알람'}
                   custom={true}
                   borderColor={alarm.isMissionAlert ? '#54a5bc' : '#c1c6c7'}

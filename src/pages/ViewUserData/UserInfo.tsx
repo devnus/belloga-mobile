@@ -10,6 +10,7 @@ import {
   Pressable,
   Alert,
   Image,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -24,7 +25,7 @@ import {useGetAccessToken, useIsLoggedIn} from '@/hooks/useAuthInfo';
 import {getMyLabelingLogInfo} from '@/modules/labelingAPIs';
 import {useIsFocused} from '@react-navigation/native';
 import {calcDailyLogs, LabelingLogType} from '@/modules/calcLabelingLogs';
-import AlarmLogSkeleton from '@/components/Common/AlarmLogSkeleton';
+import EncryptedStorage from 'react-native-encrypted-storage';
 
 Feather.loadFont();
 MaterialCommunityIcons.loadFont();
@@ -42,7 +43,6 @@ function UserInfo({route, navigation}) {
   useEffect(() => {
     if (accessToken && isFocused) {
       //isFocused를 넣어서 탭이 전환될때마다 useEffect를 실행되게 함
-
       getUserPointInfo(accessToken, dispatch);
       getMyLabelingLogInfo(accessToken, setLabelingLog);
     }
@@ -60,9 +60,10 @@ function UserInfo({route, navigation}) {
     return waitingLogs.length;
   }, [labelingLog]);
 
-  const appLogOut = () => {
+  const appLogOut = async () => {
     NaverLogin.logout();
     dispatch(userSlice.actions.setInitial());
+    await EncryptedStorage.clear();
     Alert.alert('알림', '로그아웃 되었습니다.');
   };
 
@@ -82,10 +83,15 @@ function UserInfo({route, navigation}) {
         {isLoggedIn ? (
           <View>
             <View style={styles.titlesWrapper}>
-              <View>
-                <Text style={styles.titlesBoldTitle}>{userName}님</Text>
-                <Text style={styles.titlesSubtitle}>안녕하세요.</Text>
-              </View>
+              <TouchableWithoutFeedback
+                onPress={() => {
+                  navigation.navigate('UserProfile');
+                }}>
+                <View>
+                  <Text style={styles.titlesBoldTitle}>{userName}님</Text>
+                  <Text style={styles.titlesSubtitle}>안녕하세요.</Text>
+                </View>
+              </TouchableWithoutFeedback>
               <Pressable style={styles.loginButton} onPress={appLogOut}>
                 <Text style={styles.loginButtonText}>로그아웃</Text>
               </Pressable>
@@ -111,10 +117,10 @@ function UserInfo({route, navigation}) {
                     date={log.dateInfo}
                     isProcessed={log.processStatus}
                     labeledLog={log.dailyInfo}
+                    key={log.dateInfo}
                   />
                 ))}
               </View>
-              <AlarmLogSkeleton />
             </ScrollView>
           </View>
         ) : (
