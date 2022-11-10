@@ -13,7 +13,6 @@ function SelectAlarmRingMode({route, navigation}) {
     const alarmUid = route.params.alarmUid;
     (async function () {
       const alarmInfo = await getAlarm(alarmUid);
-      console.log('불러온 알람', alarm);
       setAlarm(alarmInfo);
     })();
   }, []);

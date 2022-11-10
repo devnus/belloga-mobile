@@ -13,11 +13,20 @@ import {useAppDispatch} from '@/store';
 import {useAxiosInterceptor} from '@/hooks/useAxiosInterceptor';
 import {useAutoLogin} from '@/hooks/useAutoLogin';
 import {useCheckNetwork} from '@/hooks/useCheckNetwork';
+import AlarmLogPage from '@/pages/AlarmLogPage';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 function AlarmTabs() {
+  const setColor = (focused: boolean) => {
+    return focused ? '#68A3B9' : '#D9E5E4';
+  };
+
+  const iconTextStyle = (focused: boolean) => {
+    return {color: setColor(focused), fontSize: 10};
+  };
+
   return (
     <Tab.Navigator>
       <Tab.Screen
@@ -26,19 +35,10 @@ function AlarmTabs() {
         options={{
           headerShown: false,
           tabBarLabel: ({focused}) => (
-            <Text
-              style={{color: focused ? '#68A3B9' : '#D9E5E4', fontSize: 10}}>
-              알람
-            </Text>
+            <Text style={iconTextStyle(focused)}>알람</Text>
           ),
           tabBarIcon: ({focused}) => {
-            return (
-              <Icon
-                name="bell"
-                size={20}
-                color={focused ? '#68A3B9' : '#D9E5E4'}
-              />
-            );
+            return <Icon name="bell" size={20} color={setColor(focused)} />;
           },
         }}
       />
@@ -48,37 +48,36 @@ function AlarmTabs() {
         options={{
           headerShown: false,
           tabBarLabel: ({focused}) => (
-            <Text
-              style={{color: focused ? '#68A3B9' : '#D9E5E4', fontSize: 10}}>
-              응모
-            </Text>
+            <Text style={iconTextStyle(focused)}>응모</Text>
           ),
           tabBarIcon: ({focused}) => (
-            <Icon
-              name="gift"
-              size={20}
-              color={focused ? '#68A3B9' : '#D9E5E4'}
-            />
+            <Icon name="gift" size={20} color={setColor(focused)} />
           ),
         }}
       />
       <Tab.Screen
         name="기록"
+        component={AlarmLogPage}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({focused}) => (
+            <Icon name="th-large" size={20} color={setColor(focused)} />
+          ),
+          tabBarLabel: ({focused}) => (
+            <Text style={iconTextStyle(focused)}>기록</Text>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="설정"
         component={Setting}
         options={{
           headerShown: false,
           tabBarIcon: ({focused}) => (
-            <Icon
-              name="th-large"
-              size={20}
-              color={focused ? '#68A3B9' : '#D9E5E4'}
-            />
+            <Icon name="gear" size={20} color={setColor(focused)} />
           ),
           tabBarLabel: ({focused}) => (
-            <Text
-              style={{color: focused ? '#68A3B9' : '#D9E5E4', fontSize: 10}}>
-              기록
-            </Text>
+            <Text style={iconTextStyle(focused)}>설정</Text>
           ),
         }}
       />

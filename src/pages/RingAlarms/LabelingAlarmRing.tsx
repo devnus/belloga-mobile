@@ -20,6 +20,7 @@ import {
 } from '@/modules/labelingAPIs';
 import AlarmTime from '@/components/AlarmRing/AlarmTime';
 import ampInstance from '@/amplitude';
+import {saveAlarm} from '@/modules/AsyncStorage/getAlarmLog';
 
 function LabelingAlarmRing({route, navigation, receivedAlarm}) {
   const [alarm, setAlarm] = useState<Alarm | undefined>();
@@ -42,18 +43,20 @@ function LabelingAlarmRing({route, navigation, receivedAlarm}) {
     const boundingBoxId = boundingBoxInfo?.boundingBoxId;
 
     sendLabelingResult(boundingBoxId, answer, accessToken);
+
+    const finishAlarm = async () => {
+      await stopAlarm();
+      saveAlarm('Mission');
+      navigation.navigate('AlarmSuccess');
+    };
+
     finishAlarm();
-  }, [boundingBoxInfo, answer, accessToken]);
+  }, [boundingBoxInfo, answer, accessToken, navigation]);
 
   const loadBoundingBox = useMemo(
     () => showBoundingBox(boundingBoxInfo, imageUrl),
     [boundingBoxInfo, imageUrl],
   );
-
-  const finishAlarm = async () => {
-    await stopAlarm();
-    navigation.navigate('AlarmSuccess');
-  };
 
   if (!alarm) {
     return <View />;

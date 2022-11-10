@@ -3,29 +3,37 @@ import {View, Text, StyleSheet, SafeAreaView, ScrollView} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useSelector} from 'react-redux';
 import Stamp from '@/components/Stamp/Stamp';
-import {useAppDispatch} from '@/store';
 import {RootState} from '@/store/reducer';
 import CurrentPointData from '@/components/Stamp/CurrentPointData';
-import {getAppliedGiftInfo, getGiftInfo} from '@modules/userPointAPIs';
+import {
+  getAppliedGiftInfo,
+  getGiftInfo,
+  GiftInfo,
+} from '@modules/userPointAPIs';
 import ApplyGift from '@/components/Stamp/ApplyGift';
 import Titles from '@/components/Common/Titles';
 import {calcMyGiftInfo} from '@/modules/calcGiftInfo';
+import Header from '@/components/Common/Header';
+import EmptyCard from '@/components/Common/EmptyCard';
+
 MaterialCommunityIcons.loadFont();
 
 function PressStamps({route, navigation}) {
   const isLoggedIn = useSelector((state: RootState) => !!state.user.email);
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const [stampNumbers, setStampNumbers] = useState<number>(0);
-  const [giftList, setGiftList] = useState<any>([]);
+  const [giftList, setGiftList] = useState<GiftInfo[]>([]);
   const [giftAppliedInfo, setGiftAppliedInfo] = useState<any>([]);
-  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    getGiftInfo(accessToken, setGiftList);
+    getGiftInfo(setGiftList);
+  }, []);
+
+  useEffect(() => {
     if (accessToken) {
       getAppliedGiftInfo(accessToken, setGiftAppliedInfo);
     }
-  }, [isLoggedIn, accessToken, dispatch]);
+  }, [isLoggedIn, accessToken]);
 
   const {applyCount, myGiftAppliedInfo} = calcMyGiftInfo(giftAppliedInfo);
 
@@ -35,12 +43,7 @@ function PressStamps({route, navigation}) {
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           showsVerticalScrollIndicator={false}>
-          {/* Header */}
-          <SafeAreaView>
-            <View style={styles.headerWrapper}>
-              <Text> </Text>
-            </View>
-          </SafeAreaView>
+          <Header />
           <View style={styles.bodyWrapper}>
             <Titles
               title="경품 응모 스탬프판"
@@ -62,21 +65,27 @@ function PressStamps({route, navigation}) {
               description="응모하고 싶은 블럭을 눌러 응모하세요"
             />
 
-            <View style={styles.giftInfoWrapper}>
-              {giftList.map((gift: any) => {
-                const giftId = gift.id;
+            {giftList.length === 0 ? (
+              <View style={styles.emptyCardWrapper}>
+                <EmptyCard description="아직 응모 가능한 선물이 없어요" />
+              </View>
+            ) : (
+              <View style={styles.giftInfoWrapper}>
+                {giftList.map((gift: GiftInfo) => {
+                  const giftId = gift.id;
 
-                return (
-                  <ApplyGift
-                    giftInfo={gift}
-                    setStampNumbers={setStampNumbers}
-                    key={giftId}
-                    appliedNumbers={myGiftAppliedInfo[giftId]} //array가 아니라 object지만 .을 쓰면 에러가 나서 이 방법으로 대체
-                    isLoggedIn={isLoggedIn}
-                  />
-                );
-              })}
-            </View>
+                  return (
+                    <ApplyGift
+                      giftInfo={gift}
+                      setStampNumbers={setStampNumbers}
+                      key={giftId}
+                      appliedNumbers={myGiftAppliedInfo[giftId]} //array가 아니라 object지만 .을 쓰면 에러가 나서 이 방법으로 대체
+                      isLoggedIn={isLoggedIn}
+                    />
+                  );
+                })}
+              </View>
+            )}
           </View>
         </ScrollView>
       </View>
@@ -130,5 +139,8 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.02,
     elevation: 10,
+  },
+  emptyCardWrapper: {
+    paddingVertical: 40,
   },
 });

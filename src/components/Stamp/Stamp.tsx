@@ -21,28 +21,27 @@ import {RootState} from '@/store/reducer';
 import {useAppDispatch} from '@/store';
 import ampInstance from '@/amplitude';
 
+//원형 UI 구현을 위한 스탬프들
+const windowWidth = Dimensions.get('window').width * 0.9;
+const windowHeight = Dimensions.get('window').height * 0.9;
+const imgSize = 60;
+
+const stampContainerStyle: StyleProp<ImageStyle> = {
+  borderRadius: Math.round(windowWidth + windowHeight) / 2,
+  width: windowWidth * 0.8,
+  height: windowWidth * 0.8,
+  justifyContent: 'center',
+  alignItems: 'center',
+  flex: 1,
+  marginBottom: 10,
+};
+
 function Stamp({stampNumbers, setStampNumbers, giftNumbers}: any) {
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const points = useSelector((state: RootState) => state.user.points);
   const dispatch = useAppDispatch();
 
-  //원형 UI 구현을 위한 스탬프들
-  const windowWidth = Dimensions.get('window').width * 0.9;
-  const windowHeight = Dimensions.get('window').height * 0.9;
-  const imgSize = 60;
-
-  const stampContainerStyle: StyleProp<ImageStyle> = {
-    borderRadius: Math.round(windowWidth + windowHeight) / 2,
-    width: windowWidth * 0.8,
-    height: windowWidth * 0.8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1,
-    marginBottom: 10,
-  };
-
   useEffect(() => {
-    console.log('스탬프 개수,', stampNumbers);
     if (accessToken) {
       getUserStampInfo(accessToken, dispatch, setStampNumbers);
     }

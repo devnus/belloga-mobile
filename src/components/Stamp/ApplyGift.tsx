@@ -16,7 +16,7 @@ type GiftInfo = {
   expectedDrawDate: string;
   giftStatus: any;
   odds: number;
-  imageUrl: string;
+  // imageUrl: string;
   applyCount: number;
 };
 

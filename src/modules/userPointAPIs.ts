@@ -130,20 +130,28 @@ export const pressStamp = async (
   }
 };
 
+export type GiftInfo = {
+  applyCount: number;
+  expectedDrawDate: string;
+  giftStatus: null; // status가 뭐지
+  giftType: string;
+  gifticonCount: number;
+  id: number;
+  odds: number;
+  title: string;
+};
 /**
  * gift 정보를 받아오는 함수
  * @param accessToken header에 넣을 accessToken을 보낸다
  */
-export const getGiftInfo = async (accessToken: string, setGiftList) => {
+export const getGiftInfo = async (
+  setGiftList: React.Dispatch<React.SetStateAction<GiftInfo[]>>,
+) => {
   try {
-    const response = await axios.get(`${Config.API_URL}/api/gift/v1`, {
-      headers: {
-        Authorization: accessToken,
-      },
-    });
+    const response = await axios.get(`${Config.API_URL}/api/gift/v1`);
 
-    console.log('선물정보', response.data.response.content);
-    setGiftList(() => response.data.response.content);
+    const giftListInfo: GiftInfo[] = response.data.response.content;
+    setGiftList(() => giftListInfo);
   } catch (error) {
     console.error(error);
 
@@ -151,6 +159,14 @@ export const getGiftInfo = async (accessToken: string, setGiftList) => {
   }
 };
 
+type appliedInfoType = {
+  applyStatus: string;
+  expectedDrawDate: string;
+  giftId: number;
+  giftType: string;
+  id: number;
+  title: string;
+};
 /**
  * gift 정보를 받아오는 함수
  * @param accessToken header에 넣을 accessToken을 보낸다
@@ -166,7 +182,7 @@ export const getAppliedGiftInfo = async (
       },
     });
 
-    const appliedInfo = response.data.response.content;
+    const appliedInfo: appliedInfoType[] = response.data.response.content;
 
     setGiftAppliedInfo(appliedInfo);
   } catch (error) {
