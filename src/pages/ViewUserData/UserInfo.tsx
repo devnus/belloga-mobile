@@ -37,29 +37,14 @@ function UserInfo({route, navigation}) {
   const accessToken = useGetAccessToken();
   const dispatch = useAppDispatch();
 
-  const [labelingLog, setLabelingLog] = useState<LabelingLogType[]>([]);
-
   const isFocused = useIsFocused();
 
   useEffect(() => {
     if (accessToken && isFocused) {
       //isFocused를 넣어서 탭이 전환될때마다 useEffect를 실행되게 함
       getUserPointInfo(accessToken, dispatch);
-      getMyLabelingLogInfo(accessToken, setLabelingLog);
     }
   }, [isFocused, accessToken, dispatch]);
-
-  const dailyLogs = useMemo(
-    () => calcDailyLogs(labelingLog).reverse(),
-    [labelingLog],
-  );
-  const unProcessedLogs = useMemo(() => {
-    const waitingLogs = labelingLog.filter(
-      log => log.labelingVerificationStatus === 'WAITING',
-    );
-
-    return waitingLogs.length;
-  }, [labelingLog]);
 
   const appLogOut = async () => {
     NaverLogin.logout();
@@ -97,38 +82,6 @@ function UserInfo({route, navigation}) {
                 <Text style={styles.loginButtonText}>로그아웃</Text>
               </Pressable>
             </View>
-            {/* User Information */}
-            <UserData
-              totalMissionLog={labelingLog.length}
-              processingMissionLog={unProcessedLogs}
-            />
-            <ScrollView
-              contentInsetAdjustmentBehavior="automatic"
-              showsVerticalScrollIndicator={false}>
-              <View>
-                {/* User Information */}
-                <View style={styles.titlesWrapper}>
-                  <Text
-                    style={
-                      styles.titlesSubtitle
-                    }>{`${userName}님의 미션 알람 수행 내역`}</Text>
-                </View>
-                {dailyLogs.length === 0 ? (
-                  <View style={styles.emptyCardWrapper}>
-                    <EmptyCard description="아직 미션 알람을 수행하지 않았어요" />
-                  </View>
-                ) : (
-                  dailyLogs.map(log => (
-                    <LabelingLogInfo
-                      date={log.dateInfo}
-                      isProcessed={log.processStatus}
-                      labeledLog={log.dailyInfo}
-                      key={log.dateInfo}
-                    />
-                  ))
-                )}
-              </View>
-            </ScrollView>
           </View>
         ) : (
           <View>
@@ -228,8 +181,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'grey',
     marginTop: 2,
-  },
-  emptyCardWrapper: {
-    paddingVertical: 100,
   },
 });

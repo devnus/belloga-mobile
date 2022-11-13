@@ -4,6 +4,7 @@ import UserInfo from './UserInfo';
 import LoginPage from './LoginPage';
 import LabelingLog from './LabelingLog';
 import UserProfileInfo from './UserProfileInfo';
+import ProcessingLabelingInfo from './ProcessingLabelingInfo';
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +30,11 @@ function Setting() {
         name="UserProfile"
         component={UserProfileInfo}
         options={{title: '유저 정보'}}
+      />
+      <Stack.Screen
+        name="ProcessingLabelingInfo"
+        component={ProcessingLabelingInfo}
+        options={{title: '진행중인 라벨링'}}
       />
     </Stack.Navigator>
   );
