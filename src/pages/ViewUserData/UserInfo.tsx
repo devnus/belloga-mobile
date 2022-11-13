@@ -27,6 +27,7 @@ import {useIsFocused} from '@react-navigation/native';
 import {calcDailyLogs, LabelingLogType} from '@/modules/calcLabelingLogs';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import EmptyCard from '@/components/Common/EmptyCard';
+import SettingNavigator from '@/components/Setting/SettingNavigate';
 
 Feather.loadFont();
 MaterialCommunityIcons.loadFont();
@@ -97,13 +98,26 @@ function UserInfo({route, navigation}) {
         )}
 
         <View style={styles.advertisingContainer}>
-          <Image
-            source={require('@assets/images/coffee.png')}
-            resizeMode="contain"
-            style={styles.coffeeImage}
-          />
-          <Text style={styles.advertisingText}>아침에 일어나기만 해도</Text>
-          <Text style={styles.advertisingText}>모닝 커피가 한 잔!</Text>
+          {isLoggedIn && (
+            <>
+              <SettingNavigator
+                text={'유저 프로필'}
+                onPress={() => {
+                  navigation.navigate('UserProfile');
+                }}
+              />
+              <SettingNavigator
+                text={'라벨링 심사 내역'}
+                onPress={() => {
+                  navigation.navigate('ProcessingLabelingInfo');
+                }}
+              />
+              <SettingNavigator text={'당첨 내역 확인'} onPress={() => {}} />
+            </>
+          )}
+
+          <SettingNavigator text={'앱 사용 가이드'} onPress={() => {}} />
+          <SettingNavigator text={'About Belloga'} onPress={() => {}} />
         </View>
       </ScrollView>
     </View>
@@ -153,9 +167,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   advertisingContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 200,
+    marginTop: 50,
   },
   loginButton: {
     backgroundColor: '#54a5bc',
