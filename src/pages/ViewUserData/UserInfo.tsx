@@ -69,49 +69,42 @@ function UserInfo({route, navigation}) {
         {isLoggedIn ? (
           <View>
             <View style={styles.titlesWrapper}>
-              <TouchableWithoutFeedback
-                onPress={() => {
-                  navigation.navigate('UserProfile');
-                }}>
-                <View>
-                  <Text style={styles.titlesBoldTitle}>{userName}님</Text>
-                  <Text style={styles.titlesSubtitle}>안녕하세요.</Text>
-                </View>
-              </TouchableWithoutFeedback>
+              <View>
+                <Text style={styles.titlesBoldTitle}>{userName}님</Text>
+                <Text style={styles.titlesSubtitle}>안녕하세요.</Text>
+              </View>
               <Pressable style={styles.loginButton} onPress={appLogOut}>
                 <Text style={styles.loginButtonText}>로그아웃</Text>
               </Pressable>
             </View>
           </View>
         ) : (
-          <View>
-            <View style={styles.titlesWrapper}>
-              <View>
-                <Text style={styles.titlesBoldTitle}>
-                  로그인으로 하루를 기록해요
-                </Text>
-              </View>
-
-              <Pressable
-                style={styles.loginButton}
-                onPress={() => {
-                  navigation.navigate('Login');
-                }}>
-                <Text style={styles.loginButtonText}>로그인</Text>
-              </Pressable>
+          <View style={styles.titlesWrapper}>
+            <View>
+              <Text style={styles.titlesBoldTitle}>
+                로그인으로 하루를 기록해요
+              </Text>
             </View>
 
-            <View style={styles.advertisingContainer}>
-              <Image
-                source={require('@assets/images/coffee.png')}
-                resizeMode="contain"
-                style={styles.coffeeImage}
-              />
-              <Text style={styles.advertisingText}>아침에 일어나기만 해도</Text>
-              <Text style={styles.advertisingText}>모닝 커피가 한 잔!</Text>
-            </View>
+            <Pressable
+              style={styles.loginButton}
+              onPress={() => {
+                navigation.navigate('Login');
+              }}>
+              <Text style={styles.loginButtonText}>로그인</Text>
+            </Pressable>
           </View>
         )}
+
+        <View style={styles.advertisingContainer}>
+          <Image
+            source={require('@assets/images/coffee.png')}
+            resizeMode="contain"
+            style={styles.coffeeImage}
+          />
+          <Text style={styles.advertisingText}>아침에 일어나기만 해도</Text>
+          <Text style={styles.advertisingText}>모닝 커피가 한 잔!</Text>
+        </View>
       </ScrollView>
     </View>
   );
