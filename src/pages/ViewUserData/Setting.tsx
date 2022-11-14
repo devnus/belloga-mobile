@@ -5,6 +5,7 @@ import LoginPage from './LoginPage';
 import LabelingLog from './LabelingLog';
 import UserProfileInfo from './UserProfileInfo';
 import ProcessingLabelingInfo from './ProcessingLabelingInfo';
+import AboutBelloga from './AboutBelloga';
 
 const Stack = createNativeStackNavigator();
 
@@ -35,6 +36,11 @@ function Setting() {
         name="ProcessingLabelingInfo"
         component={ProcessingLabelingInfo}
         options={{title: '진행중인 라벨링'}}
+      />
+      <Stack.Screen
+        name="AboutBelloga"
+        component={AboutBelloga}
+        options={{title: '벨로가 소개'}}
       />
     </Stack.Navigator>
   );

@@ -116,7 +116,7 @@ function UserInfo({route, navigation}) {
                   navigation.navigate('ProcessingLabelingInfo');
                 }}
               />
-              <SettingNavigator text={'당첨 내역 확인'} onPress={() => {}} />
+              {/* <SettingNavigator text={'당첨 내역 확인'} onPress={() => {}} /> */}
             </>
           )}
 
@@ -126,7 +126,12 @@ function UserInfo({route, navigation}) {
               Linking.openURL(NOTION_URL);
             }}
           />
-          <SettingNavigator text={'About Belloga'} onPress={() => {}} />
+          <SettingNavigator
+            text={'About Belloga'}
+            onPress={() => {
+              navigation.navigate('AboutBelloga');
+            }}
+          />
         </View>
       </ScrollView>
     </View>
