@@ -20,6 +20,7 @@ export default function ({
     <View>
       <TouchableOpacity style={styles.container}>
         <DatePicker
+          style={{transform: [{scale: 1.2}]}}
           date={date}
           mode={'time'}
           textColor="#0f5078"
@@ -30,26 +31,7 @@ export default function ({
             onChange(day.getHours(), day.getMinutes());
           }}
         />
-        {/* <Text style={styles.clockText}>
-          {hour < 10 ? '0' + hour : hour}:
-          {minutes < 10 ? '0' + minutes : minutes}
-        </Text> */}
       </TouchableOpacity>
-
-      {/* {showPicker && (
-        <DateTimePicker
-          testID="dateTimePicker"
-          timeZoneOffsetInMinutes={0}
-          value={getDate(hour, minutes)}
-          mode={'time'}
-          is24Hour={true}
-          display="default"
-          onChange={(e, date) => {
-            setShowPicker(false);
-            onChange(date.getHours(), date.getMinutes());
-          }}
-        />
-      )} */}
     </View>
   );
 }
