@@ -160,3 +160,24 @@ export function calcRemainTime(alarm: Alarm) {
 
   return closeDate;
 }
+
+/**
+ *
+ * @param a 알람 A
+ * @param b 알람 B
+ * @returns 값을 비교한 결과
+ */
+export const sortAlarmList = (a: Alarm, b: Alarm) => {
+  if (a.hour === b.hour) {
+    const isEarlier = a.hour < b.hour;
+    const isEqual = a.hour === b.hour;
+    if (isEarlier === true) {
+      return -1;
+    } else if (isEqual) {
+      return 0;
+    } else {
+      return 1;
+    }
+  }
+  return a.hour - b.hour;
+};
