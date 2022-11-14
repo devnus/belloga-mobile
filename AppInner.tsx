@@ -24,7 +24,7 @@ function AlarmTabs() {
   };
 
   const iconTextStyle = (focused: boolean) => {
-    return {color: setColor(focused), fontSize: 10};
+    return {color: setColor(focused), fontSize: 10, marginBottom: 5};
   };
 
   return (
