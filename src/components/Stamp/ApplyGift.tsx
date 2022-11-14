@@ -70,7 +70,7 @@ function ApplyGift({
                 // source={{
                 //   uri: `${giftInfo.imageUrl}`,
                 // }}
-                source={require('@/assets/images/myGift.png')}
+                source={require('@/assets/images/sb.png')}
                 style={styles.giftIcon}
                 resizeMode="contain"
               />
