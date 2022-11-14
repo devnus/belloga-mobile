@@ -11,6 +11,7 @@ import {
   Alert,
   Image,
   TouchableWithoutFeedback,
+  Linking,
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -26,7 +27,10 @@ import {getMyLabelingLogInfo} from '@/modules/labelingAPIs';
 import {useIsFocused} from '@react-navigation/native';
 import {calcDailyLogs, LabelingLogType} from '@/modules/calcLabelingLogs';
 import EncryptedStorage from 'react-native-encrypted-storage';
-import EmptyCard from '@/components/Common/EmptyCard';
+
+const NOTION_URL =
+  'https://seolyeongbae.notion.site/16e074aebf414af894ca639125d9b3ca';
+
 import SettingNavigator from '@/components/Setting/SettingNavigate';
 
 Feather.loadFont();
@@ -116,7 +120,12 @@ function UserInfo({route, navigation}) {
             </>
           )}
 
-          <SettingNavigator text={'앱 사용 가이드'} onPress={() => {}} />
+          <SettingNavigator
+            text={'앱 사용 가이드'}
+            onPress={() => {
+              Linking.openURL(NOTION_URL);
+            }}
+          />
           <SettingNavigator text={'About Belloga'} onPress={() => {}} />
         </View>
       </ScrollView>
