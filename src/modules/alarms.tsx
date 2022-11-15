@@ -149,7 +149,7 @@ export default class Alarm {
     this.description = getParam(params, 'description', 'Wake up');
     this.hour = getParam(params, 'hour', new Date().getHours());
     this.minutes = getParam(params, 'minutes', new Date().getMinutes() + 1);
-    this.snoozeInterval = getParam(params, 'snoozeInterval', 1);
+    this.snoozeInterval = getParam(params, 'snoozeInterval', 5);
     this.repeating = getParam(params, 'repeating', false);
     this.active = getParam(params, 'active', true);
     this.days = getParam(params, 'days', []);
