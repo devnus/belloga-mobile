@@ -90,12 +90,14 @@ export const pressStamp = async (
     );
     return;
   }
-  // if (points < 10) {
-  //   Alert.alert(
-  //     '포인트가 충분하지 않습니다. 기상 미션을 통해 더 많은 포인트를 모아보세요!',
-  //   );
-  //   return;
-  // }
+  if (points < 15) {
+    displayWarningAlert(
+      dispatch,
+      '포인트가 충분하지 않습니다.',
+      '기상 미션으로 포인트를 모아보세요!',
+    );
+    return;
+  }
   try {
     const response = await axios.post(
       `${Config.API_URL}/api/stamp/v1/add`,

@@ -17,6 +17,11 @@ export type DailyLogType = {
   processStatus: boolean;
 };
 
+/**
+ * 라벨링 데이터를 넣으면 가공해서 해당 데이터를 라벨링 러그 포맷에 맞게 가공해주는 함수
+ * @param myLog labelonglog를 넣음
+ * @returns 날짜, 라벨링 채점 상태, 해당 날짜의 라벨링 로그가 남겨진 객체를 리턴
+ */
 export function calcDailyLogs(myLog: LabelingLogType[]) {
   const labeled = myLog.map((log: LabelingLogType) => {
     const logDate = new Date(log.createdDate);

@@ -13,7 +13,7 @@ import {useAppDispatch} from '@/store';
 import {useAxiosInterceptor} from '@/hooks/useAxiosInterceptor';
 import {useAutoLogin} from '@/hooks/useAutoLogin';
 import {useCheckNetwork} from '@/hooks/useCheckNetwork';
-import AlarmLogPage from '@/pages/AlarmLogPage';
+import AlarmLogPage from '@/pages/AlarmLogs/AlarmLogPage';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -24,7 +24,7 @@ function AlarmTabs() {
   };
 
   const iconTextStyle = (focused: boolean) => {
-    return {color: setColor(focused), fontSize: 10};
+    return {color: setColor(focused), fontSize: 10, marginBottom: 5};
   };
 
   return (

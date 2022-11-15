@@ -58,6 +58,11 @@ function Stamp({stampNumbers, setStampNumbers, giftNumbers}: any) {
           />
         </View>
 
+        <Text>
+          {stampNumbers < 8
+            ? '15 포인트를 소모해서 도장을 찍을 수 있어요'
+            : '하단의 선물 블록을 눌러 상품 응모가 가능해요'}
+        </Text>
         <CustomModal
           activator={({handleOpen}) => (
             <TouchableOpacity
@@ -77,7 +82,7 @@ function Stamp({stampNumbers, setStampNumbers, giftNumbers}: any) {
                 colors={['#b4eee7', '#b4e2ed', '#b4e1ee']}
                 style={styles.linearGradient}>
                 <Text style={styles.pressBtnInsideText}>
-                  {stampNumbers < 8 ? 'STAMP' : '경품 응모하기'}
+                  {stampNumbers < 8 ? 'STAMP' : '스크롤을 내려 경품 응모하기'}
                 </Text>
               </LinearGradient>
             </TouchableOpacity>

@@ -11,6 +11,7 @@ import {
   Alert,
   Image,
   TouchableWithoutFeedback,
+  Linking,
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -26,7 +27,11 @@ import {getMyLabelingLogInfo} from '@/modules/labelingAPIs';
 import {useIsFocused} from '@react-navigation/native';
 import {calcDailyLogs, LabelingLogType} from '@/modules/calcLabelingLogs';
 import EncryptedStorage from 'react-native-encrypted-storage';
-import EmptyCard from '@/components/Common/EmptyCard';
+
+const NOTION_URL =
+  'https://seolyeongbae.notion.site/16e074aebf414af894ca639125d9b3ca';
+
+import SettingNavigator from '@/components/Setting/SettingNavigate';
 
 Feather.loadFont();
 MaterialCommunityIcons.loadFont();
@@ -37,29 +42,14 @@ function UserInfo({route, navigation}) {
   const accessToken = useGetAccessToken();
   const dispatch = useAppDispatch();
 
-  const [labelingLog, setLabelingLog] = useState<LabelingLogType[]>([]);
-
   const isFocused = useIsFocused();
 
   useEffect(() => {
     if (accessToken && isFocused) {
       //isFocused를 넣어서 탭이 전환될때마다 useEffect를 실행되게 함
       getUserPointInfo(accessToken, dispatch);
-      getMyLabelingLogInfo(accessToken, setLabelingLog);
     }
   }, [isFocused, accessToken, dispatch]);
-
-  const dailyLogs = useMemo(
-    () => calcDailyLogs(labelingLog).reverse(),
-    [labelingLog],
-  );
-  const unProcessedLogs = useMemo(() => {
-    const waitingLogs = labelingLog.filter(
-      log => log.labelingVerificationStatus === 'WAITING',
-    );
-
-    return waitingLogs.length;
-  }, [labelingLog]);
 
   const appLogOut = async () => {
     NaverLogin.logout();
@@ -84,81 +74,65 @@ function UserInfo({route, navigation}) {
         {isLoggedIn ? (
           <View>
             <View style={styles.titlesWrapper}>
-              <TouchableWithoutFeedback
-                onPress={() => {
-                  navigation.navigate('UserProfile');
-                }}>
-                <View>
-                  <Text style={styles.titlesBoldTitle}>{userName}님</Text>
-                  <Text style={styles.titlesSubtitle}>안녕하세요.</Text>
-                </View>
-              </TouchableWithoutFeedback>
+              <View>
+                <Text style={styles.titlesBoldTitle}>{userName}님</Text>
+                <Text style={styles.titlesSubtitle}>안녕하세요.</Text>
+              </View>
               <Pressable style={styles.loginButton} onPress={appLogOut}>
                 <Text style={styles.loginButtonText}>로그아웃</Text>
               </Pressable>
             </View>
-            {/* User Information */}
-            <UserData
-              totalMissionLog={labelingLog.length}
-              processingMissionLog={unProcessedLogs}
-            />
-            <ScrollView
-              contentInsetAdjustmentBehavior="automatic"
-              showsVerticalScrollIndicator={false}>
-              <View>
-                {/* User Information */}
-                <View style={styles.titlesWrapper}>
-                  <Text
-                    style={
-                      styles.titlesSubtitle
-                    }>{`${userName}님의 미션 알람 수행 내역`}</Text>
-                </View>
-                {dailyLogs.length === 0 ? (
-                  <View style={styles.emptyCardWrapper}>
-                    <EmptyCard description="아직 미션 알람을 수행하지 않았어요" />
-                  </View>
-                ) : (
-                  dailyLogs.map(log => (
-                    <LabelingLogInfo
-                      date={log.dateInfo}
-                      isProcessed={log.processStatus}
-                      labeledLog={log.dailyInfo}
-                      key={log.dateInfo}
-                    />
-                  ))
-                )}
-              </View>
-            </ScrollView>
           </View>
         ) : (
-          <View>
-            <View style={styles.titlesWrapper}>
-              <View>
-                <Text style={styles.titlesBoldTitle}>
-                  로그인으로 하루를 기록해요
-                </Text>
-              </View>
-
-              <Pressable
-                style={styles.loginButton}
-                onPress={() => {
-                  navigation.navigate('Login');
-                }}>
-                <Text style={styles.loginButtonText}>로그인</Text>
-              </Pressable>
+          <View style={styles.titlesWrapper}>
+            <View>
+              <Text style={styles.titlesBoldTitle}>
+                로그인으로 하루를 기록해요
+              </Text>
             </View>
 
-            <View style={styles.advertisingContainer}>
-              <Image
-                source={require('@assets/images/coffee.png')}
-                resizeMode="contain"
-                style={styles.coffeeImage}
-              />
-              <Text style={styles.advertisingText}>아침에 일어나기만 해도</Text>
-              <Text style={styles.advertisingText}>모닝 커피가 한 잔!</Text>
-            </View>
+            <Pressable
+              style={styles.loginButton}
+              onPress={() => {
+                navigation.navigate('Login');
+              }}>
+              <Text style={styles.loginButtonText}>로그인</Text>
+            </Pressable>
           </View>
         )}
+
+        <View style={styles.advertisingContainer}>
+          {isLoggedIn && (
+            <>
+              <SettingNavigator
+                text={'유저 프로필'}
+                onPress={() => {
+                  navigation.navigate('UserProfile');
+                }}
+              />
+              <SettingNavigator
+                text={'라벨링 심사 내역'}
+                onPress={() => {
+                  navigation.navigate('ProcessingLabelingInfo');
+                }}
+              />
+              {/* <SettingNavigator text={'당첨 내역 확인'} onPress={() => {}} /> */}
+            </>
+          )}
+
+          <SettingNavigator
+            text={'앱 사용 가이드'}
+            onPress={() => {
+              Linking.openURL(NOTION_URL);
+            }}
+          />
+          <SettingNavigator
+            text={'About Belloga'}
+            onPress={() => {
+              navigation.navigate('AboutBelloga');
+            }}
+          />
+        </View>
       </ScrollView>
     </View>
   );
@@ -207,9 +181,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   advertisingContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 200,
+    marginTop: 50,
   },
   loginButton: {
     backgroundColor: '#54a5bc',
@@ -228,8 +200,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'grey',
     marginTop: 2,
-  },
-  emptyCardWrapper: {
-    paddingVertical: 100,
   },
 });

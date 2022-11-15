@@ -51,8 +51,9 @@ const styles = StyleSheet.create({
   },
   joiningInfo: {
     fontSize: 14,
-    color: colors.navy,
+    color: colors.textDark,
     marginLeft: 10,
+    justifyContent: 'center',
   },
   titlesMainTitle: {
     fontSize: 16,

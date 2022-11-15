@@ -8,11 +8,9 @@ import Alarm, {
   getAllAlarms,
   showAlarmToastMessage,
 } from 'modules/alarms';
-import {calcNoRepeatingAlarmTime} from 'modules/calcAlarmsTime';
+import {calcNoRepeatingAlarmTime, sortAlarmList} from 'modules/calcAlarmsTime';
 import AlarmInfo from '@components/AlarmInfo';
 import DisplayAlarmTimeInfo from '@/components/DisplayAlarmTimeInfo';
-import CoinAnimation from '@/components/LottieAnimations/CoinAnimation';
-import {saveAlarm} from '@/modules/AsyncStorage/getAlarmLog';
 
 //움직이는 탭바를 위한 상수
 const Header_Maximum_Height = 300;
@@ -27,6 +25,12 @@ function AlarmList({navigation}: any) {
   useEffect(() => {
     navigation.addListener('focus', async () => {
       const alarmLists = await getAllAlarms(); //저장된 모든 알람 목록을 불러온다.
+
+      alarmLists.sort(function (a: Alarm, b: Alarm) {
+        return sortAlarmList(a, b);
+      });
+      //알람 목록을 정렬한다.
+
       setAlarms(() => alarmLists);
       await fetchState();
       setScheduler(setInterval(fetchState, 10000)); //1초마다 fetchState 하도록 설정, 알람 새로 생겼는지 체크
