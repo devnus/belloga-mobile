@@ -25,7 +25,9 @@ function RenderImage({boundingBoxInfo, imageUrl}: renderImagePropsType) {
     setPositionArray(() => positionResultArray);
   });
 
-  useEffect(() => {}, [positionArray]);
+  useEffect(() => {
+    return;
+  }, [positionArray]);
 
   return (
     <View
