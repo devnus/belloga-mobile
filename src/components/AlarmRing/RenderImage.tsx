@@ -79,5 +79,6 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: 'red',
     position: 'absolute',
+    opacity: 0.5,
   },
 });

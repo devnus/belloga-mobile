@@ -116,7 +116,6 @@ function AppInner() {
   const connectionInfo = useCheckNetwork();
 
   useAxiosInterceptor(dispatch);
-
   useAutoLogin(dispatch, connectionInfo);
 
   return <AlarmAppStacks />;

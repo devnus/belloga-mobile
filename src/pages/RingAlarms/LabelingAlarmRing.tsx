@@ -21,6 +21,7 @@ import {
 import AlarmTime from '@/components/AlarmRing/AlarmTime';
 import ampInstance from '@/amplitude';
 import {saveAlarm} from '@/modules/AsyncStorage/getAlarmLog';
+import colors from '@/assets/constants/colors';
 
 function LabelingAlarmRing({route, navigation, receivedAlarm}) {
   const [alarm, setAlarm] = useState<Alarm | undefined>();
@@ -33,10 +34,12 @@ function LabelingAlarmRing({route, navigation, receivedAlarm}) {
 
   useEffect(() => {
     setAlarm(receivedAlarm);
-    getAlarmInfo(accessToken, setBoundingBoxInfo, setImageUrl, setLoading);
+    if (accessToken !== '') {
+      getAlarmInfo(accessToken, setBoundingBoxInfo, setImageUrl, setLoading);
+    }
 
     return;
-  }, []);
+  }, [accessToken]);
 
   const onPressSendButton = useCallback(() => {
     ampInstance.logEvent('SEND_MISSION_ALARM');
@@ -90,7 +93,11 @@ function LabelingAlarmRing({route, navigation, receivedAlarm}) {
             underlayColor="#fff">
             <Text>새로고침</Text>
           </TouchableHighlight>
+
           {loading ? loadBoundingBox : <Text> Loading </Text>}
+          <Text style={styles.guideText}>
+            만약 이미지가 없다면 "없음"을 입력해주세요
+          </Text>
           <View>
             <TextInput
               description={'answer'}
@@ -99,6 +106,7 @@ function LabelingAlarmRing({route, navigation, receivedAlarm}) {
               placeholder={' 이미지 안에 보이는 글자를 입력해주세요.'}
             />
           </View>
+
           <View style={styles.buttonContainer}>
             <Pressable disabled={!answer} onPress={onPressSendButton}>
               <Text
@@ -177,6 +185,14 @@ const styles = StyleSheet.create({
   backgroundImage: {
     flex: 1,
     justifyContent: 'center',
+  },
+  guideText: {
+    backgroundColor: colors.background,
+    color: 'gray',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 10,
+    opacity: 0.7,
   },
 });
 const globalStyles = StyleSheet.create({

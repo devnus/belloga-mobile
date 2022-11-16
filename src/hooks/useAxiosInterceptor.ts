@@ -16,7 +16,6 @@ export const useAxiosInterceptor = (dispatch: any) => {
         response.data.Message ===
           'User is not authorized to access this resource with an explicit deny'
       ) {
-        console.log(config);
         const originalRequest = config;
         const refreshToken = await EncryptedStorage.getItem('refreshToken');
         // token refresh 요청
