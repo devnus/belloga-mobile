@@ -22,8 +22,7 @@ function AlarmLogPage({route, navigation}) {
   useEffect(() => {
     if (isFocused === true) {
       loadAlarm().then(data => {
-        setAlarmLog(() => data);
-        console.log(data);
+        setAlarmLog(() => data.reverse());
       });
     }
   }, [isFocused]);

@@ -40,9 +40,16 @@ function CommonAlarmRing({route, navigation, receivedAlarm}) {
             <Text style={styles.title}>{alarm.title}</Text>
           </View>
           <View style={styles.buttonContainer}>
+            <Button
+              title={'알람 종료'}
+              fill={true}
+              onPress={async () => {
+                finishAlarm();
+              }}
+            />
             {alarm.snoozeInterval > 0 && (
               <Button
-                title={'Snooze'}
+                title={'다시 울리기'}
                 fill={true}
                 onPress={async () => {
                   await snoozeAlarm();
@@ -50,14 +57,6 @@ function CommonAlarmRing({route, navigation, receivedAlarm}) {
                 }}
               />
             )}
-
-            <Button
-              title={'Cancel'}
-              fill={true}
-              onPress={async () => {
-                finishAlarm();
-              }}
-            />
           </View>
         </View>
       </ImageBackground>
