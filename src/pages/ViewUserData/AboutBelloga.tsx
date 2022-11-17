@@ -1,7 +1,5 @@
-import {RootState} from '@/store/reducer';
-import React, {useEffect} from 'react';
-import {View, SafeAreaView, StyleSheet, Text, Image} from 'react-native';
-import {useSelector} from 'react-redux';
+import React from 'react';
+import {View, StyleSheet, Image} from 'react-native';
 import Titles from '@/components/Common/Titles';
 
 function AboutBelloga({route, navigation}) {

@@ -81,6 +81,7 @@ function LabelingAlarmRing({route, navigation, receivedAlarm}) {
             <Text style={styles.title}>{alarm.title}</Text>
           </View>
           <TouchableHighlight
+            style={styles.guideText}
             onPress={() => {
               ampInstance.logEvent('REFRESH_MISSION_ALARM');
               getAlarmInfo(
@@ -93,14 +94,13 @@ function LabelingAlarmRing({route, navigation, receivedAlarm}) {
             underlayColor="#fff">
             <Text>새로고침</Text>
           </TouchableHighlight>
-
           {loading ? loadBoundingBox : <Text> Loading </Text>}
-          <Text style={styles.guideText}>
+          {/* <Text style={styles.guideText}>
             만약 이미지가 없다면 "없음"을 입력해주세요
-          </Text>
+          </Text> */}
           <View>
             <TextInput
-              description={'answer'}
+              description={'정답 입력'}
               onChangeText={(text: string) => setAnswer(text)}
               value={answer}
               placeholder={' 이미지 안에 보이는 글자를 입력해주세요.'}
@@ -116,13 +116,13 @@ function LabelingAlarmRing({route, navigation, receivedAlarm}) {
                     : styles.loginButtonInactive,
                   styles.loginButton,
                 ]}>
-                Stop
+                알람 종료
               </Text>
             </Pressable>
 
             {alarm.snoozeInterval > 0 && (
               <Button
-                title={'Snooze'}
+                title={'다시 울림'}
                 fill={true}
                 onPress={async () => {
                   await snoozeAlarm();
@@ -190,9 +190,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
     color: 'gray',
     paddingHorizontal: 10,
-    paddingVertical: 5,
+    paddingVertical: 4,
     borderRadius: 10,
-    opacity: 0.7,
+    opacity: 0.9,
   },
 });
 const globalStyles = StyleSheet.create({

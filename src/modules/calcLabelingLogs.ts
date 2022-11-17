@@ -45,13 +45,13 @@ export function calcDailyLogs(myLog: LabelingLogType[]) {
     const results = labeled.filter(rawLog => log.dateInfo === rawLog.sortDate);
 
     const processSuccessStatus = results.filter(
-      singleLog => singleLog.status === 'SUCCESS',
+      singleLog => singleLog.status === 'WAITING',
     ).length;
 
     return {
       dateInfo: log.dateInfo,
       dailyInfo: results,
-      processStatus: processSuccessStatus === results.length,
+      processStatus: processSuccessStatus === 0,
     };
   });
 
