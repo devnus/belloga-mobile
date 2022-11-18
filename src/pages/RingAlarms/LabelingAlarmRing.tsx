@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Text,
   TouchableHighlight,
+  TouchableOpacity,
   View,
 } from 'react-native';
 
@@ -80,8 +81,7 @@ function LabelingAlarmRing({route, navigation, receivedAlarm}) {
 
             <Text style={styles.title}>{alarm.title}</Text>
           </View>
-          <TouchableHighlight
-            style={styles.guideText}
+          <TouchableOpacity
             onPress={() => {
               ampInstance.logEvent('REFRESH_MISSION_ALARM');
               getAlarmInfo(
@@ -90,10 +90,10 @@ function LabelingAlarmRing({route, navigation, receivedAlarm}) {
                 setImageUrl,
                 setLoading,
               );
-            }}
-            underlayColor="#fff">
-            <Text>새로고침</Text>
-          </TouchableHighlight>
+            }}>
+            <Text style={styles.guideText}>새로고침</Text>
+          </TouchableOpacity>
+
           {loading ? loadBoundingBox : <Text> Loading </Text>}
           {/* <Text style={styles.guideText}>
             만약 이미지가 없다면 "없음"을 입력해주세요
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
   },
   guideText: {
     backgroundColor: colors.background,
-    color: 'gray',
+    color: colors.gray,
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: 10,

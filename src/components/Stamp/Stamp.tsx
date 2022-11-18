@@ -152,6 +152,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
+    color: colors.navy,
   },
   pressStampContainer: {
     flex: 1,
