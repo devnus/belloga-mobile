@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
   labelingInfoWrapper: {
     backgroundColor: 'white',
     borderRadius: 25,
-    marginTop: 10,
+    marginTop: 20,
     marginBottom: 10,
     paddingHorizontal: 15,
     paddingVertical: 10,
