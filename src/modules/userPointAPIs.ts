@@ -24,7 +24,7 @@ export const getUserPointInfo = async (
     dispatch(
       userSlice.actions.setPoints({
         points: response.data.response.pointValue,
-        tempPoints: response.data.response.tempPointValue,
+        // tempPoints: response.data.response.tempPointValue,
       }),
     );
   } catch (error) {
@@ -111,6 +111,11 @@ export const pressStamp = async (
 
     handleOpen();
     setStampNumbers(prev => prev + 1);
+    dispatch(
+      userSlice.actions.setPoints({
+        points: points - 15,
+      }),
+    );
   } catch (error) {
     console.error(error);
 

@@ -37,7 +37,7 @@ const userSlice = createSlice({
     },
     setPoints(state, action) {
       state.points = action.payload.points;
-      state.tempPoints = action.payload.tempPoints;
+      // state.tempPoints = action.payload.tempPoints;
     },
   },
   extraReducers: builder => {},

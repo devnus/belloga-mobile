@@ -29,7 +29,7 @@ import {calcDailyLogs, LabelingLogType} from '@/modules/calcLabelingLogs';
 import EncryptedStorage from 'react-native-encrypted-storage';
 
 const NOTION_URL =
-  'https://seolyeongbae.notion.site/16e074aebf414af894ca639125d9b3ca';
+  'https://pear-dev.notion.site/pear-dev/90fa3f3b39424935966752d35e9c317b';
 
 import SettingNavigator from '@/components/Setting/SettingNavigate';
 

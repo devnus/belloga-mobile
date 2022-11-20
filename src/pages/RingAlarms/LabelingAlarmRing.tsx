@@ -1,5 +1,6 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {
+  ActivityIndicator,
   ImageBackground,
   Pressable,
   StyleSheet,
@@ -31,9 +32,9 @@ function LabelingAlarmRing({route, navigation, receivedAlarm}) {
   const [loading, setLoading] = useState<boolean>(false);
   const [boundingBoxInfo, setBoundingBoxInfo] = useState<boundingBoxTypes>();
   const accessToken = useGetAccessToken();
-  ampInstance.logEvent('MISSON_ALERT_START');
 
   useEffect(() => {
+    ampInstance.logEvent('MISSON_ALERT_START');
     setAlarm(receivedAlarm);
     if (accessToken !== '') {
       getAlarmInfo(accessToken, setBoundingBoxInfo, setImageUrl, setLoading);
@@ -94,7 +95,13 @@ function LabelingAlarmRing({route, navigation, receivedAlarm}) {
             <Text style={styles.guideText}>새로고침</Text>
           </TouchableOpacity>
 
-          {loading ? loadBoundingBox : <Text> Loading </Text>}
+          {loading ? (
+            loadBoundingBox
+          ) : (
+            <View style={styles.loadingStyle}>
+              <ActivityIndicator size="large" />
+            </View>
+          )}
           {/* <Text style={styles.guideText}>
             만약 이미지가 없다면 "없음"을 입력해주세요
           </Text> */}
@@ -193,6 +200,12 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     borderRadius: 10,
     opacity: 0.9,
+  },
+  loadingStyle: {
+    height: 200,
+    width: 200,
+    justifyContent: 'center',
+    backgroundColor: '#d0d5dc',
   },
 });
 const globalStyles = StyleSheet.create({
