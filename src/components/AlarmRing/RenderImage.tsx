@@ -53,14 +53,14 @@ export const showBoundingBox = (
   if (boundingBoxInfo && imageUrl) {
     return (
       <>
-        <View style={{height: 200, width: 200}}>
+        <View style={styles.cropped}>
           {imageUrl && boundingBoxInfo ? (
             <>
               <Image
                 source={{
                   uri: `${imageUrl}`,
                 }}
-                style={{height: 200, width: 200, resizeMode: 'contain'}}
+                style={styles.image}
               />
               <RenderImage
                 boundingBoxInfo={boundingBoxInfo}
@@ -82,5 +82,11 @@ const styles = StyleSheet.create({
     borderColor: 'red',
     position: 'absolute',
     opacity: 0.5,
+  },
+  cropped: {height: 200, width: 200, overflow: 'hidden'},
+  image: {
+    height: 200,
+    width: 200,
+    resizeMode: 'contain',
   },
 });
