@@ -19,7 +19,7 @@ export default function CoinAnimation() {
   return (
     <AnimatedLottieView
       progress={animationProgress.current}
-      source={require('@assets/lottieAnimationJSONs/coinAnimation.json')}
+      source={require('@assets/lottieAnimationJSONs/coinAnimationwithParticle.json')}
     />
   );
 }

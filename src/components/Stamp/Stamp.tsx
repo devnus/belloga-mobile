@@ -79,11 +79,13 @@ function Stamp({stampNumbers, setStampNumbers, giftNumbers}: any) {
                   );
               }}>
               <LinearGradient
-                colors={['#b4eee7', '#b4e2ed', '#b4e1ee']}
+                colors={
+                  stampNumbers < 8
+                    ? ['#b4eee7', '#b4e2ed', '#b4e1ee']
+                    : [colors.background, colors.background]
+                }
                 style={styles.linearGradient}>
-                <Text style={styles.pressBtnInsideText}>
-                  {stampNumbers < 8 ? 'STAMP' : '스크롤을 내려 경품 응모하기'}
-                </Text>
+                <Text style={styles.pressBtnInsideText}>STAMP</Text>
               </LinearGradient>
             </TouchableOpacity>
           )}>
@@ -150,6 +152,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
+    color: colors.navy,
   },
   pressStampContainer: {
     flex: 1,

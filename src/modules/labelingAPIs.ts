@@ -25,6 +25,7 @@ export const getAlarmInfo = async (
   setImageUrl: Dispatch<SetStateAction<string>>,
   setLoading: Dispatch<SetStateAction<boolean>>,
 ) => {
+  setLoading(() => false);
   try {
     const response = await axios.get(
       `${Config.API_URL}/api/data/v1/target/OCR`,

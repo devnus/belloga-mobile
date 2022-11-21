@@ -1,10 +1,12 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {
+  ActivityIndicator,
   ImageBackground,
   Pressable,
   StyleSheet,
   Text,
   TouchableHighlight,
+  TouchableOpacity,
   View,
 } from 'react-native';
 
@@ -21,6 +23,7 @@ import {
 import AlarmTime from '@/components/AlarmRing/AlarmTime';
 import ampInstance from '@/amplitude';
 import {saveAlarm} from '@/modules/AsyncStorage/getAlarmLog';
+import colors from '@/assets/constants/colors';
 
 function LabelingAlarmRing({route, navigation, receivedAlarm}) {
   const [alarm, setAlarm] = useState<Alarm | undefined>();
@@ -29,14 +32,16 @@ function LabelingAlarmRing({route, navigation, receivedAlarm}) {
   const [loading, setLoading] = useState<boolean>(false);
   const [boundingBoxInfo, setBoundingBoxInfo] = useState<boundingBoxTypes>();
   const accessToken = useGetAccessToken();
-  ampInstance.logEvent('MISSON_ALERT_START');
 
   useEffect(() => {
+    ampInstance.logEvent('MISSON_ALERT_START');
     setAlarm(receivedAlarm);
-    getAlarmInfo(accessToken, setBoundingBoxInfo, setImageUrl, setLoading);
+    if (accessToken !== '') {
+      getAlarmInfo(accessToken, setBoundingBoxInfo, setImageUrl, setLoading);
+    }
 
     return;
-  }, []);
+  }, [accessToken]);
 
   const onPressSendButton = useCallback(() => {
     ampInstance.logEvent('SEND_MISSION_ALARM');
@@ -77,7 +82,7 @@ function LabelingAlarmRing({route, navigation, receivedAlarm}) {
 
             <Text style={styles.title}>{alarm.title}</Text>
           </View>
-          <TouchableHighlight
+          <TouchableOpacity
             onPress={() => {
               ampInstance.logEvent('REFRESH_MISSION_ALARM');
               getAlarmInfo(
@@ -86,19 +91,29 @@ function LabelingAlarmRing({route, navigation, receivedAlarm}) {
                 setImageUrl,
                 setLoading,
               );
-            }}
-            underlayColor="#fff">
-            <Text>새로고침</Text>
-          </TouchableHighlight>
-          {loading ? loadBoundingBox : <Text> Loading </Text>}
+            }}>
+            <Text style={styles.guideText}>새로고침</Text>
+          </TouchableOpacity>
+
+          {loading ? (
+            loadBoundingBox
+          ) : (
+            <View style={styles.loadingStyle}>
+              <ActivityIndicator size="large" />
+            </View>
+          )}
+          {/* <Text style={styles.guideText}>
+            만약 이미지가 없다면 "없음"을 입력해주세요
+          </Text> */}
           <View>
             <TextInput
-              description={'answer'}
+              description={'정답 입력'}
               onChangeText={(text: string) => setAnswer(text)}
               value={answer}
               placeholder={' 이미지 안에 보이는 글자를 입력해주세요.'}
             />
           </View>
+
           <View style={styles.buttonContainer}>
             <Pressable disabled={!answer} onPress={onPressSendButton}>
               <Text
@@ -108,13 +123,13 @@ function LabelingAlarmRing({route, navigation, receivedAlarm}) {
                     : styles.loginButtonInactive,
                   styles.loginButton,
                 ]}>
-                Stop
+                알람 종료
               </Text>
             </Pressable>
 
             {alarm.snoozeInterval > 0 && (
               <Button
-                title={'Snooze'}
+                title={'다시 울림'}
                 fill={true}
                 onPress={async () => {
                   await snoozeAlarm();
@@ -177,6 +192,20 @@ const styles = StyleSheet.create({
   backgroundImage: {
     flex: 1,
     justifyContent: 'center',
+  },
+  guideText: {
+    backgroundColor: colors.background,
+    color: colors.gray,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 10,
+    opacity: 0.9,
+  },
+  loadingStyle: {
+    height: 200,
+    width: 200,
+    justifyContent: 'center',
+    backgroundColor: '#d0d5dc',
   },
 });
 const globalStyles = StyleSheet.create({

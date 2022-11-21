@@ -4,5 +4,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="android:editTextBackground">@drawable/rn_edit_text_material</item>
+            <!-- 다크모드 해제 -->
+        <item name="android:forceDarkAllowed">false</item>
     </style>
 </resources>

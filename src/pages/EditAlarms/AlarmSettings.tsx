@@ -64,7 +64,6 @@ function AlarmSettings({route, navigation}) {
     for (let u of updates) {
       a[u[0]] = u[1];
     }
-    console.log('눌렸뜸', updates);
     setAlarm(a);
   }
 
@@ -163,19 +162,19 @@ function AlarmSettings({route, navigation}) {
             <View style={styles.settingsDetailContainer}>
               <AlarmSettingDetail
                 detailTitle="진동"
-                detailDescription="진동을 설정합니다"
+                detailDescription="알람 진동을 켭니다"
                 isActive={alarm.isVibrateOn}
                 onChange={(v: boolean) => update([['isVibrateOn', v]])}
               />
               <AlarmSettingDetail
                 detailTitle="소리"
-                detailDescription="소리를 설정합니다"
+                detailDescription="알람 소리를 켭니다"
                 isActive={alarm.isSoundOn}
                 onChange={(v: boolean) => update([['isSoundOn', v]])}
               />
               <AlarmSettingDetail
                 detailTitle="다시 울림"
-                detailDescription="알람이 꺼져도 잠시 후 다시 울립니다"
+                detailDescription="알람이 꺼져도 5분 뒤 다시 울립니다"
                 isActive={alarm.snoozeInterval > 0}
                 onChange={(v: boolean) =>
                   update([['snoozeInterval', v ? 1 : 0]])

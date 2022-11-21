@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     fontWeight: 'bold',
     backgroundColor: '#f2f6f7',
+    color: '#000000',
   },
   descriptionContainer: {
     marginVertical: 10,

@@ -37,7 +37,7 @@ export const useAutoLogin = (
           `${Config.API_URL}/api/user/v1/labeler`,
           {
             headers: {
-              authorization: `${token}`,
+              Authorization: `${tokenRes.data.response.refreshToken}`,
             },
           },
         );

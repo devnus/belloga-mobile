@@ -11,9 +11,8 @@ function UserProfileInfo({route, navigation}) {
     <View style={styles.container}>
       <View style={styles.profileWrapper}>
         <Titles title="닉네임" description={user.name} />
-        <Titles title="생일" description={user.birthYear} />
+        <Titles title="출생년도" description={user.birthYear} />
         <Titles title="이메일" description={user.email} />
-        <Titles title="전화번호" description={user.phoneNumber} />
       </View>
       <View style={styles.profileWrapper}>
         {/* <Text></Text>  이후 안내 문구 추가*/}

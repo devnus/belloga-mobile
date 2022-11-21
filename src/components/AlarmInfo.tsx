@@ -1,3 +1,4 @@
+import colors from '@/assets/constants/colors';
 import {calcRemainTime} from '@/modules/calcAlarmsTime';
 import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
@@ -48,7 +49,7 @@ function AlarmInfo({
         </View>
         <View style={styles.rightInnerContainer}>
           {!repeating && (
-            <Text>
+            <Text style={styles.expectRingDay}>
               {calcRemainTime(alarm).getMonth() + 1}/
               {calcRemainTime(alarm).getDate()} ({getKoreanDayName(days[0])}){' '}
             </Text>
@@ -115,7 +116,9 @@ const styles = StyleSheet.create({
   clockIcon: {
     width: 15,
     height: 15,
-
     marginRight: 5.5,
+  },
+  expectRingDay: {
+    color: colors.gray,
   },
 });

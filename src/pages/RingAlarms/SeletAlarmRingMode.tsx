@@ -4,9 +4,11 @@ import LabelingAlarmRing from './LabelingAlarmRing';
 import CommonAlarmRing from './CommonAlarmRing';
 import {Text} from 'react-native';
 import {useCheckNetwork} from '@/hooks/useCheckNetwork';
+import {useIsLoggedIn} from '@/hooks/useAuthInfo';
 
 function SelectAlarmRingMode({route, navigation}) {
   const [alarm, setAlarm] = useState<Alarm | undefined>();
+  const isLoggedIn = useIsLoggedIn();
   const connectionInfo = useCheckNetwork();
 
   useEffect(() => {
@@ -23,7 +25,9 @@ function SelectAlarmRingMode({route, navigation}) {
 
   return (
     <>
-      {alarm?.isMissionAlert === true && connectionInfo === true ? (
+      {alarm?.isMissionAlert === true &&
+      connectionInfo === true &&
+      isLoggedIn === true ? (
         <LabelingAlarmRing
           route={route}
           navigation={navigation}

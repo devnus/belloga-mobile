@@ -11,6 +11,7 @@ import Alarm, {
 import {calcNoRepeatingAlarmTime, sortAlarmList} from 'modules/calcAlarmsTime';
 import AlarmInfo from '@components/AlarmInfo';
 import DisplayAlarmTimeInfo from '@/components/DisplayAlarmTimeInfo';
+import colors from '@/assets/constants/colors';
 
 //움직이는 탭바를 위한 상수
 const Header_Maximum_Height = 300;
@@ -74,7 +75,7 @@ function AlarmList({navigation}: any) {
         <View style={styles.earliestAlarmContainer}>
           <View style={styles.nextAlarmTextContainer}>
             {alarms.length === 0 ? (
-              <Text> 알람이 없습니다 </Text>
+              <Text style={styles.announceNoAlarm}> 알람이 없습니다 </Text>
             ) : (
               <DisplayAlarmTimeInfo alarms={alarms} />
             )}
@@ -175,5 +176,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  announceNoAlarm: {
+    color: colors.navy,
   },
 });

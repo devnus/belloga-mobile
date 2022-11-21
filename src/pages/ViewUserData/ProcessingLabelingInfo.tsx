@@ -33,13 +33,14 @@ function ProcessingLabelingInfo({route, navigation}) {
     <View style={styles.container}>
       <View>
         {/* User Information */}
-        <UserData
-          totalMissionLog={labelingLog.length}
-          processingMissionLog={unProcessedLogs}
-        />
+
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           showsVerticalScrollIndicator={false}>
+          <UserData
+            totalMissionLog={labelingLog.length}
+            processingMissionLog={unProcessedLogs}
+          />
           <View>
             {dailyLogs.length === 0 ? (
               <View style={styles.emptyCardWrapper}>

@@ -71,7 +71,7 @@ function LabelingLogInfo({date, isProcessed, labeledLog}: labelingLogProps) {
           <View style={styles.labelingInfoRow} key={index}>
             <Text style={styles.dateInfo}>
               {leftPad(log.createdDate.getHours())}:
-              {leftPad(log.createdDate.getMinutes())} 미션 알람{' '}
+              {leftPad(log.createdDate.getMinutes())} 미션 알람
             </Text>
             <Text style={styles.briefResultText}> {log.status}</Text>
           </View>
@@ -85,6 +85,7 @@ const styles = StyleSheet.create({
   labelingInfoWrapper: {
     backgroundColor: 'white',
     borderRadius: 25,
+    marginTop: 20,
     marginBottom: 10,
     paddingHorizontal: 15,
     paddingVertical: 10,
